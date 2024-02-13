@@ -15,13 +15,14 @@ const ProductDetails = ({ product, products }) => {
     if (!product) {
         return <div>Product not found</div>;
     }
+    const [index, setIndex] = useState(0);
+    const { onAdd, decQty, incQty, qty, setShowCart } = useStateContext();
     const [selected, setSelected] = useState(2); // Medium by default
 
     const handleCheckpointClick = (j) => {
         setSelected(j);
     };
-    const [index, setIndex] = useState(0);
-    const { onAdd, decQty, incQty, qty, setShowCart } = useStateContext();
+
     const { image, name, details, price } = product;
 
     const handleBuyNow = () => {
