@@ -20,7 +20,7 @@ function FooterBanner({footerBanner: {desc="",image={}, discount = 0, midText = 
           {saleTime}
           </p>
         </div>
-        <img src={urlFor(image)} width={250} height={250}/>
+        <img src={urlFor(image)} width={250} height={250} alt="image"/>
         <div className="right">
           <p>{smallText}</p>
           <h3>{midText}</h3>

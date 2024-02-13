@@ -15,7 +15,7 @@ const Success = () => {
         setTotalQuantities(0);
         runFireWorks()
 
-    }, [])
+    }, [setCartItems, setTotalPrice, setTotalQuantities])
 
     return (
         <Layout>
