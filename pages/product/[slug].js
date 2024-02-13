@@ -11,12 +11,13 @@ import Product from '../../src/app/components/Product';
 const ProductDetails = ({product,products}) => {
 
 
-    if (!product) {
-        return <div>Product not found</div>;
-      }
+    // if (!product) {
+    //     return <div>Product not found</div>;
+    //   }
     const [index,setIndex]=useState(0);
+    const {onAdd,decQty,incQty,qty,setShowCart}=useStateContext();
     const {image,name,details,price}=product;
-    const {onAdd,decQty,incQty,qty,setShowCart  }=useStateContext();
+  
     const handleBuyNow=()=>{
         onAdd(product,qty)
         setShowCart(true)
