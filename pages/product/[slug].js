@@ -8,7 +8,7 @@ import Layout from '../../src/app/components/Layout'; // Import the Layout compo
 import { AiOutlineMinus,AiOutlineplus, AiFillStar, AiOutlineStar, AiOutlinePlus } from 'react-icons/ai';
 import Product from '../../src/app/components/Product';
 
-const productDetails = ({product,products}) => {
+const ProductDetails = ({product,products}) => {
 
 
     if (!product) {
@@ -146,5 +146,5 @@ export const getStaticPaths = async () => {
     return { paths, fallback: false }; // fallback: false means other routes should 404
   };
   
-  export default productDetails;
+  export default ProductDetails;
 
