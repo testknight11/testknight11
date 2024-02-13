@@ -11,9 +11,9 @@ import Product from '../../src/app/components/Product';
 const ProductDetails = ({product,products}) => {
 
 
-    // if (!product) {
-    //     return <div>Product not found</div>;
-    //   }
+    if (!product) {
+        return <div>Product not found</div>;
+      }
     const [index,setIndex]=useState(0);
     const {onAdd,decQty,incQty,qty,setShowCart}=useStateContext();
     const {image,name,details,price}=product;
@@ -32,12 +32,13 @@ const ProductDetails = ({product,products}) => {
         <div className="product-detail-container">
             <div>
                 <div className="image-container">
-                    <img src={urlFor(image && image[index])} className="product-detail-image"/>
+                    <img src={urlFor(image && image[index])} alt="product" className="product-detail-image"/>
                 </div>
                 <div className="small-images-container">
                     {
                         image?.map((item,i)=>(
                             <img
+                            alt="item"
                             key={i}
                             src={urlFor(item)}
                             className={i === index ? 'small-image selected-image' : 'small-image'}
