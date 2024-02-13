@@ -16,8 +16,9 @@ const ProductDetails = ({ product, products }) => {
         return <div>Product not found</div>;
     }
     const [index, setIndex] = useState(0);
-    const { onAdd, decQty, incQty, qty, setShowCart } = useStateContext();
     const [selected, setSelected] = useState(2); // Medium by default
+    const { onAdd, decQty, incQty, qty, setShowCart } = useStateContext();
+
 
     const handleCheckpointClick = (j) => {
         setSelected(j);
@@ -99,6 +100,20 @@ const ProductDetails = ({ product, products }) => {
 
                             </p>
                         </div>
+                        <div>
+                            <ComfortIndicator selected={selected} />
+                            <div>
+                                {/* You can render buttons or other interactive elements to change the selected checkpoint */}
+                                <button onClick={() => handleCheckpointClick(0)}>Soft</button>
+                                <button onClick={() => handleCheckpointClick(1)}>Medium Soft</button>
+                                <button onClick={() => handleCheckpointClick(2)}>Medium</button>
+                                <button onClick={() => handleCheckpointClick(3)}>Medium Firm</button>
+                                <button onClick={() => handleCheckpointClick(4)}>Firm</button>
+                            </div>
+                        </div>
+
+
+
                         <div className="buttons">
                             <button className="add-to-cart" onClick={() => onAdd(product, qty)} type="button">
                                 Add to cart
