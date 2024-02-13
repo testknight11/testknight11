@@ -22,7 +22,7 @@ function HeroBanner({heroBanner}) {
 
   </Link>
         </div>
- <img src={urlFor(heroBanner.image)} alt="dining-table" className="hero-banner-image"/>
+ <img src={urlFor(heroBanner.image)} alt="banner" className="hero-banner-image"/>
  <div>
   
   <div className="desc">

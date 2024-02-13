@@ -12,7 +12,7 @@ const Home = () => {
         const { products, bannerData } = await response.json();
         setProducts(products);
         setBannerData(bannerData);
-     //   console.log(products)
+       console.log(products)
        // console.log(bannerData)
       } catch (error) {
         console.error('Error fetching data:', error);

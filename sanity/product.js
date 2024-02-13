@@ -40,7 +40,14 @@ export default {
             name:'details',
             title:'Details',
             type:'string'
-        }
+        },
+
+        {
+            name: 'discount',
+            title: 'Discount',
+            type: 'string',
+        },
+
 
     ]
 
