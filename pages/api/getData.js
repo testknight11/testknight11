@@ -4,7 +4,7 @@ import { client } from '../../lib/client';
 
 export default async function handler(req, res) {
   try {
-    const productQuery = '*[_type in ["product", "mattress"]]';
+    const productQuery = '*[_type in ["product", "mattress", "chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"]]';
     const products = await client.fetch(productQuery);
 
     const bannerQuery = '*[_type == "banner"]';

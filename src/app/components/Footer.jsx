@@ -1,15 +1,20 @@
 import React from 'react'
-import { AiFillInstagram, AiOutlineTwitter} from 'react-icons/ai'
-
+import { AiFillInstagram, AiOutlineTwitter, AiOutlineWhatsApp } from 'react-icons/ai'
+import Link from 'next/link'
 function Footer() {
   return (
     <div className="footer-container">
       <p>
-        2022 Lydia furniture store All rights reserved
+        2022 UZL All rights reserved
       </p>
       <p className="icons">
-        <AiFillInstagram/>
-        <AiOutlineTwitter/>
+        <AiFillInstagram />
+        <AiOutlineTwitter />
+        <Link href="https://wa.me/0021652344555">
+          <AiOutlineWhatsApp title="0021652344555"/>
+          </Link>
+         
+
       </p>
     </div>
   )

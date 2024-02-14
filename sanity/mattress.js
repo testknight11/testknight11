@@ -41,7 +41,7 @@ export default {
                             title: 'Size',
                             type: 'string',
                             options: {
-                                list: [`3'0"*6'3"`, `3'6"*6'3"`, `5'0"*6'3"`,`6'0"*6'3"`], // Define your available sizes here
+                                list: [`Single`, `Super single`, `Queen`,`King`], // Define your available sizes here
                             },
                         },
                         {

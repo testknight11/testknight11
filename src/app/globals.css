@@ -136,7 +136,27 @@ span.text-red {
 .product-card:hover {
   transform: scale(1.1, 1.1)
 }
+.enlarged-image-container{
+  display:flex;
+  flex-direction: column;
+  z-index:1;
+}
 
+.enlarged-image-container img.enlarged-product-detail-image{
+width:80vw;
+height:80vh;
+z-index:1;
+}
+@media screen and (max-width:800px) {
+
+  .enlarged-image-container img.enlarged-product-detail-image{
+    width:100vw;
+height:80vh;
+z-index:1;
+  }
+
+
+}
 .product-image {
   border-radius: 15px;
   background-color: #ebebeb;

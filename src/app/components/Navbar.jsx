@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import {useStateContext} from '../../../context/StateContext';
-import {AiOutlineShopping} from 'react-icons/ai'
+import {AiOutlineShopping,AiOutlineWhatsApp} from 'react-icons/ai'
 import {Cart} from './'
 // import Layout from '../../src/app/components/Layout'; // Import the Layout component
 
@@ -12,10 +12,12 @@ function Navbar() {
   console.log(totalQuantities)
   return (
     <div className="navbar-container">
-      <p className="logo">
-        <Link href="/">Lydia furniture store
+      <div className="logo">
+        <Link style={{display:'flex',justifyContent:'center',alignItems:'center'}} href="https://wa.me/0021652344555"><p>UZL</p>
+        <AiOutlineWhatsApp/>
         </Link>
-      </p>
+       
+      </div>
       <button className="cart-icon" onClick={()=>setShowCart(true)}>
 
         <AiOutlineShopping/>

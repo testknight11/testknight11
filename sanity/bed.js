@@ -32,9 +32,30 @@ export default {
 
         },
         {
-            name:'price',
-            title:'Price',
-            type:'number'
+            name: 'prices',
+            title: 'Prices',
+            type: 'array',
+            of: [
+                {
+                    type: 'object',
+                    fields: [
+                        {
+                            name: 'size',
+                            title: 'Size',
+                            type: 'string',
+                            options: {
+                                list: [`Single`, `Super single`, `Queen`,`King`], // Define your available sizes here
+                            },
+                        },
+                        {
+                            name: 'price',
+                            title: 'Price',
+                            type: 'number',
+                        },
+                    ],
+                },
+            ],
+            validation: Rule => Rule.min(1),
         },
         {
             name:'details',

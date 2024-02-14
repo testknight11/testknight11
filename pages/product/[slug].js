@@ -22,28 +22,33 @@ const ProductDetails = ({ product, products }) => {
     const [indexColors, setIndexColors] = useState(0);
     const [selected, setSelected] = useState(2); // Medium by default
     const [selectedSizePrice, setSelectedSizePrice] = useState(0); // Medium by deselectmycolorfault
-
-    const {selectedColor,setSelectedColor, onAdd, decQty, incQty, qty, setShowCart, selectedSize, setSelectedSize, setSelectedSizes, setTotalPrice, selectedSizes } = useStateContext();
+    const [enlargedImage, setEnlargedImage] = useState(null);
+    const { selectedColor, setSelectedColor, onAdd, decQty, incQty, qty, setShowCart, selectedSize, setSelectedSize, setSelectedSizes, setTotalPrice, selectedSizes } = useStateContext();
     useEffect(() => {
+
+
+
+
+
 
         const selectElement = document.getElementById('mySelect');
         const selectColor = document.getElementById('colorMySelect');
 
-        console.log(selectElement.options)
-
-        // Store the original selected value
-
-        console.log(selectElement.options)
-
-        setSelectedSize(selectElement.options[0].value)
-        setSelectedColor(selectColor.options[0].value)
 
 
+        setSelectedSize(selectElement?.options[0]?.value)
+        setSelectedColor(selectColor?.options[0]?.value)
 
-        const colorImage = colors.find(item => item.name === selectColor.options[0].value)?.image; // Using optional chaining for safety
-        setImageOfColor(colorImage);
-    
-    
+
+        if (colors) {
+            const colorImage = colors?.find(item => item.name === selectColor?.options[0]?.value)?.image; // Using optional chaining for safety
+            setImageOfColor(colorImage);
+        }
+        else {
+            setImageOfColor(image[0]);
+        }
+
+
 
 
         if (prices) {
@@ -60,7 +65,19 @@ const ProductDetails = ({ product, products }) => {
 
 
 
-    const {image,name, details, price, prices, _type, colors, _id } = product;
+  const handleImageClick = (url) => {
+    setEnlargedImage(url);
+    if(document.querySelector('.product-detail-container .image-container')){
+    document.querySelector('.product-detail-container .image-container').style.display="none"
+    }
+  };
+
+  const handleCloseClick = () => {
+    setEnlargedImage(null);
+    document.querySelector('.product-detail-container .image-container').style.display="block"
+  };
+
+    const { image, name, details, price, prices, _type, colors, _id } = product;
 
 
 
@@ -82,8 +99,18 @@ const ProductDetails = ({ product, products }) => {
             <div>
                 <div className="product-detail-container">
                     <div>
+                        {enlargedImage && (
+                            <div className="enlarged-image-container">
+                                <img
+                                    src={enlargedImage}
+                                    alt="enlarged-product"
+                                    className="enlarged-product-detail-image"
+                                />
+                                <button onClick={handleCloseClick}>Close</button>
+                            </div>
+                        )}
                         <div className="image-container">
-                            {!imageOfIndex && <img src={urlFor(image && image[index])} alt="product" className="product-detail-image" />}
+                            {!imageOfIndex && <img onClick={()=>handleImageClick(urlFor(image && image[index]))} src={urlFor(image && image[index])} alt="product" className="product-detail-image" />}
                             {imageOfIndex && <img src={urlFor(colors[indexColors].image && colors[indexColors].image)} alt="product" className="product-detail-image" />}
                         </div>
                         <div className="small-images-container">
@@ -216,18 +243,26 @@ const ProductDetails = ({ product, products }) => {
 
                         <div className="quantity">
                             <h3>Color:</h3>
-                                
+
                             <select id="colorMySelect" value={selectedColor ? selectedColor : ""} onChange={(e) => {
-                                        const newColor = e.target.value;
-                                        console.log(e.target.value)
-                                        setSelectedColor(newColor);
-                                        const colorImage = colors.find(item => item.name === e.target.value)?.image; // Using optional chaining for safety
-                                        setImageOfColor(colorImage);
+                                const newColor = e.target.value;
+                                console.log(e.target.value)
+                                setSelectedColor(newColor);
+                                if (colors) {
+
+                                    const colorImage = colors.find(item => item.name === e.target.value)?.image; // Using optional chaining for safety
+                                    setImageOfColor(colorImage);
+                                }
+                                else {
+                                    setImageOfColor(image[0]);
+
+
+                                }
                             }}>
                                 {
-                                    colors?.map((item,i)=>(
+                                    colors?.map((item, i) => (
 
-                                    <option key={i} value={item.name}>{item.name}</option>
+                                        <option key={i} value={item.name}>{item.name}</option>
 
 
 
@@ -244,7 +279,7 @@ const ProductDetails = ({ product, products }) => {
 
 
                         <div className="buttons">
-                            <button className="add-to-cart" onClick={() => onAdd(product, qty, selectedSize, selectedSizePrice, imageOfColor, name, details, prices, _type,selectedColor)} type="button">
+                            <button className="add-to-cart" onClick={() => onAdd(product, qty, selectedSize, selectedSizePrice, imageOfColor, name, details, prices, _type, selectedColor)} type="button">
                                 Add to cart
                             </button>
                             <button className="buy-now" onClick={handleBuyNow} type="button">
@@ -275,7 +310,7 @@ const ProductDetails = ({ product, products }) => {
 }
 
 export const getStaticProps = async ({ params: { slug } }) => {
-    const query = `*[_type in ["product", "mattress"] && slug.current == '${slug}'][0]`;
+    const query = `*[_type in ["product", "mattress", "chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"] && slug.current == '${slug}'][0]`;
 
     const product = await client.fetch(query)
     const productsQuery = `*[_type in ["${product._type}"]]`
@@ -289,7 +324,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
 
 
 export const getStaticPaths = async () => {
-    const products = await client.fetch(`*[_type in ["product", "mattress"]]{
+    const products = await client.fetch(`*[_type in ["product", "mattress","chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"]]{
         
         slug{
             current
