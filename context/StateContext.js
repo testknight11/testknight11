@@ -6,6 +6,10 @@ import { Preview } from 'sanity';
 const Context = createContext()
 
 export const StateContext = ({ children }) => {
+    const [selectedSizes, setSelectedSizes] = useState([]);
+
+    const [selectedSize, setSelectedSize] = useState(""); // Medium by default
+
     const [showCart, setShowCart] = useState(false)
     const [cartItems, setCartItems] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
@@ -13,28 +17,121 @@ export const StateContext = ({ children }) => {
     const [qty, setQty] = useState(1)
     let foundProduct;
     let index;
-    const onAdd = (product, quantity) => {
-        const checkProductInCart = cartItems.find((item) => item._id === product._id)
-        setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price * quantity)
-        setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + quantity)
+    // const onAdd = (product, quantity) => {
+    //     // If product type is 'mattress', find the price based on selected size
+    //     let selectedPrice;
+    //     if (product._type === 'mattress') {
+    //         selectedPrice = product.prices.find(price => price.size === product.selectedSizes)?.price;
+    //     } else {
+    //         selectedPrice = product.price;
+    //     }
+
+    //     // Update total price and quantities
+    //     setTotalPrice(prevTotalPrice => prevTotalPrice + selectedPrice * quantity);
+    //     setTotalQuantities(prevTotalQuantities => prevTotalQuantities + quantity);
+
+    //     // Check if the product already exists in the cart
+    //     const checkProductInCart = cartItems.find(item => item._id === product._id);
+
+    //     // Update cart items
+    //     if (checkProductInCart) {
+    //         const updatedCartItems = cartItems.map(cartProduct => {
+    //             if (cartProduct._id === product._id) {
+    //                 return {
+    //                     ...cartProduct,
+    //                     quantity: cartProduct.quantity + quantity
+    //                 };
+    //             }
+    //             return cartProduct;
+    //         });
+    //         setCartItems(updatedCartItems);
+    //     } else {
+    //         // Add new product to the cart
+    //         const updatedProduct = {
+    //             ...product,
+    //             quantity: quantity
+    //         };
+    //         setCartItems([...cartItems, updatedProduct]);
+    //     }
+
+    //     // Show success message
+    //     toast.success(`${quantity} ${product.name} added to the cart`);
+    // };
+
+
+
+
+    const onAdd = (product, qty, selectedSize, selectedSizePrice, image, name, details, prices, _type) => {
+        // If product type is 'mattress', find the price based on selected size
+        console.log(product)
+
+        let selectedPrice;
+        // if (product._type === 'mattress') {
+        //     selectedPrice = product.prices[0].price;
+        // } else {
+        //     selectedPrice = product.price;
+        // }
+
+        // Update total price and quantities
+        setTotalPrice(prevTotalPrice => prevTotalPrice + selectedSizePrice * qty);
+        setTotalQuantities(prevTotalQuantities => prevTotalQuantities + qty);
+
+        setSelectedSizes(prevSizes => {
+            // Create a new size object
+            const newSizeObj = { _id: product._id, quantity: qty, size: selectedSize, image: image, name: name, details: details, price: selectedSizePrice, prices: prices, _type: _type };
+
+            // Push the new size object to the previous sizes array
+            return [...prevSizes, newSizeObj];
+        });
+        console.log(selectedSizes)
+        // Check if the product already exists in the cart
+        console.log(product)
+        const checkProductInCart = selectedSizes.find(item => item._id === product._id && item.price === product.price);
+
         if (checkProductInCart) {
-
-            const updatedCartItems = cartItems.map((cartProduct) => {
-                if (cartProduct._id === product._id) return {
-                    ...cartProduct,
-                    quantity: cartProduct.quantity + quantity
+            console.log('yesssssssssssssssssss')
+            const updatedCartItems = selectedSizes.map(cartProduct => {
+                if (cartProduct._id === product._id) {
+                    return {
+                        ...cartProduct,
+                        quantity: cartProduct.quantity + qty
+                    };
                 }
-            })
-            setCartItems(updatedCartItems)
+                return cartProduct;
+            });
+            setSelectedSizes(updatedCartItems);
+            setTotalPrice(prevTotalPrice => prevTotalPrice + selectedSizePrice * qty);
+            setTotalQuantities(prevTotalQuantities => prevTotalQuantities + qty);
         }
-        else {
-            product.quantity = quantity
-            setCartItems([...cartItems, { ...product }])
 
-        }
-        toast.success(`${qty} ${product.name} added to the cart`)
+        // Update cart items
+        // if (checkProductInCart) {
+        //     const updatedCartItems = selectedSizes.map(cartProduct => {
+        //         if (cartProduct._id === product._id) {
+        //             return {
+        //                 ...cartProduct,
+        //                 quantity: cartProduct.qty+ qty
+        //             };
+        //         }
+        //         return cartProduct;
+        //     });
+        //    setSelectedSizes(updatedCartItems);
+        // } else {
+        //     // Add new product to the cart
+        //     const updatedProduct = {
+        //         ...product,
+        //         qty:qty,
+        //         size:selectedSize, 
+        //      price:selectedSizePrice,
 
-    }
+
+        //     };
+        //     setSelectedSizes([...selectedSizes, updatedProduct]);
+        // }
+        // Show success message
+        toast.success(`${qty} ${product.name} added to the cart`);
+    };
+
     // const toggleCartItemQuantity = (id, value) => {
     //     foundProduct = cartItems.find((item) => item._id === id)
     //     index = cartItems.findIndex((product) => product._id === id)
@@ -62,27 +159,133 @@ export const StateContext = ({ children }) => {
 
     // }
 
-    const onRemove = (product) => {
-        foundProduct = cartItems.find((item) => item._id === product._id)
-        const newCartItems = cartItems.filter((item) => item._id !== product._id)
-        setTotalPrice((prevTotalPrice)=>prevTotalPrice-foundProduct.price*foundProduct.quantity)
-        setTotalQuantities(prevTotalQuantities=>prevTotalQuantities-foundProduct.quantity)
-        setCartItems(newCartItems)
-    }
+    // const onRemove = (product) => {
+    //     foundProduct = cartItems.find((item) => item._id === product._id)
+    //     const newCartItems = cartItems.filter((item) => item._id !== product._id)
+    //     setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price * foundProduct.quantity)
+    //     setTotalQuantities(prevTotalQuantities => prevTotalQuantities - foundProduct.quantity)
+    //     setCartItems(newCartItems)
+    // }
 
-    const toggleCartItemQuantity = (id, value) => {
-        const updatedCartItems = cartItems.map((item) => {
-            foundProduct = cartItems.find((item) => item._id === id)
-            index = cartItems.findIndex((product) => product._id === id)
-            if (item._id === id) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const onRemove = (product) => {
+        const foundProduct = selectedSizes.find((item) => item._id === product._id);
+        if (foundProduct) {
+
+            const newCartItems = selectedSizes.filter((item) => item._id !== product._id || item.price !== product.price);
+            setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price * foundProduct.quantity)
+            setTotalQuantities(prevTotalQuantities => prevTotalQuantities - foundProduct.quantity)
+            setSelectedSizes(newCartItems)
+        }
+        // if (foundProduct._type === 'mattress' && selectedSize) {
+        //     const selectedPrice = foundProduct.prices.find((priceObj) => priceObj.size === selectedSize)?.price;
+        //     if (selectedPrice) {
+        //         const priceDifference = selectedPrice * foundProduct.qty;
+        //         setTotalPrice((prevTotalPrice) => prevTotalPrice - priceDifference);
+        //         setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - foundProduct.qty);
+        //     }
+        // } else {
+        //     setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price * foundProduct.qty);
+        //     setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - foundProduct.qty);
+        // }
+
+    };
+
+    // const toggleCartItemQuantity = (id, value) => {
+    //     const updatedCartItems = cartItems.map((item) => {
+    //         foundProduct = cartItems.find((item) => item._id === id)
+    //         index = cartItems.findIndex((product) => product._id === id)
+    //         if (item._id === id) {
+    //             if (value === 'inc') {
+    //                 setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price)
+    //                 setTotalQuantities(prevTotalQuantities => prevTotalQuantities + 1)
+    //                 return { ...item, quantity: item.quantity + 1 };
+
+
+    //             } else if (value === 'dec' && item.quantity > 1) {
+    //                 setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price)
+    //                 setTotalQuantities(prevTotalQuantities => prevTotalQuantities - 1)
+
+    //                 return { ...item, quantity: item.quantity - 1 };
+
+    //             }
+    //         }
+    //         return item;
+    //     });
+
+    //     // Update total price and quantities here if needed
+
+    //     setCartItems(updatedCartItems);
+    // };
+
+
+
+
+
+
+
+
+
+    // const toggleCartItemQuantity = (id, value) => {
+    //     const foundProduct = cartItems.find((item) => item._id === id);
+    //     const index = cartItems.findIndex((product) => product._id === id);
+    //     let updatedCartItems = [...cartItems];
+
+    //     if (foundProduct) {
+    //         const { _id, price, quantity } = foundProduct;
+
+    //         if (value === 'inc') {
+    //             updatedCartItems[index] = { ...foundProduct, quantity: quantity + 1 };
+    //             setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + 1);
+    //         } else if (value === 'dec' && quantity > 1) {
+    //             updatedCartItems[index] = { ...foundProduct, quantity: quantity - 1 };
+    //             setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - 1);
+    //         }
+
+    //         if (foundProduct._type === 'mattress' && selectedSizes) {
+    //             const selectedPrice = foundProduct.prices.find((priceObj) => priceObj.size === selectedSizes)?.price;
+    //             if (selectedPrice) {
+    //                 const priceDifference = (selectedPrice - price) * Math.abs(updatedCartItems[index].quantity);
+    //                 setTotalPrice((prevTotalPrice) => prevTotalPrice + priceDifference);
+    //             }
+    //         }
+
+    //         setCartItems(updatedCartItems);
+    //     }
+    // };
+    const toggleCartItemQuantity = (id, price, value) => {
+        console.log(id, value)
+        const updatedCartItems = selectedSizes.map((item) => {
+            foundProduct = selectedSizes.find((item) => item._id === id)
+            index = selectedSizes.findIndex((product) => product._id === id)
+            console.log(foundProduct)
+
+
+
+
+
+
+            if (item._id === id && item.price === price) {
                 if (value === 'inc') {
-                    setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price)
+                    setTotalPrice((prevTotalPrice) => prevTotalPrice + item.price)
                     setTotalQuantities(prevTotalQuantities => prevTotalQuantities + 1)
                     return { ...item, quantity: item.quantity + 1 };
 
 
                 } else if (value === 'dec' && item.quantity > 1) {
-                    setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price)
+                    setTotalPrice((prevTotalPrice) => prevTotalPrice - item.price)
                     setTotalQuantities(prevTotalQuantities => prevTotalQuantities - 1)
 
                     return { ...item, quantity: item.quantity - 1 };
@@ -94,8 +297,11 @@ export const StateContext = ({ children }) => {
 
         // Update total price and quantities here if needed
 
-        setCartItems(updatedCartItems);
+        setSelectedSizes(updatedCartItems);
     };
+
+
+
 
     const incQty = () => {
         setQty((prevQty) => prevQty + 1)
@@ -116,6 +322,7 @@ export const StateContext = ({ children }) => {
 
         <Context.Provider
             value={{
+
                 showCart,
                 setShowCart,
                 cartItems,
@@ -124,7 +331,10 @@ export const StateContext = ({ children }) => {
                 setTotalPrice,
                 totalQuantities,
                 setTotalQuantities,
-
+                selectedSizes,
+                setSelectedSizes,
+                selectedSize,
+                setSelectedSize,
                 qty,
                 incQty,
                 decQty,

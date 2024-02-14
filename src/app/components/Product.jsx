@@ -1,8 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
-import {urlFor} from '../../../lib/client'
+import { urlFor } from '../../../lib/client'
 
-function Product({product:{image, name, slug ,price}}) {
+function Product({ product: { image, name, slug, price, _type, prices } }) {
   console.log(slug)
   if (!slug || !slug.current) {
     // Handle the case where slug is undefined or null
@@ -19,18 +19,19 @@ function Product({product:{image, name, slug ,price}}) {
       <Link href={`/product/${slug.current}`}>
         <div className="product-card">
           <img
-          src={urlFor(image && image[0])}
-          width={250}
-          height={250}
-          className="product-image"
-          alt="productcard"
+            src={urlFor(image && image[0])}
+            width={250}
+            height={250}
+            className="product-image"
+            alt="productcard"
           />
           <p className="product-name">
             {name}
           </p>
           <p className="product-price">
-            ${price}
+            {_type === 'mattress' ? `$${prices[0]?.price}` : `$${price}`}
           </p>
+         
         </div>
 
       </Link>
