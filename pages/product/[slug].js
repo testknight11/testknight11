@@ -12,16 +12,15 @@ import Product from '../../src/app/components/Product';
 const ProductDetails = ({ product, products }) => {
 
 
-    if (!product) {
-        return <div>Product not found</div>;
-    }
+    // if (!product) {
+    //     return <div>Product not found</div>;
+    // }
     const [imageOfIndex, setImageOfIndex] = useState(false);
     const [index, setIndex] = useState(0);
     const [indexColors, setIndexColors] = useState(     0);
     const [selected, setSelected] = useState(2); // Medium by default
     const [selectedSizePrice, setSelectedSizePrice] = useState(0); // Medium by default
     const { onAdd, decQty, incQty, qty, setShowCart, selectedSize, setSelectedSize, setSelectedSizes, setTotalPrice, selectedSizes } = useStateContext();
-    console.log(selectedSizes)
     useEffect(() => {
 
         const selectElement = document.getElementById('mySelect');
@@ -44,9 +43,6 @@ const ProductDetails = ({ product, products }) => {
     }, [])
 
 
-    const handleCheckpointClick = (j) => {
-        setSelected(j);
-    };
 
     const { image, name, details, price, prices, _type, colors } = product;
 
