@@ -10,8 +10,8 @@ function Footer() {
       <p className="icons">
         <AiFillInstagram />
         <AiOutlineTwitter />
-        <Link href="https://wa.me/0021652344555">
-          <AiOutlineWhatsApp title="0021652344555"/>
+        <Link href="https://wa.me/+21652344555">
+          <AiOutlineWhatsApp/>
           </Link>
          
 

@@ -56,7 +56,7 @@ function Cart() {
         </div>)}
         <div className='product-container'>
           {selectedSizes.length >= 1 && selectedSizes.map((item,index) => (
-            <div className="product" key={index}>
+            <div className="product flex-col md:flex-row" key={index}>
               <img src={urlFor(item?.image)} className='cart-product-image' alt="product" />
               <div className='item-desc'>
                 <div className='flex top'>

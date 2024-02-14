@@ -178,7 +178,7 @@ const ProductDetails = ({ product, products }) => {
                         </p>
                         <div>
                             {/* Your other JSX code... */}
-                            {_type === 'mattress' ? (
+                            {_type === 'mattress'  || _type === 'bed'? (
                                 <div>
                                     <label>Select Size:</label>
                                     <select id='mySelect' value={selectedSize ? selectedSize : ""} onChange={(e) => {

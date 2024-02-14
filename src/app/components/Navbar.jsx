@@ -13,7 +13,7 @@ function Navbar() {
   return (
     <div className="navbar-container">
       <div className="logo">
-        <Link style={{display:'flex',justifyContent:'center',alignItems:'center'}} href="https://wa.me/0021652344555"><p>UZL</p>
+        <Link style={{display:'flex',justifyContent:'center',alignItems:'center'}} href="https://wa.me/+21652344555"><p>UZL</p>
         <AiOutlineWhatsApp/>
         </Link>
        
