@@ -15,15 +15,20 @@ const ProductDetails = ({ product, products }) => {
     // if (!product) {
     //     return <div>Product not found</div>;
     // }
+    const [imageOfColor, setImageOfColor] = useState({});
+
     const [imageOfIndex, setImageOfIndex] = useState(false);
     const [index, setIndex] = useState(0);
-    const [indexColors, setIndexColors] = useState(     0);
+    const [indexColors, setIndexColors] = useState(0);
     const [selected, setSelected] = useState(2); // Medium by default
-    const [selectedSizePrice, setSelectedSizePrice] = useState(0); // Medium by default
-    const { onAdd, decQty, incQty, qty, setShowCart, selectedSize, setSelectedSize, setSelectedSizes, setTotalPrice, selectedSizes } = useStateContext();
+    const [selectedSizePrice, setSelectedSizePrice] = useState(0); // Medium by deselectmycolorfault
+
+    const {selectedColor,setSelectedColor, onAdd, decQty, incQty, qty, setShowCart, selectedSize, setSelectedSize, setSelectedSizes, setTotalPrice, selectedSizes } = useStateContext();
     useEffect(() => {
 
         const selectElement = document.getElementById('mySelect');
+        const selectColor = document.getElementById('colorMySelect');
+
         console.log(selectElement.options)
 
         // Store the original selected value
@@ -31,6 +36,16 @@ const ProductDetails = ({ product, products }) => {
         console.log(selectElement.options)
 
         setSelectedSize(selectElement.options[0].value)
+        setSelectedColor(selectColor.options[0].value)
+
+
+
+        const colorImage = colors.find(item => item.name === selectColor.options[0].value)?.image; // Using optional chaining for safety
+        setImageOfColor(colorImage);
+    
+    
+
+
         if (prices) {
             setSelectedSizePrice(prices[0].price)
 
@@ -44,7 +59,13 @@ const ProductDetails = ({ product, products }) => {
 
 
 
-    const { image, name, details, price, prices, _type, colors } = product;
+
+    const {image,name, details, price, prices, _type, colors, _id } = product;
+
+
+
+
+
 
     let selectedPrice;
     console.log(colors)
@@ -63,20 +84,24 @@ const ProductDetails = ({ product, products }) => {
                     <div>
                         <div className="image-container">
                             {!imageOfIndex && <img src={urlFor(image && image[index])} alt="product" className="product-detail-image" />}
-                            {imageOfIndex&&<img src={urlFor(colors[indexColors].image && colors[indexColors].image)} alt="product" className="product-detail-image" />}
+                            {imageOfIndex && <img src={urlFor(colors[indexColors].image && colors[indexColors].image)} alt="product" className="product-detail-image" />}
                         </div>
                         <div className="small-images-container">
                             {
                                 colors?.map((item, i) => (
                                     <img
-                                        alt="item"
+                                        alt={item.name}
                                         key={i}
                                         src={urlFor(item.image)}
                                         className={i === indexColors ? 'small-image selected-image' : 'small-image'}
                                         onMouseEnter={() => {
                                             setIndexColors(i)
                                             setImageOfIndex(true)
-                                        }} />
+                                        }}
+
+
+
+                                    />
                                 ))
                             }
                         </div>
@@ -88,8 +113,10 @@ const ProductDetails = ({ product, products }) => {
                                         key={i}
                                         src={urlFor(item)}
                                         className={i === index ? 'small-image selected-image' : 'small-image'}
-                                        onMouseEnter={() => {setIndex(i)
-                                            setImageOfIndex(false)}} />
+                                        onMouseEnter={() => {
+                                            setIndex(i)
+                                            setImageOfIndex(false)
+                                        }} />
                                 ))
                             }
                         </div>
@@ -120,7 +147,7 @@ const ProductDetails = ({ product, products }) => {
                             {details}
                         </p>
                         <p className="price">
-                            $   {!selectedSizePrice&&prices && Array.isArray(prices) && prices.length > 0 ? prices[0].price :selectedSizePrice}
+                            $   {!selectedSizePrice && prices && Array.isArray(prices) && prices.length > 0 ? prices[0].price : selectedSizePrice}
                         </p>
                         <div>
                             {/* Your other JSX code... */}
@@ -132,7 +159,7 @@ const ProductDetails = ({ product, products }) => {
                                         console.log(e.target.value)
                                         setSelectedSize(newSize);
                                         console.log(selectedSize)
-                                   
+
                                         selectedPrice = prices.find(price => price.size === e.target.value)?.price;
                                         console.log(selectedPrice)
                                         setSelectedSizePrice(selectedPrice)
@@ -187,10 +214,37 @@ const ProductDetails = ({ product, products }) => {
                             </p>
                         </div>
 
+                        <div className="quantity">
+                            <h3>Color:</h3>
+                                
+                            <select id="colorMySelect" value={selectedColor ? selectedColor : ""} onChange={(e) => {
+                                        const newColor = e.target.value;
+                                        console.log(e.target.value)
+                                        setSelectedColor(newColor);
+                                        const colorImage = colors.find(item => item.name === e.target.value)?.image; // Using optional chaining for safety
+                                        setImageOfColor(colorImage);
+                            }}>
+                                {
+                                    colors.map((item,i)=>(
+
+                                    <option key={i} value={item.name}>{item.name}</option>
+
+
+
+                                    ))
+                                }
+
+
+
+
+                            </select>
+
+                        </div>
+
 
 
                         <div className="buttons">
-                            <button className="add-to-cart" onClick={() => onAdd(product, qty, selectedSize, selectedSizePrice, image, name, details, prices, _type)} type="button">
+                            <button className="add-to-cart" onClick={() => onAdd(product, qty, selectedSize, selectedSizePrice, imageOfColor, name, details, prices, _type,selectedColor)} type="button">
                                 Add to cart
                             </button>
                             <button className="buy-now" onClick={handleBuyNow} type="button">

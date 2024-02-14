@@ -13,7 +13,7 @@ function Cart() {
   const cartRef = useRef()
 
   const {
-    selectedSize,onRemove, setSelectedSize, setTotalPrice, toggleCartItemQuantity, totalPrice, totalQuantities, cartItems, setShowCart, selectedSizes
+    selectedSize,onRemove, setSelectedSize, setTotalPrice, toggleCartItemQuantity, totalPrice, totalQuantities, setShowCart, selectedSizes
   } = useStateContext()
   console.log(selectedSizes)
   async function handleCheckout() {
@@ -57,7 +57,7 @@ function Cart() {
         <div className='product-container'>
           {selectedSizes.length >= 1 && selectedSizes.map((item,index) => (
             <div className="product" key={index}>
-              <img src={urlFor(item?.image[0])} className='cart-product-image' alt="product" />
+              <img src={urlFor(item?.image)} className='cart-product-image' alt="product" />
               <div className='item-desc'>
                 <div className='flex top'>
                   <h5>

@@ -9,6 +9,8 @@ export const StateContext = ({ children }) => {
     const [selectedSizes, setSelectedSizes] = useState([]);
 
     const [selectedSize, setSelectedSize] = useState(""); // Medium by default
+    const [selectedColor, setSelectedColor] = useState(""); // Medium by default
+
 
     const [showCart, setShowCart] = useState(false)
     const [cartItems, setCartItems] = useState([])
@@ -61,7 +63,7 @@ export const StateContext = ({ children }) => {
 
 
 
-    const onAdd = (product, qty, selectedSize, selectedSizePrice, image, name, details, prices, _type) => {
+    const onAdd = (product, qty, selectedSize, selectedSizePrice, imageOfColor, name, details, prices, _type,color) => {
         // If product type is 'mattress', find the price based on selected size
         console.log(product)
 
@@ -78,7 +80,7 @@ export const StateContext = ({ children }) => {
 
         setSelectedSizes(prevSizes => {
             // Create a new size object
-            const newSizeObj = { _id: product._id, quantity: qty, size: selectedSize, image: image, name: name, details: details, price: selectedSizePrice, prices: prices, _type: _type };
+            const newSizeObj = { _id: product._id, quantity: qty, size: selectedSize, image: imageOfColor, name: name, details: details, price: selectedSizePrice, prices: prices, _type: _type,color:color };
 
             // Push the new size object to the previous sizes array
             return [...prevSizes, newSizeObj];
@@ -86,7 +88,7 @@ export const StateContext = ({ children }) => {
         console.log(selectedSizes)
         // Check if the product already exists in the cart
         console.log(product)
-        const checkProductInCart = selectedSizes.find(item => item._id === product._id && item.price === product.price);
+        const checkProductInCart = selectedSizes.find(item => item._id === product._id && item.price === product.price && item.color === selectedColor);
 
         if (checkProductInCart) {
             console.log('yesssssssssssssssssss')
@@ -184,7 +186,7 @@ export const StateContext = ({ children }) => {
         const foundProduct = selectedSizes.find((item) => item._id === product._id);
         if (foundProduct) {
 
-            const newCartItems = selectedSizes.filter((item) => item._id !== product._id || item.price !== product.price);
+            const newCartItems = selectedSizes.filter((item) => item._id !== product._id || item.price !== product.price || item.color !==product.color);
             setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price * foundProduct.quantity)
             setTotalQuantities(prevTotalQuantities => prevTotalQuantities - foundProduct.quantity)
             setSelectedSizes(newCartItems)
@@ -322,10 +324,10 @@ export const StateContext = ({ children }) => {
 
         <Context.Provider
             value={{
-
+selectedColor,
+setSelectedColor,
                 showCart,
                 setShowCart,
-                cartItems,
                 setCartItems,
                 totalPrice,
                 setTotalPrice,

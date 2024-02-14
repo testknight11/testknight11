@@ -15,14 +15,14 @@ export default async function handler(req, res) {
          
             ],
             line_items: req.body.map((item)=>{
-                const img=item.image[0].asset._ref;
+                const img=item.image.asset._ref;
                 const newImage=img.replace('image-','https://cdn.sanity.io/images/yso7msc6/production/').replace('-webp','.webp').replace('-jpg','.jpg').replace('-png','.png')
                 // console.log('IMAGE',newImage)
                 return{
                     price_data:{
                         currency:'myr',
                         product_data:{
-                            name:`${item.name} - ${item.size}`,
+                            name:`${item.name} - ${item.size} - ${item.color}`,
                             images:[newImage]
                         },
                         unit_amount:item.price*100
