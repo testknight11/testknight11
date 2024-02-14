@@ -175,7 +175,7 @@ const ProductDetails = ({ product, products }) => {
 
                                     }}
                                     >
-                                        {prices.map((price, index) => (
+                                        {prices?.map((price, index) => (
 
                                             <option key={price._key} value={price.size}>
                                                 {price.size}
@@ -225,7 +225,7 @@ const ProductDetails = ({ product, products }) => {
                                         setImageOfColor(colorImage);
                             }}>
                                 {
-                                    colors.map((item,i)=>(
+                                    colors?.map((item,i)=>(
 
                                     <option key={i} value={item.name}>{item.name}</option>
 
@@ -260,7 +260,7 @@ const ProductDetails = ({ product, products }) => {
                     <h2>You may also like</h2>
                     <div className="marquee">
                         <div className="maylike-products-container track">
-                            {products.map((item) => (
+                            {products?.map((item) => (
                                 <Product key={item._id} product={item} />
                             ))}
                         </div>
@@ -297,7 +297,7 @@ export const getStaticPaths = async () => {
 
     }
    `)
-    const paths = products.map((product) => ({
+    const paths = products?.map((product) => ({
         params: { slug: product.slug.current },
     }));
     return { paths, fallback: false }; // fallback: false means other routes should 404
