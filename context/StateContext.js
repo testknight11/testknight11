@@ -63,9 +63,10 @@ export const StateContext = ({ children }) => {
 
 
 
-    const onAdd = (product, qty, selectedSize, selectedSizePrice, imageOfColor, name, details, prices, _type,color) => {
+    const onAdd = (product, qty, selectedSize, selectedSizePrice, image, name, details, prices, _type, color) => {
         // If product type is 'mattress', find the price based on selected size
         console.log(product)
+   
 
         let selectedPrice;
         // if (product._type === 'mattress') {
@@ -75,36 +76,132 @@ export const StateContext = ({ children }) => {
         // }
 
         // Update total price and quantities
-        setTotalPrice(prevTotalPrice => prevTotalPrice + selectedSizePrice * qty);
-        setTotalQuantities(prevTotalQuantities => prevTotalQuantities + qty);
 
-        setSelectedSizes(prevSizes => {
-            // Create a new size object
-            const newSizeObj = { _id: product._id, quantity: qty, size: selectedSize, image: imageOfColor, name: name, details: details, price: selectedSizePrice, prices: prices, _type: _type,color:color };
-
-            // Push the new size object to the previous sizes array
-            return [...prevSizes, newSizeObj];
-        });
         console.log(selectedSizes)
         // Check if the product already exists in the cart
         console.log(product)
-        const checkProductInCart = selectedSizes.find(item => item._id === product._id && item.price === product.price && item.color === selectedColor);
+        if (product._type === "mattress") {
+            if (selectedColor) {
+                const checkProductInCart = selectedSizes.find(item => item._id === product._id && item.price === product.price && item.color === selectedColor);
 
-        if (checkProductInCart) {
-            console.log('yesssssssssssssssssss')
-            const updatedCartItems = selectedSizes.map(cartProduct => {
-                if (cartProduct._id === product._id) {
-                    return {
-                        ...cartProduct,
-                        quantity: cartProduct.quantity + qty
-                    };
+                if (checkProductInCart) {
+                    console.log('yesssssssssssssssssss')
+                    const updatedCartItems = selectedSizes.map(cartProduct => {
+                        if (cartProduct._id === product._id) {
+                            setTotalPrice(prevTotalPrice => prevTotalPrice + selectedSizePrice * (qty - cartProduct.quantity));
+                            setTotalQuantities(prevTotalQuantities => prevTotalQuantities + (qty - cartProduct.quantity));
+                            return {
+                                ...cartProduct,
+                                quantity: cartProduct.quantity + qty
+                            };
+                        }
+                        return cartProduct;
+                    });
+                    setSelectedSizes(updatedCartItems);
+
                 }
-                return cartProduct;
-            });
-            setSelectedSizes(updatedCartItems);
-            setTotalPrice(prevTotalPrice => prevTotalPrice + selectedSizePrice * qty);
-            setTotalQuantities(prevTotalQuantities => prevTotalQuantities + qty);
+                else {
+                    setTotalPrice(prevTotalPrice => prevTotalPrice + selectedSizePrice * qty);
+                    setTotalQuantities(prevTotalQuantities => prevTotalQuantities + qty);
+                 
+                        setSelectedSizes(prevSizes => {
+                            // Create a new size object
+                            const newSizeObj = { _id: product._id, quantity: qty, size: selectedSize, image: image, name: name, details: details, price: selectedSizePrice, prices: prices, _type: _type, color: color };
+
+                            // Push the new size object to the previous sizes array
+                            return [...prevSizes, newSizeObj];
+                        });
+
+            
+
+                }
+            }
+            else {
+                const checkProductInCart = selectedSizes.find(item => item._id === product._id && item.price === product.price);
+
+                if (checkProductInCart) {
+                    console.log('yesssssssssssssssssss',product)
+                    const updatedCartItems = selectedSizes.map(cartProduct => {
+                        if (cartProduct._id === product._id) {
+                            setTotalPrice(prevTotalPrice => prevTotalPrice + product.price * qty);
+                            setTotalQuantities(prevTotalQuantities => prevTotalQuantities + qty);
+                            return {
+                                ...cartProduct,
+                                quantity: cartProduct.quantity + qty
+                            };
+                        }
+                        else{
+                            setTotalPrice(prevTotalPrice => prevTotalPrice + cartProduct.price * qty);
+                            setTotalQuantities(prevTotalQuantities => prevTotalQuantities + qty);
+                        }
+                        return cartProduct;
+                    });
+                    setSelectedSizes(updatedCartItems);
+
+                }
+                else {
+                    console.log("noooooooooooooo",product)
+                    setTotalPrice(prevTotalPrice => prevTotalPrice + product.price * qty);
+                    setTotalQuantities(prevTotalQuantities => prevTotalQuantities + qty);
+
+                
+                   
+                        setSelectedSizes(prevSizes => {
+                            // Create a new size object
+                            const newSizeObj = { _id: product._id, quantity: qty, size: selectedSize, image: image, name: name, details: details, price: selectedSizePrice, prices: prices, _type: _type, color: color };
+
+                            // Push the new size object to the previous sizes array
+                            return [...prevSizes, newSizeObj];
+                        });
+
+                  
+                }
+
+            }
+
+
         }
+        // if (selectedColor) {
+        //     const checkProductInCart = selectedSizes.find(item => item._id === product._id && item.price === product.price && item.color === selectedColor);
+
+        //     if (checkProductInCart) {
+        //         console.log('yesssssssssssssssssss')
+        //         const updatedCartItems = selectedSizes.map(cartProduct => {
+        //             if (cartProduct._id === product._id) {
+        //                 return {
+        //                     ...cartProduct,
+        //                     quantity: cartProduct.quantity + qty
+        //                 };
+        //             }
+        //             return cartProduct;
+        //         });
+        //         setSelectedSizes(updatedCartItems);
+        //         setTotalPrice(prevTotalPrice => prevTotalPrice + selectedSizePrice * cartProduct.quantity);
+        //         setTotalQuantities(prevTotalQuantities => prevTotalQuantities + cartProduct.quantity);
+        //     }
+        // }
+        // else{
+        //     const checkProductInCart = selectedSizes.find(item => item._id === product._id && item.price === product.price);
+
+        // if (checkProductInCart) {
+        //     console.log('yesssssssssssssssssss')
+        //     const updatedCartItems = selectedSizes.map(cartProduct => {
+        //         if (cartProduct._id === product._id) {
+        //             return {
+        //                 ...cartProduct,
+        //                 quantity: cartProduct.quantity + qty
+        //             };
+        //         }
+        //         return cartProduct;
+        //     });
+        //     setSelectedSizes(updatedCartItems);
+        //     setTotalPrice(prevTotalPrice => prevTotalPrice + selectedSizePrice * qty);
+        //     setTotalQuantities(prevTotalQuantities => prevTotalQuantities + qty);
+        // }
+
+        // }
+
+
 
         // Update cart items
         // if (checkProductInCart) {
@@ -186,7 +283,7 @@ export const StateContext = ({ children }) => {
         const foundProduct = selectedSizes.find((item) => item._id === product._id);
         if (foundProduct) {
 
-            const newCartItems = selectedSizes.filter((item) => item._id !== product._id || item.price !== product.price || item.color !==product.color);
+            const newCartItems = selectedSizes.filter((item) => item._id !== product._id || item.price !== product.price || item.color !== product.color);
             setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price * foundProduct.quantity)
             setTotalQuantities(prevTotalQuantities => prevTotalQuantities - foundProduct.quantity)
             setSelectedSizes(newCartItems)
@@ -324,8 +421,8 @@ export const StateContext = ({ children }) => {
 
         <Context.Provider
             value={{
-selectedColor,
-setSelectedColor,
+                selectedColor,
+                setSelectedColor,
                 showCart,
                 setShowCart,
                 setCartItems,

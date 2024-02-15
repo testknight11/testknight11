@@ -2,11 +2,15 @@ import React from 'react'
 import Link from 'next/link'
 import {urlFor} from '../../../lib/client'
 
-function FooterBanner({footerBanner: {desc="",image={}, discount = 0, midText = "" ,largeText1="",largeText2="",smallText="",saleTime="",buttonText="",product=""} = {} }) {
+function FooterBanner({bannerPrd,footerBanner: {desc="",image={}, discount = "", midText = "" ,largeText1="",largeText2="",smallText="",saleTime="",buttonText="",product=""} = {} }) {
 //  console.log(desc)
+console.log(bannerPrd?.slug?.current)
+
+
   if (!discount) {
     return null; // or render a loading indicator
   }
+  console.log(bannerPrd?.slug?.current)
   return (
     <div className="footer-banner-container">
       <div className="banner-desc hero-banner-flex md:flex-row">
@@ -25,7 +29,7 @@ function FooterBanner({footerBanner: {desc="",image={}, discount = 0, midText = 
           <p>{smallText}</p>
           <h3>{midText}</h3>
           <p>{desc}</p>
-          <Link href={`/product/${product}`}>
+          <Link href={`/product/${bannerPrd?.slug?.current}`}>
             <button type="button">
               {buttonText}
 

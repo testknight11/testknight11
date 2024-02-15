@@ -1,11 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
 import {urlFor} from '../../../lib/client'
-function HeroBanner({heroBanner}) {
+function HeroBanner({heroBanner,bannerPrd}) {
+  console.log(bannerPrd[0]?.slug?.current)
   if (!heroBanner) {
     return null; // or render a loading indicator
   }
-
+console.log(heroBanner)
   //console.log(heroBanner.image)
   return (
     <div className="hero-banner-container">
@@ -16,7 +17,7 @@ function HeroBanner({heroBanner}) {
         <h3>
         {heroBanner?.midText}
         </h3>
-        <Link className="block text-center" href={`/product/${heroBanner.product}`}>
+        <Link className="block text-center" href={`/product/${bannerPrd?.slug?.current}`}>
     <button type="button">{heroBanner?.buttonText}</button>
 
 

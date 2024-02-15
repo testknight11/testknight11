@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useStateContext } from '../../context/StateContext';
 // import {Toaster} from 'react-hot-toast';
 import { client, urlFor } from '../../lib/client'
@@ -32,12 +32,12 @@ const ProductDetails = ({ product, products }) => {
 
 
         const selectElement = document.getElementById('mySelect');
+
         const selectColor = document.getElementById('colorMySelect');
-
-
 
         setSelectedSize(selectElement?.options[0]?.value)
         setSelectedColor(selectColor?.options[0]?.value)
+
 
 
         if (colors) {
@@ -60,22 +60,22 @@ const ProductDetails = ({ product, products }) => {
         }
 
 
-    }, [])
+    }, [product])
 
 
 
 
-  const handleImageClick = (url) => {
-    setEnlargedImage(url);
-    if(document.querySelector('.product-detail-container .image-container')){
-    document.querySelector('.product-detail-container .image-container').style.display="none"
-    }
-  };
+    const handleImageClick = (url) => {
+        setEnlargedImage(url);
+        if (document.querySelector('.product-detail-container .image-container')) {
+            document.querySelector('.product-detail-container .image-container').style.display = "none"
+        }
+    };
 
-  const handleCloseClick = () => {
-    setEnlargedImage(null);
-    document.querySelector('.product-detail-container .image-container').style.display="block"
-  };
+    const handleCloseClick = () => {
+        setEnlargedImage(null);
+        document.querySelector('.product-detail-container .image-container').style.display = "block"
+    };
 
     const { image, name, details, price, prices, _type, colors, _id } = product;
 
@@ -85,7 +85,7 @@ const ProductDetails = ({ product, products }) => {
 
 
     let selectedPrice;
-    console.log(colors)
+
     const handleBuyNow = () => {
         onAdd(product, qty)
         setShowCart(true)
@@ -110,7 +110,10 @@ const ProductDetails = ({ product, products }) => {
                             </div>
                         )}
                         <div className="image-container">
-                            {!imageOfIndex && <img onClick={()=>handleImageClick(urlFor(image && image[index]))} src={urlFor(image && image[index])} alt="product" className="product-detail-image" />}
+                            {!imageOfIndex && <img onClick={() => handleImageClick(urlFor(image && image[index]))}
+                                src={urlFor(image && image[index])}
+                                alt="product"
+                                className="product-detail-image" />}
                             {imageOfIndex && <img src={urlFor(colors[indexColors].image && colors[indexColors].image)} alt="product" className="product-detail-image" />}
                         </div>
                         <div className="small-images-container">
@@ -174,11 +177,11 @@ const ProductDetails = ({ product, products }) => {
                             {details}
                         </p>
                         <p className="price">
-                            $   {!selectedSizePrice && prices && Array.isArray(prices) && prices.length > 0 ? prices[0].price : selectedSizePrice}
+                            $   {!selectedSizePrice && prices && Array.isArray(prices) && prices.length > 0 ? prices[0].price : selectedSizePrice ? selectedSizePrice : price}
                         </p>
                         <div>
                             {/* Your other JSX code... */}
-                            {_type === 'mattress'  || _type === 'bed'? (
+                            {_type === 'mattress' ? (
                                 <div>
                                     <label>Select Size:</label>
                                     <select id='mySelect' value={selectedSize ? selectedSize : ""} onChange={(e) => {
@@ -192,13 +195,14 @@ const ProductDetails = ({ product, products }) => {
                                         setSelectedSizePrice(selectedPrice)
                                         console.log(product)
                                         product['price'] = selectedPrice
-                                        if (_type === 'mattress' && newSize) {
-                                            const selectedPricee = prices.find(price => price.size === newSize)?.price;
-                                            if (selectedPricee) {
-                                                const totalPrice = selectedPricee * (qty);
-                                                setTotalPrice(totalPrice);
-                                            }
-                                        }
+                                        // product['quantity']=qty
+                                        // if (_type === 'mattress' && newSize) {
+                                        //     const selectedPrice = prices.find(price => price.size === newSize)?.price;
+                                        //     if (selectedPricee) {
+                                        //         const totalPrice = selectedPrice * (qty);
+                                        //         setTotalPrice(totalPrice);
+                                        //     }
+                                        // }
 
                                     }}
                                     >
@@ -248,17 +252,11 @@ const ProductDetails = ({ product, products }) => {
                                 const newColor = e.target.value;
                                 console.log(e.target.value)
                                 setSelectedColor(newColor);
-                                if (colors) {
-
-                                    const colorImage = colors.find(item => item.name === e.target.value)?.image; // Using optional chaining for safety
-                                    setImageOfColor(colorImage);
-                                }
-                                else {
-                                    setImageOfColor(image[0]);
-
-
-                                }
-                            }}>
+                                const colorImage = colors?.find(item => item.name === e.target.value)?.image; // Using optional chaining for safety
+                                setImageOfColor(colorImage);
+                                product['color'] = e.target.value
+                            }    
+                            }>
                                 {
                                     colors?.map((item, i) => (
 
@@ -279,7 +277,22 @@ const ProductDetails = ({ product, products }) => {
 
 
                         <div className="buttons">
-                            <button className="add-to-cart" onClick={() => onAdd(product, qty, selectedSize, selectedSizePrice, imageOfColor, name, details, prices, _type, selectedColor)} type="button">
+                            <button className="add-to-cart" onClick={() => {
+                                {
+
+                                    let finalImage;
+                                    if (colors) {
+                                        finalImage = imageOfColor
+                                    }
+                                    else {
+                                        finalImage = image[0]
+                                    }
+                                    console.log(finalImage)
+                                    onAdd(product, qty, selectedSize, selectedSizePrice, finalImage, name, details, prices, _type, selectedColor)
+
+
+                                }
+                            }} type="button">
                                 Add to cart
                             </button>
                             <button className="buy-now" onClick={handleBuyNow} type="button">

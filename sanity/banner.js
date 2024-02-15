@@ -19,8 +19,10 @@ export default {
         {
             name: 'product',
             title: 'Product',
-            type: 'string',
+            type: 'reference', // Change the type to 'reference'
+            to: [{ type: 'product' }], // Reference to the 'product' type
         },
+        
         {
             name: 'desc',
             title: 'Desc',
