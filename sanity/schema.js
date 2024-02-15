@@ -11,8 +11,9 @@ import multiplepurposes from './multiplepurposes'
 import officetable from './officetable'
 import sofa from './sofa'
 import sofabed from './sofabed'
+import category from './category'
 import tvcabinet from './tvcabinet'
 
 export const schema = {
-  types: [product,banner,mattress,bed,bedroomset,chair,diningset,jatifurniture,kitchen,multiplepurposes,officetable,sofa,sofabed,tvcabinet]
+  types: [product,banner,mattress,bed,bedroomset,chair,diningset,jatifurniture,kitchen,multiplepurposes,officetable,sofa,sofabed,tvcabinet,category]
 }

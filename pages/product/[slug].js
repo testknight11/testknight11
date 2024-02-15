@@ -324,6 +324,7 @@ const ProductDetails = ({ product, products }) => {
 }
 
 export const getStaticProps = async ({ params: { slug } }) => {
+
     const query = `*[_type in ["product", "mattress", "chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"] && slug.current == '${slug}'][0]`;
 
     const product = await client.fetch(query)
@@ -338,6 +339,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
 
 
 export const getStaticPaths = async () => {
+
     const products = await client.fetch(`*[_type in ["product", "mattress","chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"]]{
         
         slug{
@@ -346,8 +348,9 @@ export const getStaticPaths = async () => {
 
     }
    `)
+   console.log(products)
     const paths = products?.map((product) => ({
-        params: { slug: product.slug.current },
+        params: { slug: product?.slug?.current },
     }));
     return { paths, fallback: false }; // fallback: false means other routes should 404
 };
