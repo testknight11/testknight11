@@ -113,7 +113,7 @@ console.log(searchResultsRef.current)
       </div>
       <div>
         <div style={{ display: "flex", position: 'relative', justifyContent: 'center', alignItems: 'center  ' }}>
-          <input type="text" id="searchInput" ref={searchInputRef} placeholder="Search products..." onKeyDown={handleSearch}/>
+          <input type="text" id="searchInput" ref={searchInputRef} placeholder="Search products..." onKeyUp={handleSearch}/>
           <AiOutlineSearch style={{ position: 'absolute', right: '0' }} />
         </div>
         <div style={{display:'flex',justifyContent:'center', alignItems:'center',flexDirection:'column'}}>
