@@ -166,7 +166,7 @@ const ProductDetails = ({ product, products }) => {
 
                             </div>
                             <p>
-                                (20)
+                           
                             </p>
 
                         </div>
