@@ -325,7 +325,7 @@ const ProductDetails = ({ product, products }) => {
 
 export const getStaticProps = async ({ params: { slug } }) => {
 
-    const query = `*[_type in ["product", "mattress", "chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"] && slug.current == '${slug!==undefined?slug:""}'][0]`;
+    const query = `*[_type in ["product", "mattress", "chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"] && slug.current == '${slug}'][0]`;
 
     const product = await client.fetch(query)
     const productsQuery = `*[_type in ["${product._type}"]]`
