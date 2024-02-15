@@ -88,8 +88,8 @@ export const StateContext = ({ children }) => {
                     console.log('yesssssssssssssssssss')
                     const updatedCartItems = selectedSizes.map(cartProduct => {
                         if (cartProduct._id === product._id) {
-                            setTotalPrice(prevTotalPrice => prevTotalPrice + selectedSizePrice * (qty - cartProduct.quantity));
-                            setTotalQuantities(prevTotalQuantities => prevTotalQuantities + (qty - cartProduct.quantity));
+                            setTotalPrice(prevTotalPrice => prevTotalPrice + selectedSizePrice * qty);
+                            setTotalQuantities(prevTotalQuantities => prevTotalQuantities +qty);
                             return {
                                 ...cartProduct,
                                 quantity: cartProduct.quantity + qty
@@ -120,7 +120,7 @@ export const StateContext = ({ children }) => {
                 const checkProductInCart = selectedSizes.find(item => item._id === product._id && item.price === product.price);
 
                 if (checkProductInCart) {
-                    console.log('yesssssssssssssssssss',product)
+          
                     const updatedCartItems = selectedSizes.map(cartProduct => {
                         if (cartProduct._id === product._id) {
                             setTotalPrice(prevTotalPrice => prevTotalPrice + product.price * qty);
