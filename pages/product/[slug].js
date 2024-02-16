@@ -141,20 +141,22 @@ const ProductDetails = ({ product, products }) => {
             console.log('swipoe left')
             if(index!==0){
 
-
-            document.querySelector('.enlarged-image-container img').style.animation='slideInLeft 2s ease'
-            setTimeout(() =>document.querySelector('.enlarged-image-container img').style.animation=''
-            , 2000); // Reset animation class after a small delay
-
+                document.querySelector('.enlarged-image-container img').classList.add('slide-in-left');
+                // Remove animation class after animation ends
+                setTimeout(() => {
+                  document.querySelector('.enlarged-image-container img').classList.remove('slide-in-left');
+                }, 2000); // Adjust this value according to your animation duration
             document.querySelector('.swipe-left').click()
             }
         },
         onSwipedRight:()=>{
             console.log('swipoe right')
 if(index<document.querySelectorAll('.small-images-container img').length-1){
-            document.querySelector('.enlarged-image-container img').style.animation='slideInRight 2s ease'
-            setTimeout(() =>document.querySelector('.enlarged-image-container img').style.animation=''
-            , 2000); //
+    document.querySelector('.enlarged-image-container img').classList.add('slide-in-right');
+    // Remove animation class after animation ends
+    setTimeout(() => {
+      document.querySelector('.enlarged-image-container img').classList.remove('slide-in-right');
+    }, 2000); // Adjust this value according to your animation duration
 
 
             document.querySelector('.swipe-right').click()

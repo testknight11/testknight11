@@ -169,6 +169,16 @@ span.text-red {
   transition: transform 0.5s ease; /* Define a transition for the image */
 }
 
+
+
+.slide-in-left {
+  animation: slideInLeft 2s ease;
+}
+
+.slide-in-right {
+  animation: slideInRight 2s ease;
+}
+
 @keyframes slideInRight {
   from {
     transform: translateX(-100%);
