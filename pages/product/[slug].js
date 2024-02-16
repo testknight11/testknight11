@@ -153,8 +153,8 @@ const ProductDetails = ({ product, products }) => {
                                     className="swipe-container enlarged-product-detail-image"
                                 />
                           
-                                <button className="swipe-right" onClick={() => handleSlide('prev')}>Previous</button>
-                                <button className="swipe-left" onClick={() => handleSlide('next')}>Next</button>
+                                <button style={{display:'none'}} className="swipe-right" onClick={() => handleSlide('prev')}>Previous</button>
+                                <button style={{display:'none'}} className="swipe-left" onClick={() => handleSlide('next')}>Next</button>
                                 <button onClick={handleCloseClick}>Close</button>
                             </div>
                         )}
