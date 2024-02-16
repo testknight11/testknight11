@@ -106,7 +106,7 @@ const ProductDetails = ({ product, products }) => {
 
 
     const config = {
-        delta: 10, // Increase the minimum distance required for a swipe to be detected
+        delta: 2, // Increase the minimum distance required for a swipe to be detected
         preventScrollOnSwipe: true, // Prevent scrolling while swiping
         trackTouch: true, // Enable touch input tracking
         trackMouse: true, // Enable mouse input tracking
