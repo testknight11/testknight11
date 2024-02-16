@@ -8,9 +8,8 @@ import Layout from '../../src/app/components/Layout'; // Import the Layout compo
 import { AiOutlineMinus, AiOutlineplus, AiFillStar, AiOutlineStar, AiOutlinePlus } from 'react-icons/ai';
 import Product from '../../src/app/components/Product';
 // import ComfortIndicator from '../../src/app/components/ComfortIndicator';
-import Hammer from 'hammerjs';
-const ProductDetails = ({ product, products }) => {
 
+const ProductDetails = ({ product, products }) => {
 
     // if (!product) {
     //     return <div>Product not found</div>;
@@ -24,6 +23,46 @@ const ProductDetails = ({ product, products }) => {
     const [selectedSizePrice, setSelectedSizePrice] = useState(0); // Medium by deselectmycolorfault
     const [enlargedImage, setEnlargedImage] = useState(null);
     const { selectedColor, setSelectedColor, onAdd, decQty, incQty, qty, setShowCart, selectedSize, setSelectedSize, setSelectedSizes, setTotalPrice, selectedSizes } = useStateContext();
+    useEffect(() => {
+
+        
+    
+        // Dynamically import Hammer.js only on the client-side
+        import('hammerjs').then((Hammer) => {
+            // Check if window is defined (client-side)
+            if (typeof window !== 'undefined') {
+                // Your Hammer.js initialization code
+                const mc = new Hammer(swipeContainer);
+                // Add event listeners, configure gestures, etc.
+                
+        const swipeContainer = document.querySelector('.swipe-container');
+  
+    
+        mc.on('swipeleft', function () {
+            // Handle swipe left (go to next item)
+            // You can implement logic to navigate to the next item here
+            document.querySelector('.swipe-left').click()
+        });
+    
+        mc.on('swiperight', function () {
+            // Handle swipe right (go to previous item)
+            // You can implement logic to navigate to the previous item here
+            document.querySelector('.swipe-right').click()
+    
+        });
+            }
+        }).catch((error) => {
+            console.error('Error loading Hammer.js:', error);
+        });
+
+
+
+
+    
+    }, []); //
+
+
+
     useEffect(() => {
 
 
@@ -84,23 +123,7 @@ const ProductDetails = ({ product, products }) => {
 
 
 
-    const swipeContainer = document.querySelector('.swipe-container');
-    const mc = new Hammer(swipeContainer);
-    
-    mc.on('swipeleft', function() {
-      // Handle swipe left (go to next item)
-      // You can implement logic to navigate to the next item here
-      document.querySelector('.swipe-left').click()
-    });
-    
-    mc.on('swiperight', function() {
-      // Handle swipe right (go to previous item)
-      // You can implement logic to navigate to the previous item here
-      document.querySelector('.swipe-right').click()
-
-    });
-
-
+  
 
 
 
@@ -146,15 +169,15 @@ const ProductDetails = ({ product, products }) => {
                     <div>
                         {enlargedImage && (
                             <div className="enlarged-image-container">
-                              
+
                                 <img
                                     src={enlargedImage}
                                     alt="enlarged-product"
                                     className="swipe-container enlarged-product-detail-image"
                                 />
-                          
-                                <button style={{display:'none'}} className="swipe-right" onClick={() => handleSlide('prev')}>Previous</button>
-                                <button style={{display:'none'}} className="swipe-left" onClick={() => handleSlide('next')}>Next</button>
+
+                                <button style={{ display: 'none' }} className="swipe-right" onClick={() => handleSlide('prev')}>Previous</button>
+                                <button style={{ display: 'none' }} className="swipe-left" onClick={() => handleSlide('next')}>Next</button>
                                 <button onClick={handleCloseClick}>Close</button>
                             </div>
                         )}
