@@ -104,6 +104,17 @@ const ProductDetails = ({ product, products }) => {
 
     }, [product])
 
+
+    const config = {
+        delta: 10, // Increase the minimum distance required for a swipe to be detected
+        preventScrollOnSwipe: true, // Prevent scrolling while swiping
+        trackTouch: true, // Enable touch input tracking
+        trackMouse: true, // Enable mouse input tracking
+        rotationAngle: 45, // Rotate the swiped element by 45 degrees
+        swipeDuration: 500, // Set the maximum duration of a swipe to 500 milliseconds
+        touchEventOptions: { passive: false }, // Customize touch event options
+      };
+
     const handleSlide = (direction) => {
         if (direction === 'next') {
             if (imageOfIndex && index < colors.length - 1) {
@@ -128,14 +139,26 @@ const ProductDetails = ({ product, products }) => {
     const handleSwipe = useSwipeable({
         onSwipedLeft: () =>{
             console.log('swipoe left')
+ 
+
+            document.querySelector('.enlarged-image-container img').style.animation='slideInLeft 2s ease'
+            setTimeout(() =>document.querySelector('.enlarged-image-container img').style.animation=''
+            , 2000); // Reset animation class after a small delay
+
             document.querySelector('.swipe-left').click()
         },
         onSwipedRight:()=>{
             console.log('swipoe right')
 
+            document.querySelector('.enlarged-image-container img').style.animation='slideInRight 2s ease'
+            setTimeout(() =>document.querySelector('.enlarged-image-container img').style.animation=''
+            , 2000); //
+
+
             document.querySelector('.swipe-right').click()
     
-        }
+        },
+        ...config,
 
       });
 
@@ -197,12 +220,12 @@ const ProductDetails = ({ product, products }) => {
                     <div>
                         {enlargedImage && (
                             <div className="enlarged-image-container">
-                                <div className="enlarged-image-container" {...handleSwipe} style={{ position: 'relative' }}>
+                                <div className="enlarged-image-container" {...handleSwipe}>
                     
                                     <img
                                         src={enlargedImage}
                                         alt="enlarged-product"
-                                        className="swipe-container enlarged-product-detail-image"
+                                        className="enlarged-product-detail-image"
                                   
                                     />
                            
