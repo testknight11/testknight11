@@ -38,7 +38,7 @@ a {
 
 .navbar-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin: 6px 18px;
   position: relative;
 }
@@ -926,7 +926,11 @@ z-index:1;
     animation: marquee 10s linear infinite;
     width: 550%;
   }
-
+  .searchResults{
+    position:absolute;top:100%;margin:auto;z-index:50;background-color:cyan;color:white
+  }
+  .searchResults a:hover{
+background-color: white;color:red;  }
   .success-wrapper,
   .cancel-wrapper {
 

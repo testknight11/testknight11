@@ -20,7 +20,7 @@ const Home = () => {
         //     setBannerProduct(matchingProduct);
         // }
 console.log(bannerData)
-
+console.log(categories)
         setCategories(categories);
         setBannerData(bannerData);
         // console.log(products)
@@ -43,6 +43,9 @@ console.log(bannerData)
       <div className="products-container">
         {categories.map((category) => (
           <Category key={category._id} category={category} />
+
+
+          
         ))}
       </div>
       <FooterBanner bannerPrd={bannerProduct} footerBanner={bannerData && bannerData[0]} />
