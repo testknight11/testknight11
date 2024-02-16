@@ -9,7 +9,7 @@ import { AiOutlineMinus, AiOutlineplus, AiFillStar, AiOutlineStar, AiOutlinePlus
 import Product from '../../src/app/components/Product';
 // import ComfortIndicator from '../../src/app/components/ComfortIndicator';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { useSwipeable} from 'react-swipeable';
+import { useSwipeable } from 'react-swipeable';
 const ProductDetails = ({ product, products }) => {
 
     // if (!product) {
@@ -113,7 +113,7 @@ const ProductDetails = ({ product, products }) => {
         rotationAngle: 45, // Rotate the swiped element by 45 degrees
         swipeDuration: 500, // Set the maximum duration of a swipe to 500 milliseconds
         touchEventOptions: { passive: false }, // Customize touch event options
-      };
+    };
 
     const handleSlide = (direction) => {
         if (direction === 'next') {
@@ -137,46 +137,46 @@ const ProductDetails = ({ product, products }) => {
 
 
     const handleSwipe = useSwipeable({
-        onSwipedLeft: () =>{
+        onSwipedLeft: () => {
             console.log('swipoe left')
-            if(index!==0){
+            if (index !== 0) {
 
                 document.querySelector('.enlarged-image-container img').classList.add('slide-in-left');
                 // Remove animation class after animation ends
                 setTimeout(() => {
-                  document.querySelector('.enlarged-image-container img').classList.remove('slide-in-left');
+                    document.querySelector('.enlarged-image-container img').classList.remove('slide-in-left');
                 }, 2000); // Adjust this value according to your animation duration
-            document.querySelector('.swipe-left').click()
+                document.querySelector('.swipe-left').click()
             }
         },
-        onSwipedRight:()=>{
+        onSwipedRight: () => {
             console.log('swipoe right')
-if(index<document.querySelectorAll('.small-images-container img').length-1){
-    document.querySelector('.enlarged-image-container img').classList.add('slide-in-right');
-    // Remove animation class after animation ends
-    setTimeout(() => {
-      document.querySelector('.enlarged-image-container img').classList.remove('slide-in-right');
-    }, 2000); // Adjust this value according to your animation duration
+            if (index < document.querySelectorAll('.small-images-container img').length - 1) {
+                document.querySelector('.enlarged-image-container img').classList.add('slide-in-right');
+                // Remove animation class after animation ends
+                setTimeout(() => {
+                    document.querySelector('.enlarged-image-container img').classList.remove('slide-in-right');
+                }, 2000); // Adjust this value according to your animation duration
 
 
-            document.querySelector('.swipe-right').click()
-}
+                document.querySelector('.swipe-right').click()
+            }
         },
         ...config,
 
-      });
+    });
 
 
 
 
     // const handleSwipeLeft = () => {
     //     // Update currentIndex for left swipe
-        
+
     // };
 
     // const handleSwipeRight = () => {
     //     // Update currentIndex for right swipe
-       
+
     // };
 
 
@@ -225,14 +225,14 @@ if(index<document.querySelectorAll('.small-images-container img').length-1){
                         {enlargedImage && (
                             <div>
                                 <div className="enlarged-image-container" {...handleSwipe}>
-                    
+
                                     <img
                                         src={enlargedImage}
                                         alt="enlarged-product"
                                         className="enlarged-product-detail-image"
-                 
+
                                     />
-                           
+
 
                                     <button style={{ position: 'absolute', zIndex: '500', top: '50%', left: '90%' }} className="swipe-right" onClick={() => handleSlide('next')}><FaChevronRight /></button>
                                     <button style={{ position: 'absolute', zIndex: '500', top: '50%', right: '90%' }} className="swipe-left" onClick={() => handleSlide('prev')}><FaChevronLeft /></button>
