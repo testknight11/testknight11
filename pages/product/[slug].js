@@ -25,8 +25,8 @@ const ProductDetails = ({ product, products }) => {
     const { selectedColor, setSelectedColor, onAdd, decQty, incQty, qty, setShowCart, selectedSize, setSelectedSize, setSelectedSizes, setTotalPrice, selectedSizes } = useStateContext();
     useEffect(() => {
 
-        
-    
+
+
         // Dynamically import Hammer.js only on the client-side
         import('hammerjs').then((Hammer) => {
             // Check if window is defined (client-side)
@@ -34,22 +34,22 @@ const ProductDetails = ({ product, products }) => {
                 // Your Hammer.js initialization code
                 const mc = new Hammer(swipeContainer);
                 // Add event listeners, configure gestures, etc.
-                
-        const swipeContainer = document.querySelector('.swipe-container');
-  
-    
-        mc.on('swipeleft', function () {
-            // Handle swipe left (go to next item)
-            // You can implement logic to navigate to the next item here
-            document.querySelector('.swipe-left').click()
-        });
-    
-        mc.on('swiperight', function () {
-            // Handle swipe right (go to previous item)
-            // You can implement logic to navigate to the previous item here
-            document.querySelector('.swipe-right').click()
-    
-        });
+
+                const swipeContainer = document.querySelector('.swipe-container');
+
+
+                mc.on('swipeleft', function () {
+                    // Handle swipe left (go to next item)
+                    // You can implement logic to navigate to the next item here
+                    document.querySelector('.swipe-left').click()
+                });
+
+                mc.on('swiperight', function () {
+                    // Handle swipe right (go to previous item)
+                    // You can implement logic to navigate to the previous item here
+                    document.querySelector('.swipe-right').click()
+
+                });
             }
         }).catch((error) => {
             console.error('Error loading Hammer.js:', error);
@@ -58,7 +58,7 @@ const ProductDetails = ({ product, products }) => {
 
 
 
-    
+
     }, []); //
 
 
@@ -123,7 +123,7 @@ const ProductDetails = ({ product, products }) => {
 
 
 
-  
+
 
 
 
