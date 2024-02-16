@@ -8,7 +8,7 @@ import Layout from '../../src/app/components/Layout'; // Import the Layout compo
 import { AiOutlineMinus, AiOutlineplus, AiFillStar, AiOutlineStar, AiOutlinePlus } from 'react-icons/ai';
 import Product from '../../src/app/components/Product';
 // import ComfortIndicator from '../../src/app/components/ComfortIndicator';
-
+import Hammer from 'hammerjs';
 const ProductDetails = ({ product, products }) => {
 
 
@@ -62,6 +62,51 @@ const ProductDetails = ({ product, products }) => {
 
     }, [product])
 
+    const handleSlide = (direction) => {
+        if (direction === 'next') {
+            if (imageOfIndex && index < colors.length - 1) {
+                setIndexColors(index + 1);
+                setEnlargedImage(urlFor(colors[indexColors + 1].image));
+            } else if (!imageOfIndex && index < image.length - 1) {
+                setIndex(index + 1);
+                setEnlargedImage(urlFor(image[index + 1]));
+            }
+        } else if (direction === 'prev') {
+            if (imageOfIndex && index > 0) {
+                setIndexColors(index - 1);
+                setEnlargedImage(urlFor(colors[index - 1].image));
+            } else if (!imageOfIndex && index > 0) {
+                setIndex(index - 1);
+                setEnlargedImage(urlFor(image[index - 1]));
+            }
+        }
+    };
+
+
+
+    const swipeContainer = document.querySelector('.swipe-container');
+    const mc = new Hammer(swipeContainer);
+    
+    mc.on('swipeleft', function() {
+      // Handle swipe left (go to next item)
+      // You can implement logic to navigate to the next item here
+      document.querySelector('.swipe-left').click()
+    });
+    
+    mc.on('swiperight', function() {
+      // Handle swipe right (go to previous item)
+      // You can implement logic to navigate to the previous item here
+      document.querySelector('.swipe-right').click()
+
+    });
+
+
+
+
+
+
+
+
 
 
 
@@ -101,11 +146,15 @@ const ProductDetails = ({ product, products }) => {
                     <div>
                         {enlargedImage && (
                             <div className="enlarged-image-container">
+                              
                                 <img
                                     src={enlargedImage}
                                     alt="enlarged-product"
-                                    className="enlarged-product-detail-image"
+                                    className="swipe-container enlarged-product-detail-image"
                                 />
+                          
+                                <button className="swipe-right" onClick={() => handleSlide('prev')}>Previous</button>
+                                <button className="swipe-left" onClick={() => handleSlide('next')}>Next</button>
                                 <button onClick={handleCloseClick}>Close</button>
                             </div>
                         )}
@@ -166,7 +215,7 @@ const ProductDetails = ({ product, products }) => {
 
                             </div>
                             <p>
-                           
+
                             </p>
 
                         </div>
@@ -177,8 +226,8 @@ const ProductDetails = ({ product, products }) => {
                             {details}
                         </p>
                         <p className="price">
-                               {!selectedSizePrice && prices && Array.isArray(prices) && prices.length > 0 ? prices[0].price : selectedSizePrice ? '$ '+selectedSizePrice :  price !== undefined ? "$ "+price 
-            : ''}
+                            {!selectedSizePrice && prices && Array.isArray(prices) && prices.length > 0 ? prices[0].price : selectedSizePrice ? '$ ' + selectedSizePrice : price !== undefined ? "$ " + price
+                                : ''}
                         </p>
                         <div>
                             {/* Your other JSX code... */}
@@ -222,7 +271,7 @@ const ProductDetails = ({ product, products }) => {
                                 </div>
                             ) : (
                                 <h4>
-                                    {price!==undefined?'$ '+price:""}
+                                    {price !== undefined ? '$ ' + price : ""}
                                 </h4>
                             )}
                             {/* Your other JSX code... */}
@@ -256,7 +305,7 @@ const ProductDetails = ({ product, products }) => {
                                 const colorImage = colors?.find(item => item.name === e.target.value)?.image; // Using optional chaining for safety
                                 setImageOfColor(colorImage);
                                 product['color'] = e.target.value
-                            }    
+                            }
                             }>
                                 {
                                     colors?.map((item, i) => (
@@ -348,7 +397,7 @@ export const getStaticPaths = async () => {
 
     }
    `)
-   console.log(products)
+    console.log(products)
     const paths = products?.map((product) => ({
         params: { slug: product?.slug?.current },
     }));
