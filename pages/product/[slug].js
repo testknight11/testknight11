@@ -117,18 +117,12 @@ const ProductDetails = ({ product, products }) => {
 
     const handleSlide = (direction) => {
         if (direction === 'next') {
-            if (imageOfIndex && index < colors.length - 1) {
-                setIndexColors(index + 1);
-                setEnlargedImage(urlFor(colors[indexColors + 1].image));
-            } else if (!imageOfIndex && index < image.length - 1) {
+            if (index < image.length - 1) {
                 setIndex(index + 1);
                 setEnlargedImage(urlFor(image[index + 1]));
             }
         } else if (direction === 'prev') {
-            if (imageOfIndex && index > 0) {
-                setIndexColors(index - 1);
-                setEnlargedImage(urlFor(colors[index - 1].image));
-            } else if (!imageOfIndex && index > 0) {
+            if (index > 0) {
                 setIndex(index - 1);
                 setEnlargedImage(urlFor(image[index - 1]));
             }
@@ -139,28 +133,33 @@ const ProductDetails = ({ product, products }) => {
     const handleSwipe = useSwipeable({
         onSwipedLeft: () => {
             console.log('swipoe left')
-            if (index !== 0) {
-
+            document.querySelector('.swipe-left').click()
+            if (index > 0) {
+                
                 document.querySelector('.enlarged-image-container img').classList.add('slide-in-left');
                 // Remove animation class after animation ends
                 setTimeout(() => {
                     document.querySelector('.enlarged-image-container img').classList.remove('slide-in-left');
-                }, 2000); // Adjust this value according to your animation duration
-                document.querySelector('.swipe-left').click()
+                }, 1000); // Adjust this value according to your animation duration
             }
+               
+
+          
         },
         onSwipedRight: () => {
             console.log('swipoe right')
-            if (index < document.querySelectorAll('.small-images-container img').length - 1) {
+            if (index < image.length - 1) {
+
+
                 document.querySelector('.enlarged-image-container img').classList.add('slide-in-right');
                 // Remove animation class after animation ends
                 setTimeout(() => {
                     document.querySelector('.enlarged-image-container img').classList.remove('slide-in-right');
-                }, 2000); // Adjust this value according to your animation duration
 
-
-                document.querySelector('.swipe-right').click()
+                }, 1000); // Adjust this value according to your animation duration
             }
+                document.querySelector('.swipe-right').click()
+      
         },
         ...config,
 
