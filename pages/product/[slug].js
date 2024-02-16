@@ -139,24 +139,26 @@ const ProductDetails = ({ product, products }) => {
     const handleSwipe = useSwipeable({
         onSwipedLeft: () =>{
             console.log('swipoe left')
- 
+            if(index!==0){
+
 
             document.querySelector('.enlarged-image-container img').style.animation='slideInLeft 2s ease'
             setTimeout(() =>document.querySelector('.enlarged-image-container img').style.animation=''
             , 2000); // Reset animation class after a small delay
 
             document.querySelector('.swipe-left').click()
+            }
         },
         onSwipedRight:()=>{
             console.log('swipoe right')
-
+if(index<document.querySelectorAll('.small-images-container img').length-1){
             document.querySelector('.enlarged-image-container img').style.animation='slideInRight 2s ease'
             setTimeout(() =>document.querySelector('.enlarged-image-container img').style.animation=''
             , 2000); //
 
 
             document.querySelector('.swipe-right').click()
-    
+}
         },
         ...config,
 
@@ -219,19 +221,19 @@ const ProductDetails = ({ product, products }) => {
                 <div className="product-detail-container">
                     <div>
                         {enlargedImage && (
-                            <div className="enlarged-image-container">
+                            <div>
                                 <div className="enlarged-image-container" {...handleSwipe}>
                     
                                     <img
                                         src={enlargedImage}
                                         alt="enlarged-product"
                                         className="enlarged-product-detail-image"
-                                  
+                 
                                     />
                            
 
                                     <button style={{ position: 'absolute', zIndex: '500', top: '50%', left: '90%' }} className="swipe-right" onClick={() => handleSlide('next')}><FaChevronRight /></button>
-                                    <button style={{ position: 'absolute', zIndex: '500', top: '50%', rightt: '90%' }} className="swipe-left" onClick={() => handleSlide('prev')}><FaChevronLeft /></button>
+                                    <button style={{ position: 'absolute', zIndex: '500', top: '50%', right: '90%' }} className="swipe-left" onClick={() => handleSlide('prev')}><FaChevronLeft /></button>
                                     <button onClick={handleCloseClick}>Close</button>
                                 </div>
                             </div>
