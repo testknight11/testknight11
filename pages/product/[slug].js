@@ -9,6 +9,7 @@ import { AiOutlineMinus, AiOutlineplus, AiFillStar, AiOutlineStar, AiOutlinePlus
 import Product from '../../src/app/components/Product';
 // import ComfortIndicator from '../../src/app/components/ComfortIndicator';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { Swipeable } from 'react-swipeable';
 const ProductDetails = ({ product, products }) => {
 
     // if (!product) {
@@ -23,44 +24,45 @@ const ProductDetails = ({ product, products }) => {
     const [selectedSizePrice, setSelectedSizePrice] = useState(0); // Medium by deselectmycolorfault
     const [enlargedImage, setEnlargedImage] = useState(null);
     const { selectedColor, setSelectedColor, onAdd, decQty, incQty, qty, setShowCart, selectedSize, setSelectedSize, setSelectedSizes, setTotalPrice, selectedSizes } = useStateContext();
-    useEffect(() => {
+    // useEffect(() => {
 
 
 
-        // Dynamically import Hammer.js only on the client-side
-        import('hammerjs').then((Hammer) => {
-            // Check if window is defined (client-side)
-            if (typeof window !== 'undefined') {
-                
-                const swipeContainer = document.querySelector('.swipe-container');
+    //     // Dynamically import Hammer.js only on the client-side
+    //     import('hammerjs').then((Hammer) => {
+    //         // Check if window is defined (client-side)
+    //         if (typeof window !== 'undefined') {
+
+    //             const swipeContainer = document.querySelector('.swipe-container');
 
 
-                // Your Hammer.js initialization code
-                const mc = new Hammer(swipeContainer);
-                // Add event listeners, configure gestures, etc.
+    //             // Your Hammer.js initialization code
+    //             const mc = new Hammer(swipeContainer);
+    //             // Add event listeners, configure gestures, etc.
 
-                mc.on('swipeleft', function () {
-                    // Handle swipe left (go to next item)
-                    // You can implement logic to navigate to the next item here
-                    document.querySelector('.swipe-left').click()
-                });
+    //             mc.on('swipeleft', function () {
+    //                 // Handle swipe left (go to next item)
+    //                 // You can implement logic to navigate to the next item here
+    //                 document.querySelector('.swipe-left').click()
+    //             });
 
-                mc.on('swiperight', function () {
-                    // Handle swipe right (go to previous item)
-                    // You can implement logic to navigate to the previous item here
-                    document.querySelector('.swipe-right').click()
+    //             mc.on('swiperight', function () {
+    //                 // Handle swipe right (go to previous item)
+    //                 // You can implement logic to navigate to the previous item here
+    //                 document.querySelector('.swipe-right').click()
 
-                });
-            }
-        }).catch((error) => {
-            console.error('Error loading Hammer.js:', error);
-        });
-
-
+    //             });
+    //         }
+    //     }).catch((error) => {
+    //         console.error('Error loading Hammer.js:', error);
+    //     });
 
 
 
-    }, []); //
+
+
+    // }, []); //
+
 
 
 
@@ -128,6 +130,20 @@ const ProductDetails = ({ product, products }) => {
 
 
 
+    const handleSwipeLeft = () => {
+        // Update currentIndex for left swipe
+        document.querySelector('swipe-left').click()
+    };
+
+    const handleSwipeRight = () => {
+        // Update currentIndex for right swipe
+        document.querySelector('swipe-right').click()
+
+    };
+
+
+
+
 
 
 
@@ -170,11 +186,13 @@ const ProductDetails = ({ product, products }) => {
                     <div>
                         {enlargedImage && (
                             <div className="enlarged-image-container">
-                                <div className="enlarged-image-container" style={{position:'relative'}}>
+                                <div className="enlarged-image-container" style={{ position: 'relative' }}>
                                     <img
                                         src={enlargedImage}
                                         alt="enlarged-product"
                                         className="swipe-container enlarged-product-detail-image"
+                                        onSwipeLeft={handleSwipeLeft}
+                                        onSwipeRight={handleSwipeRight}
                                     />
 
                                     <button style={{ position: 'absolute', zIndex: '500', top: '50%', left: '90%' }} className="swipe-right" onClick={() => handleSlide('next')}><FaChevronRight /></button>
