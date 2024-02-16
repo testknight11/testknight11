@@ -132,8 +132,8 @@ const ProductDetails = ({ product, products }) => {
 
     const handleSwipe = useSwipeable({
         onSwipedLeft: () => {
-            console.log('swipoe left')
-            document.querySelector('.swipe-left').click()
+            console.log('swipoe right')
+            document.querySelector('.swipe-right').click()
             if (index > 0) {
                 
                 document.querySelector('.enlarged-image-container img').classList.add('slide-in-left');
@@ -147,7 +147,7 @@ const ProductDetails = ({ product, products }) => {
           
         },
         onSwipedRight: () => {
-            console.log('swipoe right')
+            console.log('swipoe left')
             if (index < image.length - 1) {
 
 
@@ -158,7 +158,7 @@ const ProductDetails = ({ product, products }) => {
 
                 }, 1000); // Adjust this value according to your animation duration
             }
-                document.querySelector('.swipe-right').click()
+                document.querySelector('.swipe-left').click()
       
         },
         ...config,
