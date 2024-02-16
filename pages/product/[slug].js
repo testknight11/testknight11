@@ -8,7 +8,7 @@ import Layout from '../../src/app/components/Layout'; // Import the Layout compo
 import { AiOutlineMinus, AiOutlineplus, AiFillStar, AiOutlineStar, AiOutlinePlus } from 'react-icons/ai';
 import Product from '../../src/app/components/Product';
 // import ComfortIndicator from '../../src/app/components/ComfortIndicator';
-
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 const ProductDetails = ({ product, products }) => {
 
     // if (!product) {
@@ -169,16 +169,17 @@ const ProductDetails = ({ product, products }) => {
                     <div>
                         {enlargedImage && (
                             <div className="enlarged-image-container">
+                                <div className="enlarged-image-container" style={{position:'relative'}}>
+                                    <img
+                                        src={enlargedImage}
+                                        alt="enlarged-product"
+                                        className="swipe-container enlarged-product-detail-image"
+                                    />
 
-                                <img
-                                    src={enlargedImage}
-                                    alt="enlarged-product"
-                                    className="swipe-container enlarged-product-detail-image"
-                                />
-
-                                <button style={{ display: 'none' }} className="swipe-right" onClick={() => handleSlide('prev')}>Previous</button>
-                                <button style={{ display: 'none' }} className="swipe-left" onClick={() => handleSlide('next')}>Next</button>
-                                <button onClick={handleCloseClick}>Close</button>
+                                    <button style={{ position: 'absolute', zIndex: '500', top: '50%', left: '90%' }} className="swipe-right" onClick={() => handleSlide('next')}><FaChevronRight /></button>
+                                    <button style={{ position: 'absolute', zIndex: '500', top: '50%', rightt: '90%' }} className="swipe-left" onClick={() => handleSlide('prev')}><FaChevronLeft /></button>
+                                    <button onClick={handleCloseClick}>Close</button>
+                                </div>
                             </div>
                         )}
                         <div className="image-container">
