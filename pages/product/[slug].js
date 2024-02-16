@@ -132,12 +132,15 @@ const ProductDetails = ({ product, products }) => {
 
     const handleSwipeLeft = () => {
         // Update currentIndex for left swipe
-        document.querySelector('swipe-left').click()
+        console.log('swipoe left')
+        document.querySelector('.swipe-left').click()
     };
 
     const handleSwipeRight = () => {
         // Update currentIndex for right swipe
-        document.querySelector('swipe-right').click()
+        console.log('swipoe right')
+
+        document.querySelector('.swipe-right').click()
 
     };
 
@@ -186,13 +189,12 @@ const ProductDetails = ({ product, products }) => {
                     <div>
                         {enlargedImage && (
                             <div className="enlarged-image-container">
-                                <div className="enlarged-image-container" style={{ position: 'relative' }}>
+                                <div className="enlarged-image-container" onSwipeLeft={handleSwipeLeft} onSwipeRight={handleSwipeRight} style={{ position: 'relative' }}>
                                     <img
                                         src={enlargedImage}
                                         alt="enlarged-product"
                                         className="swipe-container enlarged-product-detail-image"
-                                        onSwipeLeft={handleSwipeLeft}
-                                        onSwipeRight={handleSwipeRight}
+                                  
                                     />
 
                                     <button style={{ position: 'absolute', zIndex: '500', top: '50%', left: '90%' }} className="swipe-right" onClick={() => handleSlide('next')}><FaChevronRight /></button>
