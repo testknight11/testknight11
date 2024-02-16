@@ -31,12 +31,13 @@ const ProductDetails = ({ product, products }) => {
         import('hammerjs').then((Hammer) => {
             // Check if window is defined (client-side)
             if (typeof window !== 'undefined') {
+                
+                const swipeContainer = document.querySelector('.swipe-container');
+
+
                 // Your Hammer.js initialization code
                 const mc = new Hammer(swipeContainer);
                 // Add event listeners, configure gestures, etc.
-
-                const swipeContainer = document.querySelector('.swipe-container');
-
 
                 mc.on('swipeleft', function () {
                     // Handle swipe left (go to next item)
