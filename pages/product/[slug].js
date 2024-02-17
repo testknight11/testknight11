@@ -141,7 +141,7 @@ const ProductDetails = ({ product, products }) => {
                 // Remove animation class after animation ends
                 setTimeout(() => {
                     document.querySelector('.enlarged-image-container img').classList.remove('slide-in-left');
-                }, 1000); // Adjust this value according to your animation duration
+                }, 500); // Adjust this value according to your animation duration
             }
                
           
@@ -157,7 +157,7 @@ const ProductDetails = ({ product, products }) => {
                 setTimeout(() => {
                     document.querySelector('.enlarged-image-container img').classList.remove('slide-in-right');
 
-                }, 1000); // Adjust this value according to your animation duration
+                }, 500); // Adjust this value according to your animation duration
             }
            
       

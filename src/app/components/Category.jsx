@@ -16,8 +16,10 @@ function Category({ category: { image, name, slug } }) {
     );
   }
   return (
+
     <div>
-      <Link href={`/category/${slug.current}`}>
+  
+      <Link style={{display:'flex',justifyContent:'center',alignItems:'center'}} href={`/category/${slug.current}`}>
         <div className="product-card">
           <img
             src={urlFor(image && image[0])}
@@ -37,6 +39,7 @@ function Category({ category: { image, name, slug } }) {
 
       </Link>
     </div>
+
   )
 }
 

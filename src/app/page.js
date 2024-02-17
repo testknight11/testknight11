@@ -40,7 +40,9 @@ console.log(categories)
         <h2>Best selling product</h2>
         <p>dining tables of many variations</p>
       </div>
+      <p style={{display:'flex',justifyContent:'center',alignItems:'center'}}>Categories:</p>
       <div className="products-container">
+     
         {categories.map((category) => (
           <Category key={category._id} category={category} />
 

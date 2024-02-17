@@ -201,11 +201,11 @@ text-align: center;
 }
 
 .slide-in-left {
-  animation: slideInLeft 1s ease;
+  animation: slideInLeft 0.5s ease;
 }
 
 .slide-in-right {
-  animation: slideInRight 1s ease;
+  animation: slideInRight 0.5s ease;
 }
 
 @keyframes slideInRight {
@@ -846,8 +846,8 @@ text-align: center;
     transition: transform 0.5s ease;
     max-width: 140px;
     max-height: 140px;
-    min-width: 100px;
-    min-height: 100px;
+    min-width: 140px;
+    min-height: 140px;
   }
 
 
