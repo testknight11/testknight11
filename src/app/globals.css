@@ -147,6 +147,7 @@ text-align: center;
 }
 
 .enlarged-image-container {
+  overflow: hidden;
   position: relative;
   width: 100%; 
   overflow: hidden;
@@ -167,6 +168,9 @@ text-align: center;
 
 
 @media (max-width: 768px) {
+  .chevron-phone{
+    display:none;
+  }
   .product-card {
     display:flex;
     justify-content: center;
@@ -930,8 +934,13 @@ text-align: center;
   .product-detail-container .product-detail-image {
     width: 350px;
     height: 350px;
+    box-sizing: border-box;
   }
-
+.image-container{
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
   .cart-container {
     width: 415px;
     padding: 4px;

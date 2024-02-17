@@ -24,45 +24,11 @@ const ProductDetails = ({ product, products }) => {
     const [selectedSizePrice, setSelectedSizePrice] = useState(0); // Medium by deselectmycolorfault
     const [enlargedImage, setEnlargedImage] = useState(null);
     const { selectedColor, setSelectedColor, onAdd, decQty, incQty, qty, setShowCart, selectedSize, setSelectedSize, setSelectedSizes, setTotalPrice, selectedSizes } = useStateContext();
-    // useEffect(() => {
-
-
-
-    //     // Dynamically import Hammer.js only on the client-side
-    //     import('hammerjs').then((Hammer) => {
-    //         // Check if window is defined (client-side)
-    //         if (typeof window !== 'undefined') {
-
-    //             const swipeContainer = document.querySelector('.swipe-container');
-
-
-    //             // Your Hammer.js initialization code
-    //             const mc = new Hammer(swipeContainer);
-    //             // Add event listeners, configure gestures, etc.
-
-    //             mc.on('swipeleft', function () {
-    //                 // Handle swipe left (go to next item)
-    //                 // You can implement logic to navigate to the next item here
-    //                 document.querySelector('.swipe-left').click()
-    //             });
-
-    //             mc.on('swiperight', function () {
-    //                 // Handle swipe right (go to previous item)
-    //                 // You can implement logic to navigate to the previous item here
-    //                 document.querySelector('.swipe-right').click()
-
-    //             });
-    //         }
-    //     }).catch((error) => {
-    //         console.error('Error loading Hammer.js:', error);
-    //     });
 
 
 
 
-
-    // }, []); //
-
+    // Dynamically import Hammer.js only on the client-side
 
 
 
@@ -128,28 +94,40 @@ const ProductDetails = ({ product, products }) => {
             }
         }
     };
+    const handleSlideMain = (direction) => {
+        if (direction === 'next') {
+            if (index < image.length - 1) {
+                setIndex(index + 1);
 
+            }
+        } else if (direction === 'prev') {
+            if (index > 0) {
+                setIndex(index - 1);
+
+            }
+        }
+    };
 
     const handleSwipe = useSwipeable({
         onSwipedLeft: () => {
             console.log('swipoe left')
-   
+
             document.querySelector('.swipe-right').click()
-    if (index < image.length - 1) {
-                
+            if (index < image.length - 1) {
+
                 document.querySelector('.enlarged-image-container img').classList.add('slide-in-left');
                 // Remove animation class after animation ends
                 setTimeout(() => {
                     document.querySelector('.enlarged-image-container img').classList.remove('slide-in-left');
                 }, 500); // Adjust this value according to your animation duration
             }
-               
-          
+
+
         },
         onSwipedRight: () => {
             console.log('swipoe right')
             document.querySelector('.swipe-left').click()
-            if (index > 0) {     
+            if (index > 0) {
 
 
                 document.querySelector('.enlarged-image-container img').classList.add('slide-in-right');
@@ -159,13 +137,48 @@ const ProductDetails = ({ product, products }) => {
 
                 }, 500); // Adjust this value according to your animation duration
             }
-           
-      
+
+
         },
         ...config,
 
     });
 
+    const handleSwipeMain = useSwipeable({
+        // Check if window is defined (client-side)
+        onSwipedLeft: () => {
+            // Handle swipe left (go to next item)
+            // You can implement logic to navigate to the next item here
+            document.querySelector('.swipe-right-main').click()
+            if (index < image.length - 1) {
+
+                document.querySelector('.swipe-item').classList.add('slide-in-left');
+                // Remove animation class after animation ends
+                setTimeout(() => {
+                    document.querySelector('.swipe-item').classList.remove('slide-in-left');
+                }, 500); // Adjust this value according to your animation duration
+            }
+
+        },
+
+        // Handle swipe right (go to previous item)
+        // You can implement logic to navigate to the previous item here
+        onSwipedRight: () => {
+            console.log('swipe rightttttttttt')
+            document.querySelector('.swipe-left-main').click()
+            if (index > 0) {
+
+                document.querySelector('.swipe-item').classList.add('slide-in-right');
+                // Remove animation class after animation ends
+                setTimeout(() => {
+                    document.querySelector('.swipe-item').classList.remove('slide-in-right');
+                }, 500); // Adjust this value according to your animation duration
+            }
+
+
+        },
+        ...config
+    })
 
 
 
@@ -240,11 +253,19 @@ const ProductDetails = ({ product, products }) => {
                                 </div>
                             </div>
                         )}
-                        <div className="image-container">
-                            {!imageOfIndex && <img onClick={() => handleImageClick(urlFor(image && image[index]))}
+                        <div className="image-container swipe-container">
+                    
+                            {!imageOfIndex && <div style={{position:'relative'}}><img onClick={() => handleImageClick(urlFor(image && image[index]))}
                                 src={urlFor(image && image[index])}
                                 alt="product"
-                                className="product-detail-image" />}
+                                className="product-detail-image swipe-item"
+
+                                {...handleSwipeMain} />
+                                <button style={{ position: 'absolute', zIndex: '500', top: '50%', left: '90%' }} className="swipe-right-main" onClick={() => handleSlideMain('next')}><FaChevronRight className='chevron-phone' style={{fontSize:'40px',color:'grey'}}/></button>
+                            <button style={{ position: 'absolute', zIndex: '500', top: '50%', right: '90%' }} className="swipe-left-main" onClick={() => handleSlideMain('prev')}><FaChevronLeft className='chevron-phone' style={{fontSize:'40px',color:'grey'}}/></button>
+                                </div>
+                            }
+                            
                             {imageOfIndex && <img src={urlFor(colors[indexColors].image && colors[indexColors].image)} alt="product" className="product-detail-image" />}
                         </div>
                         <div className="small-images-container">
