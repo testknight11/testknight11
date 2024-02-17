@@ -246,6 +246,7 @@ text-align: center;
 
 .product-name {
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .product-price {
