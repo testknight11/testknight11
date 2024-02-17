@@ -29,7 +29,6 @@ function Product({ product: { image, name, slug, price, _type, prices } }) {
             {name}
           </p>
           <p className="product-price">
-            {_type === 'mattress' || _type === 'bed' ? `$${prices?[0]?.price}` : (price !== undefined ? `$${price}` : '')}
           </p>
          
         </div>
