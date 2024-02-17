@@ -329,8 +329,7 @@ const ProductDetails = ({ product, products }) => {
                             {details}
                         </p>
                         <p className="price">
-                            {!selectedSizePrice && prices && Array.isArray(prices) && prices.length > 0 ? prices[0].price : selectedSizePrice ? '$ ' + selectedSizePrice : price !== undefined ? "$ " + price
-                                : ''}
+                            {/* {!selectedSizePrice && prices && Array.isArray(prices) && prices.length > 0 ? prices[0].price : selectedSizePrice ? '$ ' + selectedSizePrice : price !== undefined ? "$ " + price: ''} */}
                         </p>
                         <div>
                             {/* Your other JSX code... */}
