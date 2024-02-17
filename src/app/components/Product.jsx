@@ -15,8 +15,8 @@ function Product({ product: { image, name, slug, price, _type, prices } }) {
     );
   }
   return (
-    <div>
-      <Link href={`/product/${slug.current}`}>
+    <div style={{display:'flex',justifyContent:'center',alignItems:"center"}}>
+      <Link style={{display:'flex',justifyContent:'center',alignItems:"center"}} href={`/product/${slug.current}`}>
         <div className="product-card">
           <img
             src={urlFor(image && image[0])}
