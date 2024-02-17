@@ -188,8 +188,8 @@ text-align: center;
  @media screen and (max-width:800px) {
 
   .enlarged-image-container img.enlarged-product-detail-image {
-    width: 100vw;
-    height: auto;
+    width: 100vw; 
+    height: 60vh;
     z-index: 1;
   }
 

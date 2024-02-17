@@ -132,9 +132,10 @@ const ProductDetails = ({ product, products }) => {
 
     const handleSwipe = useSwipeable({
         onSwipedLeft: () => {
-            console.log('swipoe right')
+            console.log('swipoe left')
    
-            if (index > 0) {
+            document.querySelector('.swipe-right').click()
+    if (index < image.length - 1) {
                 
                 document.querySelector('.enlarged-image-container img').classList.add('slide-in-left');
                 // Remove animation class after animation ends
@@ -143,12 +144,12 @@ const ProductDetails = ({ product, products }) => {
                 }, 1000); // Adjust this value according to your animation duration
             }
                
-            document.querySelector('.swipe-right').click()
           
         },
         onSwipedRight: () => {
-            console.log('swipoe left')
-            if (index < image.length - 1) {
+            console.log('swipoe right')
+            document.querySelector('.swipe-left').click()
+            if (index > 0) {     
 
 
                 document.querySelector('.enlarged-image-container img').classList.add('slide-in-right');
@@ -158,7 +159,7 @@ const ProductDetails = ({ product, products }) => {
 
                 }, 1000); // Adjust this value according to your animation duration
             }
-                document.querySelector('.swipe-left').click()
+           
       
         },
         ...config,
