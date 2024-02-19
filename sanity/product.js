@@ -1,46 +1,53 @@
+
+import MultipleFileInput from './MultiplleFileInput'; // Import the custom input component
 export default {
-    name:'product',
+    name: 'product',
     title: 'Product',
-    type:'document',
-    fields:[
+    type: 'document',
+    fields: [
         {
 
-        name:'image',
-        title:'Image',
-        type:'array',
-        of:[{type:'image'}],
-        inputComponent: MultipleImagesInput,    
-        options:{
-            hotspot:true,
+            name: 'image',
+            title: 'Image',
+            type: 'array',
+            of: [{ type: 'image' }],
 
-                }
+            options: {
+                hotspot: true,
+
+            },
+            components: {
+                input: MultipleFileInput,
+              }
+        
+        },
+
+        {
+            name: 'name',
+            title: 'Name',
+            type: 'string',
+
         },
         {
-            name:'name',
-            title:'Name',
-            type:'string',
-
-        },
-        {
-            name:'slug',
-            title:'Slug',
-            type:'slug',
-            options:{
-                source:'name',
-                maxLength:90,
+            name: 'slug',
+            title: 'Slug',
+            type: 'slug',
+            options: {
+                source: 'name',
+                maxLength: 90,
 
             }
 
         },
         {
-            name:'price',
-            title:'Price',
-            type:'number'
+            name: 'price',
+            title: 'Price',
+            type: 'number'
         },
         {
-            name:'details',
-            title:'Details',
-            type:'string'
+            name: 'details',
+            title: 'Details',
+            type: 'string'
         },
 
         {
