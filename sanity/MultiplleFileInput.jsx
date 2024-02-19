@@ -2,7 +2,7 @@ import React from 'react';
 
 function MultipleFileInput({ onChange }) {
   const handleChange = (event) => {
-    const files = event.target.files;
+    const files = event.currentTarget.files;
     onChange(files);
   };
 
@@ -16,3 +16,5 @@ function MultipleFileInput({ onChange }) {
 }
 
 export default MultipleFileInput;
+
+
