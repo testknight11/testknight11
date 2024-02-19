@@ -1,10 +1,17 @@
-import React from 'react';
 
-function MultipleFileInput({ onChange }) {
-  const handleChange = (event) => {
+import {useCallback} from 'react'
+
+function MultipleFileInput({ props}) {
+  const {elementProps, onChange, value = ''} = props
+
+
+  
+  const handleChange = useCallback((event) => {
     const files = event.currentTarget.files;
     onChange(files);
-  };
+
+	}, [onChange])
+
 
   return (
     <input
@@ -16,5 +23,16 @@ function MultipleFileInput({ onChange }) {
 }
 
 export default MultipleFileInput;
+
+
+
+
+
+
+
+
+
+
+// /components/MyCustomStringInput.jsx
 
 
