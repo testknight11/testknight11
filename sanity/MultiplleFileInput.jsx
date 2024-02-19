@@ -1,4 +1,4 @@
-
+import React from 'react';
 
 function MultipleFileInput({ onChange }) {
   const handleChange = (event) => {
