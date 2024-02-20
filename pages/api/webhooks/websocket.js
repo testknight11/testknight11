@@ -43,7 +43,6 @@ server.post('/api/webhooks/websocket', (req, res) => {
 });
 P
 
-const PORT = process.env.PORT || 443;
-httpServer.listen(PORT, () => {
+httpServer.listen(443, () => {
   console.log(`Next.js server with WebSocket running on port ${PORT}`);
 });
