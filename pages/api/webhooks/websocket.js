@@ -26,16 +26,24 @@ wss.on('connection', function connection(ws) {
 server.post('/api/webhooks/websocket', (req, res) => {
 
     // Process the webhook event from Sanity.io
-    // Broadcast the event over WebSocket to connected clients
-    console.log('Received webhook event from Sanity.io');
+    // // Broadcast the event over WebSocket to connected clients
+    // console.log('Received webhook event from Sanity.io');
     
-    // Handle the webhook payload and broadcast to WebSocket clients
+    // // Handle the webhook payload and broadcast to WebSocket clients
 
-    res.status(200).json({ message: 'Webhook received successfully' });
+    // res.status(200).json({ message: 'Webhook received successfully' });
+
+
+      wss.clients.forEach((client) => {
+    if (client.readyState === WebSocketServer.OPEN) { // Corrected typo here
+      client.send('Dataset updated'); // You can send any information you want here
+    }
+  });
 
 });
+P
 
-
-httpServer.listen(443, () => {
-  console.log('Next.js server with WebSocket running on port 443');
+const PORT = process.env.PORT || 3001;
+httpServer.listen(PORT, () => {
+  console.log(`Next.js server with WebSocket running on port ${PORT}`);
 });
