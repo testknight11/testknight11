@@ -23,7 +23,6 @@ const CategoryProducts = ({ categoryProducts }) => {
 
         console.log('listenToSSEUpdates func');
         if (EventSource.readyState === 1) {
-console
 
             const eventSource = new EventSource('/api/websocket');
             console.log(eventSource)
