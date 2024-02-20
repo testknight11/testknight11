@@ -16,7 +16,7 @@ wss.on('connection', function connection(ws) {
 });
 
 // Handle incoming webhook events from Sanity.io
-server.post('/api/websocket',handler);
+server.post('/api/webhooks/websocket',handler);
 
 
 httpServer.listen(3000, () => {
