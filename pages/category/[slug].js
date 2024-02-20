@@ -18,10 +18,10 @@ const CategoryProducts = ({ categoryProducts }) => {
 
     useEffect(() => {
 
+        if (EventSource) {
 
+            const eventSource = new EventSource('/api/websocket');
 
-        const eventSource = new EventSource('/api/websocket');
-        if (eventSource) {
 
             eventSource.onmessage = (event) => {
                 const data = JSON.parse(event.data);
@@ -40,6 +40,10 @@ const CategoryProducts = ({ categoryProducts }) => {
             };
 
 
+        }
+        else {
+            // Handle if EventSource is not supported
+            console.error('EventSource is not supported');
         }
 
     }, [slug]);
