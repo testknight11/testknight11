@@ -227,6 +227,8 @@ export default function handler(req, res) {
       // Emit an SSE event with the payload data only if there's relevant data
       if (payload && Object.keys(payload).length > 0) {
         // Set SSE headers
+        webhookEmitter.emit('webhookReceived', payload);
+
         res.setHeader('Content-Type', 'text/event-stream');
         res.setHeader('Cache-Control', 'no-cache');
         res.setHeader('Connection', 'keep-alive');
