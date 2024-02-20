@@ -35,7 +35,7 @@ server.post('/api/webhooks/websocket', (req, res) => {
 
 
       wss.clients.forEach((client) => {
-    if (client.readyState === WebSocketServer.OPEN) { // Corrected typo here
+    if (client.readyState === 1) { // Corrected typo here
       client.send('Dataset updated'); // You can send any information you want here
     }
   });
