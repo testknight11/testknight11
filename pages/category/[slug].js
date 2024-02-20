@@ -17,7 +17,7 @@ const CategoryProducts = ({ categoryProducts }) => {
     console.log(slug)
 
     useEffect(() => {
-
+console.log(EventSource)
         if (EventSource) {
 
             const eventSource = new EventSource('/api/websocket');
