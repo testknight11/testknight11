@@ -9,7 +9,11 @@ const CategoryProducts = ({ categoryProducts }) => {
 
     const [products, setProducts] = useState([]);
     const [datasetUpdated, setDatasetUpdated] = useState(false);
-    const [sseConnection, setSSEConnection] = useState<EventSource | null>(null);
+    const [sseConnection, setSSEConnection] = useState(null);
+    useEffect(() => {
+
+        setProducts(categoryProducts)
+    }, [])
 
     // Inside your functional component
     const router = useRouter();
@@ -82,30 +86,30 @@ const CategoryProducts = ({ categoryProducts }) => {
     useEffect(() => {
 
         const handleBeforeUnload = () => {
-    
-          console.dir(sseConnection);
-    
-          if (sseConnection) {
-    
-            console.info('Closing SSE connection before unloading the page.');
-    
-            sseConnection.close();
-    
-          }
-    
+
+            console.dir(sseConnection);
+
+            if (sseConnection) {
+
+                console.info('Closing SSE connection before unloading the page.');
+
+                sseConnection.close();
+
+            }
+
         };
-    
+
         window.addEventListener('beforeunload', handleBeforeUnload);
-    
+
         // Clean up the event listener when the component is unmounted
-    
+
         return () => {
-    
-          window.removeEventListener('beforeunload', handleBeforeUnload);
-    
+
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+
         };
-    
-      }, [sseConnection]);
+
+    }, [sseConnection]);
 
     const fetchProductsByCategory = async (categorySlug) => {
         try {
