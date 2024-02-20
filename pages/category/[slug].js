@@ -24,7 +24,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
         console.log(EventSource)
         if (EventSource.readyState === 1) {
-            eventSource.onopen = () => {
+            EventSource.onopen = () => {
 
                 console.log('SSE connection opened.');
 
@@ -32,7 +32,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
             };
 
-            eventSource.onmessage = (event) => {
+            EventSource.onmessage = (event) => {
 
                 const data = event.data;
 
@@ -49,7 +49,8 @@ const CategoryProducts = ({ categoryProducts }) => {
 
             };
 
-            eventSource.onerror = (event) => {
+            
+            EventSource.onerror = (event) => {
 
                 console.error('SSE Error:', event);
 
@@ -57,9 +58,9 @@ const CategoryProducts = ({ categoryProducts }) => {
 
             };
 
-            setSSEConnection(eventSource);
+            setSSEConnection(EventSource);
 
-            return eventSource;
+            return EventSource;
         }
     }, []);
 
