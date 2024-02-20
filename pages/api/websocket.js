@@ -151,12 +151,52 @@ export default function handler(req, res) {
       res.setHeader('Cache-Control', 'no-cache');
       res.setHeader('Connection', 'keep-alive');
 
-      // Handle SSE logic here (if needed)
-    } else {
-      res.status(405).json({ error: "Method Not Allowed" });
-    }
-  } catch (error) {
-    console.error("Webhook error:", error);
-    res.status(500).json({ error: "An error occurred while processing the webhook." });
+
+
+
+
+      const intervalId = setInterval(() => {
+        res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
+      }, 10000);
+
+
+
+
+      const sendEvent = (data) => {
+        res.write(`data: ${JSON.stringify(data)}\n\n`);
+      };
+
+      // Listen for webhook events
+      webhookEmitter.on('webhookReceived', (data) => {
+        sendEvent(data);
+      });
+
+
+
+
+
+      req.socket.on('close', () => {
+
+        // Clean up resources and stop sending updates when the client disconnects
+
+        clearInterval(intervalId);
+
+        res.end();
+
+      });
+
+
+
+
+
+
+
+    // Handle SSE logic here (if needed)
+  } else {
+    res.status(405).json({ error: "Method Not Allowed" });
   }
+} catch (error) {
+  console.error("Webhook error:", error);
+  res.status(500).json({ error: "An error occurred while processing the webhook." });
+}
 }
