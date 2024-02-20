@@ -23,10 +23,10 @@ const CategoryProducts = ({ categoryProducts }) => {
 
         console.log('listenToSSEUpdates func');
         console.log(EventSource)
-       
 
-            const eventSource = new EventSource('/api/websocket');
-            if (EventSource.readyState === 1) {
+
+        const eventSource = new EventSource('/api/websocket');
+        if (eventSource.readyState === 1) {
             console.log(eventSource)
             eventSource.onopen = () => {
 
