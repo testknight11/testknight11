@@ -136,7 +136,7 @@ const webhookEmitter = new EventEmitter();
 
 export default function handler(req, res) {
   try {
-    // if (req.method === "POST") {
+    if (req.method === "POST") {
       // Process the webhook payload
       const payload = req.body; // Assuming the payload is in the request body
 
@@ -145,9 +145,16 @@ export default function handler(req, res) {
 
       // Return a response
       res.status(200).json({ message: "Webhook received successfully!" });
-    // } else {
-    //   res.status(405).json({ error: "Method Not Allowed" });
-    // }
+    } else if (req.headers.accept && req.headers.accept.includes('text/event-stream')) {
+      // Set SSE headers
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+
+      // Handle SSE logic here (if needed)
+    } else {
+      res.status(405).json({ error: "Method Not Allowed" });
+    }
   } catch (error) {
     console.error("Webhook error:", error);
     res.status(500).json({ error: "An error occurred while processing the webhook." });
