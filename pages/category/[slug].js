@@ -22,8 +22,8 @@ const CategoryProducts = ({ categoryProducts }) => {
     const listenToSSEUpdates = useCallback(() => {
 
         console.log('listenToSSEUpdates func');
-        if (EventSource.readyState !== 2) {
-
+        if (EventSource.readyState === 1) {
+console
 
             const eventSource = new EventSource('/api/websocket');
             console.log(eventSource)
