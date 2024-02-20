@@ -24,8 +24,9 @@ const CategoryProducts = ({ categoryProducts }) => {
 
 
 
-            const eventSource = new EventSource('/api/websocket');
-            console.log(eventSource)
+        const eventSource = new EventSource('/api/websocket');
+        console.log(eventSource)
+        if (eventSource.readyState === 1) {
             eventSource.onopen = () => {
 
                 console.log('SSE connection opened.');
@@ -60,8 +61,8 @@ const CategoryProducts = ({ categoryProducts }) => {
             setSSEConnection(eventSource);
 
             return eventSource;
-
-        }, []);
+        }
+    }, []);
 
     useEffect(() => {
 
