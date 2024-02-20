@@ -24,7 +24,7 @@ wss.on('connection', function connection(ws) {
 
 // Handle incoming webhook events from Sanity.io
 server.post('/api/webhooks/websocket', (req, res) => {
-  if (req.method === 'POST') {
+
     // Process the webhook event from Sanity.io
     // Broadcast the event over WebSocket to connected clients
     console.log('Received webhook event from Sanity.io');
@@ -32,10 +32,7 @@ server.post('/api/webhooks/websocket', (req, res) => {
     // Handle the webhook payload and broadcast to WebSocket clients
 
     res.status(200).json({ message: 'Webhook received successfully' });
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
+
 });
 
 
