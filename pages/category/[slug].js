@@ -17,23 +17,31 @@ const CategoryProducts = ({ categoryProducts }) => {
     console.log(slug)
 
     useEffect(() => {
+
+
+
         const eventSource = new EventSource('/api/websocket');
+        if (eventSource) {
 
-        eventSource.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            console.log(data)
-            if (data._type === slug) {
-                fetchProductsByCategory(slug);
-            }
-        };
+            eventSource.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                console.log(data)
+                if (data._type === slug) {
+                    fetchProductsByCategory(slug);
+                }
+            };
+    
+            eventSource.onerror = (error) => {
+                console.error('SSE error:', error);
+            };
+    
+            return () => {
+                eventSource.close();
+            };
 
-        eventSource.onerror = (error) => {
-            console.error('SSE error:', error);
-        };
 
-        return () => {
-            eventSource.close();
-        };
+        }
+        
     }, [slug]);
 
     const fetchProductsByCategory = async (categorySlug) => {
