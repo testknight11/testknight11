@@ -17,7 +17,7 @@ const CategoryProducts = ({ categoryProducts }) => {
     console.log(slug)
 
     useEffect(() => {
-        const eventSource = new EventSource('/api/webhooks');
+        const eventSource = new EventSource('/api/websocket');
 
         eventSource.onmessage = (event) => {
             const data = JSON.parse(event.data);
