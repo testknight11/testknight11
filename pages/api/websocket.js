@@ -218,7 +218,7 @@ webhookEmitter.emit('webhookReceived', 'initial');
 export default function handler(req, res) {
   try {
     let payload = null;
-   
+    if (req.method === "POST") {
       // Process the webhook payload
       payload = req.body; // Assuming the payload is in the request body
 
@@ -263,7 +263,7 @@ export default function handler(req, res) {
 
       // Set webhookEventTriggered to true when a POST request is received
       webhookEventTriggered = true;
-    
+    }
   } catch (error) {
     console.error("Webhook error:", error);
     res.status(500).json({ error: "An error occurred while processing the webhook." });

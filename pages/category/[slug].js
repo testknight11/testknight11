@@ -22,11 +22,8 @@ const CategoryProducts = ({ categoryProducts }) => {
 
         console.log('listenToSSEUpdates func');
 
-
-
-        const eventSource = new EventSource('/api/websocket');
-        console.log(eventSource)
-        if (eventSource.readyState === 1) {
+        console.log(EventSource)
+        if (EventSource.readyState === 1) {
             eventSource.onopen = () => {
 
                 console.log('SSE connection opened.');
@@ -41,6 +38,8 @@ const CategoryProducts = ({ categoryProducts }) => {
 
                 console.log('Received SSE Update:', data);
                 if (data._type === slug) {
+                    console.log(EventSource)
+
                     fetchProductsByCategory(slug)
                 }
 
