@@ -1,5 +1,5 @@
 "use client"
-import React ,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { client } from '../../lib/client'
 import Layout from '../../src/app/components/Layout'; // Import the Layout component
 import Product from '../../src/app/components/Product';
@@ -15,45 +15,36 @@ const CategoryProducts = ({ categoryProducts }) => {
     const router = useRouter();
     const { slug } = router.query;
     console.log(slug)
+
     useEffect(() => {
-        setProducts(categoryProducts)
-        // Establish WebSocket connection
-        const ws = new WebSocket(`wss://ecommerce-r126.vercel.app/api/websocket`); // Update with your WebSocket server URL
+        const eventSource = new EventSource('/api/webhooks');
 
-        // WebSocket event listeners
-        ws.onopen = () => {
-            console.log('WebSocket connected');
-        };
-
-        ws.onmessage = async (event) => {
-            console.log('WebSocket message received:', event.data);
-
-            // When a WebSocket message is received, check if it's 'Dataset updated'
-            if (event.data === 'Dataset updated') {
-                // Fetch updated product and products data
-                // const updatedProduct = await client.fetch(query);
-                const updatedProductsQuery = `*[_type in ["${updatedProduct._type}"]]`;
-                const updatedProducts = await client.fetch(updatedProductsQuery);
-                setProducts(updatedProducts)
-                // Update state with the new data
-
+        eventSource.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            console.log(data)
+            if (data._type === slug) {
+                fetchProductsByCategory(slug);
             }
         };
 
-        ws.onclose = () => {
-            console.log('WebSocket disconnected');
+        eventSource.onerror = (error) => {
+            console.error('SSE error:', error);
         };
 
-        // Clean up WebSocket connection
         return () => {
-            ws.close();
+            eventSource.close();
         };
-    }, []); // Emp
+    }, [slug]);
 
-
-
-
-
+    const fetchProductsByCategory = async (categorySlug) => {
+        try {
+            const productsQuery = `*[_type == "${categorySlug}"]`;
+            const products = await client.fetch(productsQuery);
+            setProducts(products);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
 
 
 
