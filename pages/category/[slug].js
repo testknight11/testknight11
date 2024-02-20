@@ -9,8 +9,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
     const [products, setProducts] = useState([]);
     const [datasetUpdated, setDatasetUpdated] = useState(false);
-    const [sseConnection, setSSEConnection] = useState(null);
-    useEffect(() => {
+    const [sseConnection, setSSEConnection] = useState(null); useEffect(() => {
 
         setProducts(categoryProducts)
     }, [])
@@ -22,12 +21,11 @@ const CategoryProducts = ({ categoryProducts }) => {
     const listenToSSEUpdates = useCallback(() => {
 
         console.log('listenToSSEUpdates func');
-        console.log(EventSource)
 
 
-        const eventSource = new EventSource('/api/websocket');
-        if (eventSource.readyState === 1) {
-            console.log(eventSource)
+
+            const eventSource = new EventSource('/api/websocket');
+            console.log(eventSouce)
             eventSource.onopen = () => {
 
                 console.log('SSE connection opened.');
@@ -62,8 +60,8 @@ const CategoryProducts = ({ categoryProducts }) => {
             setSSEConnection(eventSource);
 
             return eventSource;
-        }
-    }, []);
+
+        }, []);
 
     useEffect(() => {
 
