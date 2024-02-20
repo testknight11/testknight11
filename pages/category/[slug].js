@@ -18,7 +18,7 @@ const CategoryProducts = ({ categoryProducts }) => {
     useEffect(() => {
         setProducts(categoryProducts)
         // Establish WebSocket connection
-        const ws = new WebSocket(`wss://ecommerce-r126.vercel.app/api/webhooks/websocket`); // Update with your WebSocket server URL
+        const ws = new WebSocket(`wss://ecommerce-r126.vercel.app:3000/api/webhooks/websocket`); // Update with your WebSocket server URL
 
         // WebSocket event listeners
         ws.onopen = () => {
