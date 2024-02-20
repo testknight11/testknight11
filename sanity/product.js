@@ -16,10 +16,7 @@ export default {
                 hotspot: true,
 
             },
-            components: {
-                input: MultipleFileInput,
-              }
-        
+           
         },
 
         {

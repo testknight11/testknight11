@@ -24,9 +24,8 @@ const ProductDetails = ({ product, products }) => {
     const [selectedSizePrice, setSelectedSizePrice] = useState(0); // Medium by deselectmycolorfault
     const [enlargedImage, setEnlargedImage] = useState(null);
     const { selectedColor, setSelectedColor, onAdd, decQty, incQty, qty, setShowCart, selectedSize, setSelectedSize, setSelectedSizes, setTotalPrice, selectedSizes } = useStateContext();
-
-
-
+    
+    
 
     // Dynamically import Hammer.js only on the client-side
 
@@ -254,18 +253,18 @@ const ProductDetails = ({ product, products }) => {
                             </div>
                         )}
                         <div className="image-container swipe-container">
-                    
-                            {!imageOfIndex && <div style={{position:'relative'}}><img onClick={() => handleImageClick(urlFor(image && image[index]))}
+
+                            {!imageOfIndex && <div style={{ position: 'relative' }}><img onClick={() => handleImageClick(urlFor(image && image[index]))}
                                 src={urlFor(image && image[index])}
                                 alt="product"
                                 className="product-detail-image swipe-item"
 
                                 {...handleSwipeMain} />
-                                <button style={{ position: 'absolute', zIndex: '500', top: '50%', left: '90%' }} className="swipe-right-main" onClick={() => handleSlideMain('next')}><FaChevronRight className='chevron-phone' style={{fontSize:'40px',color:'grey'}}/></button>
-                            <button style={{ position: 'absolute', zIndex: '500', top: '50%', right: '90%' }} className="swipe-left-main" onClick={() => handleSlideMain('prev')}><FaChevronLeft className='chevron-phone' style={{fontSize:'40px',color:'grey'}}/></button>
-                                </div>
+                                <button style={{ position: 'absolute', zIndex: '500', top: '50%', left: '90%' }} className="swipe-right-main" onClick={() => handleSlideMain('next')}><FaChevronRight className='chevron-phone' style={{ fontSize: '40px', color: 'grey' }} /></button>
+                                <button style={{ position: 'absolute', zIndex: '500', top: '50%', right: '90%' }} className="swipe-left-main" onClick={() => handleSlideMain('prev')}><FaChevronLeft className='chevron-phone' style={{ fontSize: '40px', color: 'grey' }} /></button>
+                            </div>
                             }
-                            
+
                             {imageOfIndex && <img src={urlFor(colors[indexColors].image && colors[indexColors].image)} alt="product" className="product-detail-image" />}
                         </div>
                         <div className="small-images-container">
@@ -484,6 +483,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
         props: { products, product }
     }
 }
+
 
 
 

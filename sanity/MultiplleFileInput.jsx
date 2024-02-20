@@ -1,38 +1,41 @@
+import {Stack} from '@sanity/ui'
+function MultipleFileInput({ props }) {
+  const {
+    elementProps: {
+      id,
+      onBlur,  
+      onFocus,
+      placeholder,
+      readOnly,
+      ref,
+      // value
+    },
+    onChange,
+    schemaType,
+    validation,
+    value = ''
+  } = props
 
-import {useCallback} from 'react'
+ const {elementProps} = props
+  const handleChange = (event) => {
 
-function MultipleFileInput({ props}) {
-  const {elementProps, onChange, value = ''} = props
-
-
-  
-  const handleChange = useCallback((event) => {
     const files = event.currentTarget.files;
-    onChange(files);
 
-	}, [onChange])
-
+    onChange()
+  };
 
   return (
+
     <input
+
+
       type="file"
+      accept="image/*" // Limit file selection to image files only
       onChange={handleChange}
       multiple  // Allow multiple file selection
     />
+
   );
 }
 
 export default MultipleFileInput;
-
-
-
-
-
-
-
-
-
-
-// /components/MyCustomStringInput.jsx
-
-
