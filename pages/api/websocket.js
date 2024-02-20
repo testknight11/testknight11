@@ -229,29 +229,7 @@ export default function handler(req, res) {
         // Set SSE headers
         webhookEmitter.emit('webhookReceived', payload);
 
-        res.setHeader('Content-Type', 'text/event-stream');
-        res.setHeader('Cache-Control', 'no-cache');
-        res.setHeader('Connection', 'keep-alive');
-
-        const intervalId = setInterval(() => {
-          res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
-        }, 10000);
-
-        const sendEvent = (data) => {
-          res.write(`data: ${JSON.stringify(data)}\n\n`);
-        };
-
-        // Listen for webhook events
-        webhookEmitter.on('webhookReceived', (data) => {
-          sendEvent(data);
-        });
-
-        req.socket.on('close', () => {
-          clearInterval(intervalId);
-          webhookEmitter.off('webhookReceived', sendEvent);
-          res.end();
-        });
-
+        
         // Return a success response
         res.status(200).json({ message: "Webhook received successfully!" });
       } else {
