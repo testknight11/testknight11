@@ -5,7 +5,7 @@ const WebSocketServer = require('ws');
 const server = express();
 const httpServer = https.createServer(server); // Corrected method name
 const wss = new WebSocketServer.Server({ server: httpServer });
-
+const handler = require('./handler'); // Import the webhook handler function
 // Handle WebSocket connections
 wss.on('connection', function connection(ws) {
   console.log('Client connected');
@@ -16,24 +16,7 @@ wss.on('connection', function connection(ws) {
 });
 
 // Handle incoming webhook events from Sanity.io
-server.get('/api/webhooks/websocket', (req, res) => {
-
-  // Process the webhook event from Sanity.io
-  // // Broadcast the event over WebSocket to connected clients
-  // console.log('Received webhook event from Sanity.io');
-
-  // // Handle the webhook payload and broadcast to WebSocket clients
-
-  // res.status(200).json({ message: 'Webhook received successfully' });
-
-
-  wss.clients.forEach((client) => {
-    if (client.readyState === 1) { // Corrected typo here
-      client.send('Dataset updated'); // You can send any information you want here
-    }
-  });
-
-});
+server.post('/api/webhooks/websocket',handler);
 
 
 httpServer.listen(3000, () => {
