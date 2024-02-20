@@ -1,7 +1,7 @@
 // webhookHandler.js
 
 export default async function handler(req, res) {
-
+console.Log(req)
   if (req.method === 'POST' && req.url === '/api/websocket') {
     // Process the webhook event from Sanity.io
     // Handle the webhook payload
