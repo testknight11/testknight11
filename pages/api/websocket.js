@@ -210,34 +210,59 @@
 import { EventEmitter } from 'events';
 
 const webhookEmitter = new EventEmitter();
+let webhookEventTriggered = false; // Initialize the webhookEventTriggered variable
 
 // Simulate initial webhook event
+webhookEmitter.emit('webhookReceived', 'initial');
 
 export default function handler(req, res) {
   try {
+    let payload = null;
     if (req.method === "POST") {
       // Process the webhook payload
-      const payload = req.body; // Assuming the payload is in the request body
+      payload = req.body; // Assuming the payload is in the request body
+
+      // Emit an SSE event with the payload data
 
       console.log(payload);
 
+      webhookEmitter.emit('webhookReceived', payload);
+      // Set SSE headers
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+
+      const intervalId = setInterval(() => {
+        res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
+      }, 10000);
+
+      const sendEvent = (data) => {
+        res.write(`data: ${JSON.stringify(data)}\n\n`);
+      };
+
+      // Listen for webhook events
+      webhookEmitter.on('webhookReceived', () => {
+        sendEvent(payload);
+      });
+
+
+
+
+
+      req.socket.on('close', () => {
+        clearInterval(intervalId);
+        webhookEmitter.off('webhookReceived', sendEvent);
+        res.end();
+      });
+
+      // Return a response
+      res.status(200).json({ message: "Webhook received successfully!" });
+
+      // Return a response
+
+
       // Set webhookEventTriggered to true when a POST request is received
       webhookEventTriggered = true;
-
-      // Emit an SSE event with the payload data only if there's relevant data
-      if (payload && Object.keys(payload).length > 0) {
-        // Set SSE headers
-        webhookEmitter.emit('webhookReceived', payload);
-
-        
-        // Return a success response
-        res.status(200).json({ message: "Webhook received successfully!" });
-      } else {
-        // Return a success response without establishing SSE connection
-        res.status(200).json({ message: "Webhook received successfully but no data to send." });
-      }
-    } else {
-      res.status(405).json({ error: "Method Not Allowed" });
     }
   } catch (error) {
     console.error("Webhook error:", error);
