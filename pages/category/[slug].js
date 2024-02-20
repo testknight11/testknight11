@@ -26,7 +26,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
 
             const eventSource = new EventSource('/api/websocket');
-            console.log(eventSouce)
+            console.log(eventSource)
             eventSource.onopen = () => {
 
                 console.log('SSE connection opened.');
