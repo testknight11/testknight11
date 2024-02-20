@@ -71,7 +71,7 @@
 import { EventEmitter } from 'events';
 
 const webhookEmitter = new EventEmitter();
-
+webhookEmitter.emit('webhookReceived', 'Initial connection established');
 export default async function handler(req, res) {
   try {
     if (req.method !== "POST") {
@@ -117,7 +117,7 @@ export const streamEvents = (req, res) => {
   // Close the SSE connection when the client disconnects
   req.on('close', () => {
     clearInterval(intervalId); // Clear the interval
-    webhookEmitter.off('webhookReceived', sendEvent); // Remove the event listener
+    webhookEmitter.removeListener('webhookReceived', webhookListener); // Remove the webhook event listener
     res.end(); // End the response
   });
 };

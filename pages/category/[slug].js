@@ -17,34 +17,26 @@ const CategoryProducts = ({ categoryProducts }) => {
     console.log(slug)
 
     useEffect(() => {
-console.log(EventSource)
-        if (EventSource) {
-
-            const eventSource = new EventSource('/api/websocket');
 
 
-            eventSource.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                console.log(data)
-                if (data._type === slug) {
-                    fetchProductsByCategory(slug);
-                }
-            };
-
-            eventSource.onerror = (error) => {
-                console.error('SSE error:', error);
-            };
-
-            return () => {
-                eventSource.close();
-            };
+        const eventSource = new EventSource('/api/websocket');
 
 
-        }
-        else {
-            // Handle if EventSource is not supported
-            console.error('EventSource is not supported');
-        }
+        eventSource.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            console.log(data)
+            if (data._type === slug) {
+                fetchProductsByCategory(slug);
+            }
+        };
+
+        eventSource.onerror = (error) => {
+            console.error('SSE error:', error);
+        };
+
+        return () => {
+            eventSource.close();
+        };
 
     }, [slug]);
 
