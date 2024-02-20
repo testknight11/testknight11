@@ -40,7 +40,5 @@ server.post('/api/webhooks/websocket', (req, res) => {
 
 
 app.prepare().then(() => {
-  httpServer.listen(3001, () => {
-    console.log('Next.js server with WebSocket running on port 3000');
-  });
+
 });
