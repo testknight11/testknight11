@@ -16,7 +16,7 @@ wss.on('connection', function connection(ws) {
 });
 
 // Handle incoming webhook events from Sanity.io
-server.post('/api/webhooks/websocket', (req, res) => {
+server.get('/api/webhooks/websocket', (req, res) => {
 
   // Process the webhook event from Sanity.io
   // // Broadcast the event over WebSocket to connected clients
