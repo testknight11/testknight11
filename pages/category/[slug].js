@@ -30,18 +30,18 @@ const CategoryProducts = ({ categoryProducts }) => {
                     fetchProductsByCategory(slug);
                 }
             };
-    
+
             eventSource.onerror = (error) => {
                 console.error('SSE error:', error);
             };
-    
+
             return () => {
                 eventSource.close();
             };
 
 
         }
-        
+
     }, [slug]);
 
     const fetchProductsByCategory = async (categorySlug) => {
