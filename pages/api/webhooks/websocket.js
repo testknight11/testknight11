@@ -1,6 +1,6 @@
 // server.js (Next.js custom server)
 const express = require('express');
-const https = require('https');
+const http = require('http');
 const next = require('next');
 const WebSocketServer = require('ws');
 
@@ -10,17 +10,17 @@ const app = next({ dev });
 
 
 const server = express();
-const httpServer = https.createServer(server); // Create HTTP server using Express app
+const httpServer = http.createServer(server); // Create HTTP server using Express app
 const wss = new WebSocketServer.Server({ server: httpServer });
 
 // Handle WebSocket connections
-// wss.on('connection', function connection(ws) {
-//   console.log('Client connected');
+wss.on('connection', function connection(ws) {
+  console.log('Client connected');
 
-//   ws.on('close', function () {
-//     console.log('Client disconnected');
-//   });
-// });
+  ws.on('close', function () {
+    console.log('Client disconnected');
+  });
+});
 
 // Handle incoming webhook events from Sanity.io
 server.post('/api/webhooks/websocket', (req, res) => {
