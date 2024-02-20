@@ -147,6 +147,7 @@ export default function handler(req, res) {
       res.status(200).json({ message: "Webhook received successfully!" });
     } else if (req.headers.accept && req.headers.accept.includes('text/event-stream')) {
       // Set SSE headers
+      console.log(req)
       res.setHeader('Content-Type', 'text/event-stream');
       res.setHeader('Cache-Control', 'no-cache');
       res.setHeader('Connection', 'keep-alive');
@@ -165,11 +166,10 @@ export default function handler(req, res) {
       const sendEvent = (data) => {
         res.write(`data: ${JSON.stringify(data)}\n\n`);
       };
-
-      // Listen for webhook events
       webhookEmitter.on('webhookReceived', (data) => {
-        sendEvent(data);
-      });
+            sendEvent(req.body);
+          });
+      // Listen for webhook events
 
 
 
@@ -191,12 +191,12 @@ export default function handler(req, res) {
 
 
 
-    // Handle SSE logic here (if needed)
-  } else {
-    res.status(405).json({ error: "Method Not Allowed" });
+      // Handle SSE logic here (if needed)
+    } else {
+      res.status(405).json({ error: "Method Not Allowed" });
+    }
+  } catch (error) {
+    console.error("Webhook error:", error);
+    res.status(500).json({ error: "An error occurred while processing the webhook." });
   }
-} catch (error) {
-  console.error("Webhook error:", error);
-  res.status(500).json({ error: "An error occurred while processing the webhook." });
-}
 }
