@@ -51,7 +51,7 @@ export default async (req, res) => {
 
         // Send payload to all connected WebSocket clients
         wss.clients.forEach(client => {
-            if (client.readyState === WebSocket.OPEN) {
+            if (client.readyState === 1) {
                 client.send(JSON.stringify(payload));
             }
         });
