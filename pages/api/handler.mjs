@@ -1,6 +1,6 @@
 // webhookHandler.js
 
-const handler = (req, res) => {
+export default async function handler(req, res) {
     // Extract the payload from the request body
     const payload = req.body;
   
@@ -21,4 +21,3 @@ const handler = (req, res) => {
     res.status(200).json({ message: 'Webhook received successfully' });
   };
   
-  export default handler;

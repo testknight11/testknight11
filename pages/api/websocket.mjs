@@ -1,11 +1,11 @@
 // server.js (Next.js custom server)
-const express = require('express');
-const https = require('https'); // Corrected module import
-const WebSocketServer = require('ws');
+import express from 'express';
+import { createServer } from 'https';
+import { WebSocketServer } from 'ws';
 const server = express();
-const httpServer = https.createServer(server); // Corrected method name
-const wss = new WebSocketServer.Server({ server: httpServer });
-const handler = require('./handler'); // Import the webhook handler function
+const httpServer = createServer(server);
+const wss = new WebSocketServer({ server: httpServer });
+import handler from './handler.mjs';
 // Handle WebSocket connections
 wss.on('connection', function connection(ws) {
   console.log('Client connected');

@@ -29,7 +29,8 @@
     "react-swipeable": "^7.0.1",
     "sanity": "^3.28.0",
     "stripe": "^8.209.0",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "ws": "^8.16.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",
