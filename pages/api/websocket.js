@@ -1,4 +1,4 @@
-module.exports = async (req, res) => {
+export default async (req, res) => {
   try {
     if (req.method !== "POST") {
       res.status(405).json({ error: "Method Not Allowed" });
