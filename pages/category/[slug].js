@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect , useCallback} from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { client } from '../../lib/client'
 import Layout from '../../src/app/components/Layout'; // Import the Layout component
 import Product from '../../src/app/components/Product';
@@ -9,7 +9,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
     const [products, setProducts] = useState([]);
     const [datasetUpdated, setDatasetUpdated] = useState(false);
-    const [sseConnection, setSSEConnection] = useState(null);   useEffect(() => {
+    const [sseConnection, setSSEConnection] = useState(null); useEffect(() => {
 
         setProducts(categoryProducts)
     }, [])
