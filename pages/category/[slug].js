@@ -23,7 +23,7 @@ const CategoryProducts = ({ categoryProducts }) => {
         console.log('listenToSSEUpdates func');
 
         const eventSource = new EventSource('/api/websocket');
-
+console.log(eventSource)
         eventSource.onopen = () => {
 
             console.log('SSE connection opened.');
@@ -59,7 +59,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
         return eventSource;
 
-    }, []);
+    }, [slug]);
 
     useEffect(() => {
 
