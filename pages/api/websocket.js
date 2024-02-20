@@ -100,6 +100,13 @@ export const streamEvents = (req, res) => {
   res.setHeader('Connection', 'keep-alive');
 
   // Function to send SSE events
+  const intervalId = setInterval(() => {
+    res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
+  }, 10000);
+
+
+
+
   const sendEvent = (data) => {
     res.write(`data: ${JSON.stringify(data)}\n\n`);
   };
@@ -110,14 +117,15 @@ export const streamEvents = (req, res) => {
   });
 
   // Keep the connection alive
-  const intervalId = setInterval(() => {
-    res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
-  }, 10000);
 
   // Close the SSE connection when the client disconnects
-  req.on('close', () => {
-    clearInterval(intervalId); // Clear the interval
-    webhookEmitter.removeListener('webhookReceived', webhookListener); // Remove the webhook event listener
-    res.end(); // End the response
+  req.socket.on('close', () => {
+
+    // Clean up resources and stop sending updates when the client disconnects
+
+    clearInterval(intervalId);
+
+    res.end();
+
   });
 };

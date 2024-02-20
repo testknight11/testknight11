@@ -9,36 +9,103 @@ const CategoryProducts = ({ categoryProducts }) => {
 
     const [products, setProducts] = useState([]);
     const [datasetUpdated, setDatasetUpdated] = useState(false);
-
+    const [sseConnection, setSSEConnection] = useState<EventSource | null>(null);
 
     // Inside your functional component
     const router = useRouter();
     const { slug } = router.query;
     console.log(slug)
+    const listenToSSEUpdates = useCallback(() => {
 
-    useEffect(() => {
-
+        console.log('listenToSSEUpdates func');
 
         const eventSource = new EventSource('/api/websocket');
 
+        eventSource.onopen = () => {
+
+            console.log('SSE connection opened.');
+
+            // Save the SSE connection reference in the state
+
+        };
 
         eventSource.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            console.log(data)
+
+            const data = event.data;
+
+            console.log('Received SSE Update:', data);
             if (data._type === slug) {
-                fetchProductsByCategory(slug);
+                fetchProductsByCategory(slug)
             }
+
+
+
+            // Update your UI or do other processing with the received data
+
         };
 
-        eventSource.onerror = (error) => {
-            console.error('SSE error:', error);
+        eventSource.onerror = (event) => {
+
+            console.error('SSE Error:', event);
+
+            // Handle the SSE error here
+
         };
+
+        setSSEConnection(eventSource);
+
+        return eventSource;
+
+    }, []);
+
+    useEffect(() => {
+
+        fetchProductsByCategory(slug)
+
+        listenToSSEUpdates();
 
         return () => {
-            eventSource.close();
+
+            if (sseConnection) {
+
+                sseConnection.close();
+
+            }
+
         };
 
-    }, [slug]);
+    }, [listenToSSEUpdates]);
+
+
+
+
+    useEffect(() => {
+
+        const handleBeforeUnload = () => {
+    
+          console.dir(sseConnection);
+    
+          if (sseConnection) {
+    
+            console.info('Closing SSE connection before unloading the page.');
+    
+            sseConnection.close();
+    
+          }
+    
+        };
+    
+        window.addEventListener('beforeunload', handleBeforeUnload);
+    
+        // Clean up the event listener when the component is unmounted
+    
+        return () => {
+    
+          window.removeEventListener('beforeunload', handleBeforeUnload);
+    
+        };
+    
+      }, [sseConnection]);
 
     const fetchProductsByCategory = async (categorySlug) => {
         try {
