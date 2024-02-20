@@ -226,9 +226,37 @@ export default function handler(req, res) {
       webhookEmitter.emit('webhookReceived', payload);
 
       console.log(payload);
+      console.log(payload);
+
+      // Set SSE headers
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+
+      const intervalId = setInterval(() => {
+        res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
+      }, 10000);
+
+      const sendEvent = (data) => {
+        res.write(`data: ${JSON.stringify(data)}\n\n`);
+      };
+
+      // Listen for webhook events
+      webhookEmitter.on('webhookReceived', () => {
+        sendEvent(payload);
+      });
+
+      req.socket.on('close', () => {
+        clearInterval(intervalId);
+        webhookEmitter.off('webhookReceived', sendEvent);
+        res.end();
+      });
 
       // Return a response
       res.status(200).json({ message: "Webhook received successfully!" });
+
+      // Return a response
+
 
       // Set webhookEventTriggered to true when a POST request is received
       webhookEventTriggered = true;
@@ -249,8 +277,8 @@ export default function handler(req, res) {
         };
 
         // Listen for webhook events
-        webhookEmitter.on('webhookReceived', (data) => {
-          sendEvent(data);
+        webhookEmitter.on('webhookReceived', () => {
+          sendEvent(payload);
         });
 
         req.socket.on('close', () => {
