@@ -59,7 +59,7 @@ console.log(eventSource)
 
         return eventSource;
 
-    }, [slug]);
+    }, []);
 
     useEffect(() => {
 
