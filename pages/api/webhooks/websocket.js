@@ -1,6 +1,6 @@
 // server.js (Next.js custom server)
 const express = require('express');
-const https = require('https');
+const http = require('https');
 const next = require('next');
 const WebSocketServer = require('ws');
 
@@ -10,7 +10,7 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 const server = express();
-const httpServer = https.createServer(server); // Create HTTP server using Express app
+const httpServer = http.createServer(server); // Create HTTP server using Express app
 const wss = new WebSocketServer.Server({ server: httpServer });
 
 // Handle WebSocket connections
@@ -43,6 +43,6 @@ server.post('/api/webhooks/websocket', (req, res) => {
 });
 
 
-httpServer.listen(443, () => {
+httpServer.listen(80, () => {
   console.log(`Next.js server with WebSocket running on port ${PORT}`);
 });
