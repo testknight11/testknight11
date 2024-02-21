@@ -209,6 +209,19 @@ export const webhookEmitter = new EventEmitter();
 
 
 
+
+// Route to handle SSE connection
+// app.get('http://localhost:3001/api/sseHandler', sseHandler);
+
+// // Start the server
+// const PORT = 3001;
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+//   // Start sending mock events after the server starts
+//   sendMockEvents();
+// });
+
+
 export default function handler(req, res) {
   try {
     if (req.method === "POST") {
@@ -216,8 +229,7 @@ export default function handler(req, res) {
       const payload = req.body; // Assuming the payload is in the request body
 
       // Emit an SSE event with the payload data
-      webhookEmitter.emit('webhookReceived', payload);
-
+      webhookEmitter.emit('webhookReceived',payload)
       // Return a success response
       res.status(200).json({ message: 'Webhook received successfully!' });
     } else {
@@ -229,9 +241,23 @@ export default function handler(req, res) {
   }
 }
 
-  
 
-// import { EventEmitter } from 'events';
+
+// function mockEmit(event) {
+//   // Emit the specified event with the provided data
+//   webhookEmitter.emit(event);
+// }
+
+// app.get('http://localhost:3001/api/sseHandler', sseHandler);
+
+// // Start the server
+// const PORT = 3001;
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+//   // Start sending mock events after the server starts
+//   sendMockEvents();
+// });
+// // import { EventEmitter } from 'events';
 
 // const webhookEmitter = new EventEmitter();
 // let webhookEventTriggered = false; // Initialize the webhookEventTriggered variable

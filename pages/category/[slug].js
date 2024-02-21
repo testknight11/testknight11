@@ -18,104 +18,103 @@ const CategoryProducts = ({ categoryProducts }) => {
     const router = useRouter();
     const { slug } = router.query;
     console.log(slug)
-    const listenToSSEUpdates = useCallback(() => {
+    useEffect(() => {
 
         console.log('listenToSSEUpdates func');
 
 
 
-        const eventSource = new EventSource('/api/sseHandler');
+        const eventSource = new EventSource('/api/sse');
         console.log(eventSource)
-        if (eventSource.readyState === 1) {
-            eventSource.onopen = () => {
-
-                console.log('SSE connection opened.');
-
-                // Save the SSE connection reference in the state
-
-            };
-
-            eventSource.onmessage = (event) => {
-
-                const data = event.data;
-
-                console.log('Received SSE Update:', data);
-                if (data._type === slug) {
-                    fetchProductsByCategory(slug)
-                }
 
 
+        eventSource.onmessage = (event) => {
+            console.log('Received message:', event.data);
+            // Handle the received message here
+        };
+    
+        eventSource.onerror = (error) => {
+            console.error('SSE connection error:', error);
+            // Handle the SSE connection error here
+        };
+    
+        eventSource.onopen = () => {
+            console.log('SSE connection established.');
+            // Optional: Perform actions when the SSE connection is established
+        };
+    
+        eventSource.onclose = () => {
+            console.log('SSE connection closed.');
+            // Optional: Perform actions when the SSE connection is closed
+        };
+    
+        // Clean up the EventSource when the component unmounts
+        return () => {
+            eventSource.close();
+        };
 
-                // Update your UI or do other processing with the received data
 
-            };
 
-            eventSource.onerror = (event) => {
 
-                console.error('SSE Error:', event);
 
-                // Handle the SSE error here
 
-            };
 
-            setSSEConnection(eventSource);
 
-            return eventSource;
-        }
+
+
+
+
+       
     }, []);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        fetchProductsByCategory(slug)
+    //     fetchProductsByCategory(slug)
 
-        listenToSSEUpdates();
+    //     listenToSSEUpdates();
 
-        return () => {
+    //     return () => {
 
-            if (sseConnection) {
+    //         if (sseConnection) {
 
-                sseConnection.close();
+    //             sseConnection.close();
 
-            }
+    //         }
 
-        };
+    //     };
 
-    }, [listenToSSEUpdates]);
-
-
-
-
-    useEffect(() => {
-
-        const handleBeforeUnload = () => {
-
-            console.dir(sseConnection);
-
-            if (sseConnection) {
-
-                console.info('Closing SSE connection before unloading the page.');
-
-                sseConnection.close();
-
-            }
-
-        };
-
-        window.addEventListener('beforeunload', handleBeforeUnload);
-
-        // Clean up the event listener when the component is unmounted
-
-        return () => {
-
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-
-        };
-
-    }, [sseConnection]);
+    // }, [listenToSSEUpdates]);
 
 
 
-   
+
+    // useEffect(() => {
+
+    //     const handleBeforeUnload = () => {
+
+    //         console.dir(sseConnection);
+
+    //         if (sseConnection) {
+
+    //             console.info('Closing SSE connection before unloading the page.');
+
+    //             sseConnection.close();
+
+    //         }
+
+    //     };
+
+    //     window.addEventListener('beforeunload', handleBeforeUnload);
+
+    //     // Clean up the event listener when the component is unmounted
+
+    //     return () => {
+
+    //         window.removeEventListener('beforeunload', handleBeforeUnload);
+
+    //     };
+
+    // }, [sseConnection]);
 
     const fetchProductsByCategory = async (categorySlug) => {
         try {
