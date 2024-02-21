@@ -1,9 +1,8 @@
 
-import { webhookEmitter } from './handler.js';
+
 
 
 export default function sseHandler(req, res) {
-  console.log(webhookEmitter)
   if (webhookEmitter.listenerCount('webhookReceived') > 0 && payload !== null) {
     if (req.headers.accept && req.headers.accept.includes('text/event-stream')) {
       // Set SSE headers
@@ -23,6 +22,7 @@ export default function sseHandler(req, res) {
       // Listen for webhook events
       webhookEmitter.on('webhookReceived', (data) => {
         sendEvent(data);
+        console.log(webhookEmitter)
       });
 
       req.socket.on('close', () => {
