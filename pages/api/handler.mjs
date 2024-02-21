@@ -1,3 +1,7 @@
+import { EventEmitter } from 'events';
+
+export const webhookEmitter = new EventEmitter();
+
 
 export default function handler(req, res) {
   try {
@@ -17,5 +21,3 @@ export default function handler(req, res) {
     res.status(500).json({ error: 'An error occurred while processing the webhook.' });
   }
 }
-
-
