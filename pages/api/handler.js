@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     if (req.method === "POST") {
       // Process the webhook payload
       // Assuming the payload is in the request body
-      console.log(req.body)
+
       // Emit an SSE event with the payload data
       const processedPayload = await processPayload(req.body);
 
