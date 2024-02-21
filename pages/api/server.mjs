@@ -14,36 +14,39 @@ export const webhookEmitter = new EventEmitter();
 // app.get('http://localhost:10000/api/sse.mjs');
 
 
+app.get('/api/sse', sseHandler);
 
-const dev = process.env.NODE_ENV !== 'production';
-const nextApp = next({ dev });
-const handle = nextApp.getRequestHandler();
+module.exports = app;
+
+// const dev = process.env.NODE_ENV !== 'production';
+// const nextApp = next({ dev });
+// const handle = nextApp.getRequestHandler();
 
 
-nextApp.prepare().then(() => {
+// nextApp.prepare().then(() => {
 
-  const app = express();
+//   const app = express();
   
-  // const corsOptions = {
-  //   origin: 'http://localhost:3000'// Replace with your client's origin
+//   // const corsOptions = {
+//   //   origin: 'http://localhost:3000'// Replace with your client's origin
 
-  // };
+//   // };
   
-  // app.use(cors(corsOptions));
-  // Define your Express routes here
-  app.get('/api/sse', sseHandler);
+//   // app.use(cors(corsOptions));
+//   // Define your Express routes here
+//   app.get('/api/sse', sseHandler);
 
-  // Next.js request handler
-  app.all('*', (req, res) => {
-    return handle(req, res);
-  });
+//   // Next.js request handler
+//   app.all('*', (req, res) => {
+//     return handle(req, res);
+//   });
 
-  const PORT = 3000;
-  app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}`);
+//   const PORT = 3000;
+//   app.listen(PORT, () => {
+//     console.log(`Server is listening on port ${PORT}`);
 
-  });
-});
+//   });
+// });
 // Start the server
 
 // app.listen(PORT, () => {
