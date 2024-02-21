@@ -24,12 +24,12 @@ nextApp.prepare().then(() => {
 
   const app = express();
   
-  const corsOptions = {
-    origin: 'http://localhost:3000'// Replace with your client's origin
+  // const corsOptions = {
+  //   origin: 'http://localhost:3000'// Replace with your client's origin
 
-  };
+  // };
   
-  app.use(cors(corsOptions));
+  // app.use(cors(corsOptions));
   // Define your Express routes here
   app.get('/api/sse', sseHandler);
 
