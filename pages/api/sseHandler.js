@@ -4,7 +4,7 @@ import { webhookEmitter } from './handler.js';
 
 export default function sseHandler(req, res) {
   console.log(webhookEmitter)
-  if (webhookEmitter.listenerCount('webhookReceived') > 0 && webhookEmitter.listenerCount('webhookReceived') > 0) {
+  if (webhookEmitter.listenerCount('webhookReceived') > 0 && payload !== null) {
     if (req.headers.accept && req.headers.accept.includes('text/event-stream')) {
       // Set SSE headers
       res.setHeader('Content-Type', 'text/event-stream');
