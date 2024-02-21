@@ -13,9 +13,6 @@ const webhookEmitter = new EventEmitter();
 
 
 // Example: Listening for an event
-webhookEmitter.on('webhookReceived', (data) => {
-  console.log('Event received:', data);
-});
 
 export default async function handler(req, res) {
   try {
