@@ -17,20 +17,20 @@ webhookEmitter.on('webhookReceived', (data) => {
   console.log('Event received:', data);
 });
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   try {
     if (req.method === "POST") {
       // Process the webhook payload
-     // Assuming the payload is in the request body
+      // Assuming the payload is in the request body
+      console.log(req.body)
+      // Emit an SSE event with the payload data
+      const processedPayload = await processPayload(req.body);
+
 
       // Emit an SSE event with the payload data
+      webhookEmitter.emit('webhookReceived', processedPayload);
 
-const payload=req.body
-
-      // Emit an SSE event with the payload data
-      webhookEmitter.emit('webhookReceived',payload );
-
-console.log(webhookEmitter)
+      console.log(webhookEmitter)
 
       // Return a success response
       res.status(200).json({ message: 'Webhook received successfully!' });
@@ -43,3 +43,17 @@ console.log(webhookEmitter)
   }
 }
 
+
+async function processPayload(payload) {
+  // Perform any asynchronous processing of the payload here
+  // For example, you could make database queries or API calls
+
+  // This is a placeholder async function, replace it with actual processing
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('Payload processed:', payload);
+
+      resolve();
+    }, 3000); // Simulate asynchronous processing with a delay of 1 second
+  });
+}
