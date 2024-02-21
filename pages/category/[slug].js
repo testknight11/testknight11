@@ -117,7 +117,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
     const fetchData = async () => {
         try {
-          const response = await axios.get('/api/websocket/sseHandler'); // Adjust the URL as needed
+          const response = await axios.get('/pages/api/websocket/sseHandler'); // Adjust the URL as needed
           console.log(response.data)
           const eventSource = new EventSource(response.data);
           console.log(eventSource)
