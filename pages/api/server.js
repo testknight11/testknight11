@@ -1,13 +1,13 @@
 import express from 'express';
-import sseHandler from './sseHandler.js';
+import { sseHandler } from './api/sseHandler.js'; // Adjust the path as needed
 
 const app = express();
 
-// Route to handle SSE connection
-app.get('/api/sseHandler', sseHandler);
+// Route to handle SSE connections
+app.get('/api/sse', sseHandler);
 
 // Other server setup code
 
-app.listen(10000, () => {
-    console.log(`Server is running on port 10000`);
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
