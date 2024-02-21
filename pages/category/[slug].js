@@ -24,7 +24,7 @@ const CategoryProducts = ({ categoryProducts }) => {
         console.log('listenToSSEUpdates func');
 
         console.log(webhookEmitter)
-        if (webhookEmitter.listenerCount('webhookReceived') > 0) {
+
             const eventSource = new EventSource('/api/sse');
             console.log(eventSource)
             if (eventSource.readyState === 1) {
@@ -70,7 +70,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
             }
 
-        }
+  
 
     }, []);
 
