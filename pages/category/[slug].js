@@ -26,32 +26,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
         const eventSource = new EventSource('/api/sse');
         console.log(eventSource)
-
-
-        eventSource.onmessage = (event) => {
-            console.log('Received message:', event.data);
-            // Handle the received message here
-        };
-    
-        eventSource.onerror = (error) => {
-            console.error('SSE connection error:', error);
-            // Handle the SSE connection error here
-        };
-    
-        eventSource.onopen = () => {
-            console.log('SSE connection established.');
-            // Optional: Perform actions when the SSE connection is established
-        };
-    
-        eventSource.onclose = () => {
-            console.log('SSE connection closed.');
-            // Optional: Perform actions when the SSE connection is closed
-        };
-    
-        // Clean up the EventSource when the component unmounts
-        return () => {
-            eventSource.close();
-        };
+        if (eventSource.readyState === 1) {
 
 
 
@@ -59,12 +34,43 @@ const CategoryProducts = ({ categoryProducts }) => {
 
 
 
+            eventSource.onmessage = (event) => {
+                console.log('Received message:', event.data);
+                // Handle the received message here
+            };
+
+            eventSource.onerror = (error) => {
+                console.error('SSE connection error:', error);
+                // Handle the SSE connection error here
+            };
+
+            eventSource.onopen = () => {
+                console.log('SSE connection established.');
+                // Optional: Perform actions when the SSE connection is established
+            };
+
+            eventSource.onclose = () => {
+                console.log('SSE connection closed.');
+                // Optional: Perform actions when the SSE connection is closed
+            };
+
+            // Clean up the EventSource when the component unmounts
+            return () => {
+                eventSource.close();
+            };
 
 
 
 
 
-       
+
+
+
+
+        }
+
+
+
     }, []);
 
     // useEffect(() => {
