@@ -8,6 +8,6 @@ app.get('/api/sse', sseHandler);
 
 // Other server setup code
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.listen(10000, () => {
+    console.log(`Server is running on port 10000`);
 });

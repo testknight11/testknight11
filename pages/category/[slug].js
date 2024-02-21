@@ -24,7 +24,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
 
 
-        const eventSource = new EventSource('/api/sse');
+        const eventSource = new EventSource('/api/handler/sseHandler');
         console.log(eventSource)
         if (eventSource.readyState === 1) {
             eventSource.onopen = () => {
