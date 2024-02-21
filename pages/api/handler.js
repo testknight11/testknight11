@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 
 
       // Emit an SSE event with the payload data
-      webhookEmitter.emit('webhookReceived', processedPayload);
+      webhookEmitter.emit('webhookReceived', JSON.stringify(processedPayload));
 
       console.log(webhookEmitter)
 
