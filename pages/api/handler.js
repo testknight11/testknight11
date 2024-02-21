@@ -11,9 +11,9 @@ export default function handler(req, res) {
     if (req.method === "POST") {
       // Process the webhook payload
       const payload = req.body; // Assuming the payload is in the request body
-console.log(payload)
+      console.log(payload)
       // Emit an SSE event with the payload data
-      webhookEmitter.emit('webhookReceived',payload)
+      webhookEmitter.emit('webhookReceived', payload)
 
       console.log(webhookEmitter)
 
@@ -27,3 +27,5 @@ console.log(payload)
     res.status(500).json({ error: 'An error occurred while processing the webhook.' });
   }
 }
+
+
