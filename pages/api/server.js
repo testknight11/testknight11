@@ -1,5 +1,5 @@
 import express from 'express';
-import { sseHandler } from './sseHandler.js';
+import sseHandler from './sseHandler.js';
 
 const app = express();
 
