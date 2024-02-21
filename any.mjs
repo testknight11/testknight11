@@ -15,7 +15,7 @@ export const webhookEmitter = new EventEmitter();
 
 
 
-const dev = process.env.NODE_ENV !== 'production';
+const dev = process.env.NODE_ENV === 'production';
 const nextApp = next({ dev });
 const handle = nextApp.getRequestHandler();
 
@@ -28,6 +28,7 @@ nextApp.prepare().then(() => {
     origin: 'http://localhost:3000'// Replace with your client's origin
 
   };
+  console.log('eeeeeeeeeeeeeee')
   
   app.use(cors(corsOptions));
   // Define your Express routes here
@@ -39,9 +40,9 @@ nextApp.prepare().then(() => {
   });
 
  
-  const PORT = process.env.PORT || 3000;
-  app.listen(PORT, (err) => {
-    if (err) throw err;
+  const PORT = process.env.PORT || 3500;
+  app.listen(PORT, () => {
+
     console.log(`Server is listening on port ${PORT}`);
   });
 });
