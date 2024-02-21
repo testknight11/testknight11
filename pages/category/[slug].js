@@ -24,28 +24,8 @@ const CategoryProducts = ({ categoryProducts }) => {
 
 
 
-        const fetchData = async () => {
-            try {
-              const response = await axios.get('/api/websocket/sseHandler'); // Adjust the URL as needed
-              console.log(response.data)
-              const eventSource = new EventSource(response.data);
-              console.log(eventSource)
-              eventSource.onopen = () => {
-                console.log('SSE connection opened.');
-                console.log(eventSource)
-                // fetchProductsByCategory()
-              };
-              eventSource.onerror = (event) => {
-                console.error('SSE Error:', event);
-                // Handle SSE error
-              };
-            } catch (error) {
-              console.error('Axios error:', error);
-              // Handle axios error
-            }
-          };
-          fetchData();        
-          console.log(eventSource)
+        const eventSource = new EventSource('/api/sseHandler');
+        console.log(eventSource)
         if (eventSource.readyState === 1) {
             eventSource.onopen = () => {
 
