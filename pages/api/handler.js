@@ -13,7 +13,12 @@ export default async function handler(req, res) {
       const payload = req.body; // Assuming the payload is in the request body
       console.log(payload)
       // Emit an SSE event with the payload data
-      webhookEmitter.emit('webhookReceived', payload)
+      await processPayload(payload);
+
+      // Emit an SSE event with the payload data
+      webhookEmitter.emit('webhookReceived', payload);
+
+      console.log(webhookEmitter);
 
       console.log(webhookEmitter)
 
