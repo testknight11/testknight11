@@ -205,7 +205,7 @@
 
 import { EventEmitter } from 'events';
 
-const webhookEmitter = new EventEmitter();
+export const webhookEmitter = new EventEmitter();
 
 
 
