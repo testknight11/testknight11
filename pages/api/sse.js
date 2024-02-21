@@ -6,7 +6,7 @@ export default function handler(req, res) {
 
   if (req.headers.accept && req.headers.accept.includes('text/event-stream')) {
     // Set SSE headers
-    if (webhookEmitter.listenerCount('webhookReceived') > 0) {
+    if (webhookEmitter._eventsCount('webhookReceived') > 0) {
       res.setHeader('Content-Type', 'text/event-stream');
       res.setHeader('Cache-Control', 'no-cache');
       res.setHeader('Connection', 'keep-alive');

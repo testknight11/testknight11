@@ -1,7 +1,10 @@
 import EventEmitter from 'events';
 
 export const webhookEmitter = new EventEmitter();
-
+webhookEmitter.on('webhookReceived', (payload) => {
+  console.log('Received webhook data:', payload);
+  // Process the payload data here
+});
 
 export default function handler(req, res) {
   try {
