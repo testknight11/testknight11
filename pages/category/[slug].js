@@ -22,9 +22,12 @@ const CategoryProducts = ({ categoryProducts }) => {
 
         console.log('listenToSSEUpdates func');
 
-        console.log(EventSource)
-        if (EventSource.readyState === 1) {
-            EventSource.onopen = () => {
+
+
+        const eventSource = new EventSource('/api/websocket');
+        console.log(eventSource)
+        if (eventSource.readyState === 1) {
+            eventSource.onopen = () => {
 
                 console.log('SSE connection opened.');
 
@@ -32,14 +35,12 @@ const CategoryProducts = ({ categoryProducts }) => {
 
             };
 
-            EventSource.onmessage = (event) => {
+            eventSource.onmessage = (event) => {
 
                 const data = event.data;
 
                 console.log('Received SSE Update:', data);
                 if (data._type === slug) {
-                    console.log(EventSource)
-
                     fetchProductsByCategory(slug)
                 }
 
@@ -49,8 +50,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
             };
 
-            
-            EventSource.onerror = (event) => {
+            eventSource.onerror = (event) => {
 
                 console.error('SSE Error:', event);
 
@@ -58,9 +58,9 @@ const CategoryProducts = ({ categoryProducts }) => {
 
             };
 
-            setSSEConnection(EventSource);
+            setSSEConnection(eventSource);
 
-            return EventSource;
+            return eventSource;
         }
     }, []);
 
