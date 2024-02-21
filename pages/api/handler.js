@@ -10,17 +10,15 @@ export default async function handler(req, res) {
   try {
     if (req.method === "POST") {
       // Process the webhook payload
-      const payload = req.body; // Assuming the payload is in the request body
+     // Assuming the payload is in the request body
       console.log(payload)
       // Emit an SSE event with the payload data
-      await processPayload(payload);
+      await processPayload(req.body);
 
       // Emit an SSE event with the payload data
       webhookEmitter.emit('webhookReceived', payload);
 
-      console.log(webhookEmitter);
 
-      console.log(webhookEmitter)
 
       // Return a success response
       res.status(200).json({ message: 'Webhook received successfully!' });
@@ -43,6 +41,6 @@ async function processPayload(payload) {
     setTimeout(() => {
       console.log('Payload processed:', payload);
       resolve();
-    }, 1000); // Simulate asynchronous processing with a delay of 1 second
+    }, 3000); // Simulate asynchronous processing with a delay of 1 second
   });
 }
