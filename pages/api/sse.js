@@ -1,5 +1,5 @@
 
-import { webhookEmitter } from "./handler.mjs";
+import { webhookEmitter } from "./handler.js";
 console.log('test')
 export default function handler(req, res) {
 
