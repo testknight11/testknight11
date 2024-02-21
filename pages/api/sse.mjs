@@ -1,7 +1,7 @@
 
 import { webhookEmitter } from "./handler.mjs";
 console.log('test')
-export default function sseHandler(req, res) {
+export default function handler(req, res) {
 
 
   if (req.headers.accept && req.headers.accept.includes('text/event-stream')) {
