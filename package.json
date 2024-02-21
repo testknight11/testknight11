@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.17.9",
+    "@foxify/events": "^2.1.0",
     "@sanity/client": "^6.12.4",
     "@sanity/image-url": "^1.0.2",
     "@sanity/vision": "^3.28.0",

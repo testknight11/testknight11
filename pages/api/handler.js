@@ -1,9 +1,20 @@
-import EventEmitter from 'events';
+import { EventEmitter } from '@foxify/events';
 
-export const webhookEmitter = new EventEmitter();
-webhookEmitter.on('webhookReceived', (payload) => {
-  console.log('Received webhook data:', payload);
-  // Process the payload data here
+// export const webhookEmitter = new EventEmitter();
+// webhookEmitter.on('webhookReceived', (payload) => {
+//   console.log('Received webhook data:', payload);
+//   // Process the payload data here
+// });
+
+
+const webhookEmitter = new EventEmitter();
+
+// Example: Emitting an event
+
+
+// Example: Listening for an event
+webhookEmitter.on('eventName', (data) => {
+  console.log('Event received:', data);
 });
 
 export default async function handler(req, res) {
@@ -14,6 +25,7 @@ export default async function handler(req, res) {
 
       // Emit an SSE event with the payload data
       const processedPayload=await processPayload(req.body);
+
 
       // Emit an SSE event with the payload data
       webhookEmitter.emit('webhookReceived', processedPayload);
