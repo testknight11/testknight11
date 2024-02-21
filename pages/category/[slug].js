@@ -24,7 +24,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
 
 
-        const eventSource = new EventSource('/api/websocket');
+        const eventSource = new EventSource('/pages/api/websocket');
         console.log(eventSource)
         if (eventSource.readyState === 1) {
             eventSource.onopen = () => {
