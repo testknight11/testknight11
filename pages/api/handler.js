@@ -18,7 +18,7 @@ export default async function handler(req, res) {
       // Emit an SSE event with the payload data
       webhookEmitter.emit('webhookReceived', req.body);
 
-
+console.log(webhookEmitter)
 
       // Return a success response
       res.status(200).json({ message: 'Webhook received successfully!' });
@@ -40,6 +40,7 @@ async function processPayload(payload) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       console.log('Payload processed:', payload);
+      console.log(webhookEmitter)
       resolve();
     }, 3000); // Simulate asynchronous processing with a delay of 1 second
   });
