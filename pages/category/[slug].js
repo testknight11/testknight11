@@ -21,7 +21,7 @@ const CategoryProducts = ({ categoryProducts }) => {
     const router = useRouter();
     const { slug } = router.query;
 
-    useEFfect(() => {
+    useEffect(() => {
 
 
         const eventSource = new EventSource('/api/handler');
