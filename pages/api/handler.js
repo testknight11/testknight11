@@ -15,20 +15,20 @@ webhookEmitter.on('webhookReceived', (payload) => {
 
 // Example: Emitting an event
 
-
+let payload;
 // Example: Listening for an event
 
 
 export default async function handler(req, res) {
   try {
     if (req.method === "POST") {
-      webhookEmitter.emit('webhookReceived', req.body);
+
 
       // Process the webhook payload
       // Assuming the payload is in the request body
 
       // Emit an SSE event with the payload data
-
+      payload = req.body
 
       // Emit an SSE event with the payload data
 
@@ -59,8 +59,18 @@ export default async function handler(req, res) {
 //     }, 3000); // Simulate asynchronous processing with a delay of 1 second
 //   });
 // }
-
-
+if(payload){
+webhookEmitter.emit('webhookReceived', payload);
+}
+else{
+  setTimeout(() => {
+    webhookEmitter.emit('webhookReceived', payload);
+    webhookEmitter.on('webhookReceived', (payload) => {
+      console.log('Received webhook data:', payload);
+      // Process the payload data here
+    });
+  },2000);
+}
 webhookEmitter.on('webhookReceived', (payload) => {
   console.log('Received webhook data:', payload);
   // Process the payload data here
