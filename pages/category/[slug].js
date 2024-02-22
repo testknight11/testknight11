@@ -11,7 +11,6 @@ const CategoryProducts = ({ categoryProducts }) => {
     const [products, setProducts] = useState([]);
     const [datasetUpdated, setDatasetUpdated] = useState(false);
     const [sseConnection, setSSEConnection] = useState(null);
-    const [webhookEmitterGet, setWebhookEmitterGet] = useState(webhookEmitter)
 
      useEffect(() => {
 
@@ -71,7 +70,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
   
 
-    }, [webhookEmitterGet]);
+    }, []);
 
     // useEffect(() => {
 
@@ -133,7 +132,7 @@ const CategoryProducts = ({ categoryProducts }) => {
     };
 
 
-setWebhookEmitterGet(webhookEmitter)
+
 
     // console.log(categoryProducts)
     return (
