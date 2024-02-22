@@ -7,16 +7,20 @@
 // });
 
 
-import { EventEmitter } from "@foxify/events";;
+import { EventEmitter } from "@foxify/events";
 // Example: Listening for an event
 
 const webhookEmitter = new EventEmitter()
+
+webhookEmitter.on('webhookReceived', (data) => { // Listen for the webhookReceived event
+  console.log('webhook data received', data)
+});
 
 export default async function handler(req, res) {
 
   try {
     console.log(req.method)
-    if (req.method == 'GET') {
+    if (req.method === 'GET') {
 
       res.setHeader('Content-Type', 'text/event-stream');
       res.setHeader('Cache-Control', 'no-cache');
@@ -73,11 +77,8 @@ export default async function handler(req, res) {
 
 
 
-      webhookEmitter.on('webhookReceived', (data) => { // Listen for the webhookReceived event
-        console.log('webhook data received', data)
-      });
       // Example: Emitting an event
-      webhookEmitter.emit('webhookReceived', payload); // Emit the webhookReceived event with the payload
+      webhookEmitter.emit('webhookReceived', {id:1,msg:'test'}); // Emit the webhookReceived event with the payload
 
 
 
