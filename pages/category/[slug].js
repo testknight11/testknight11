@@ -135,9 +135,9 @@ const CategoryProducts = ({ categoryProducts }) => {
         }
     };
 
-
+    if (webhookEmitter) {
         setwebhookEmit(webhookEmitter)
-  
+    }
 
 
     // console.log(categoryProducts)
