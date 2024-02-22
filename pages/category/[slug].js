@@ -25,7 +25,7 @@ const CategoryProducts = ({ categoryProducts }) => {
  useEffect(() => {
 
 
-        const eventSource = new EventSource('/api/sse');
+        const eventSource = new EventSource('/api/handler');
         console.log(eventSource)
 
 
