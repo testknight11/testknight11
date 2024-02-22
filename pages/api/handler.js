@@ -7,10 +7,10 @@
 // });
 
 
-
+import { EventEmitter } from "@foxify/events";;
 // Example: Listening for an event
 
-
+const webhookEmitter=new EventEmitter()
 
 export default async function handler(req, res) {
 
@@ -57,20 +57,17 @@ export default async function handler(req, res) {
 
 
       console.log('test1')
-
-   
-
-
-
-
-      const sseEvent = {
-        event: 'my-event', // Your desired event name
-        data: JSON.stringify(payload) // Or processed data
-      };
-      
-      res.write(`data: ${JSON.stringify(sseEvent)}\n\n`);
-      console.log(res)
+      webhookEmitter.on('webhookReceived', (data) => { // Listen for the webhookReceived event
+        const sseEvent = {
+          event: 'my-event', // Your desired event name
+          data: JSON.stringify(data) // Or processed data
+        };
+        res.write(`data: ${JSON.stringify(sseEvent)}\n\n`);
+      });
       // Example: Emitting an event
+      webhookEmitter.emit('webhookReceived', payload); // Emit the webhookReceived event with the payload
+
+     
 
 
       console.log('tet2')
