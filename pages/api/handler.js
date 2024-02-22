@@ -100,3 +100,4 @@ export default async function handler(req, res) {
 // }
 
 console.log(webhookEmitter)
+webhookEmitter.emit('webhookReceived',{id:1,msg:'test'})
