@@ -74,7 +74,7 @@ export default async function handler(req, res) {
 
         };
 
-        webhookEmitter.emit('webhookReceived',{id:1,msg:'test'})
+
 
         webhookEmitter.on('webhookReceived', (data) => {
           sendEvent(data);
