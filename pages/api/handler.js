@@ -85,7 +85,7 @@ export default async function handler(req, res) {
         console.log('tet3')
 
 
-
+        await res.status(200).json('it happened');
       } else {
         // Handle requests that don't accept SSE
         console.log('tesssssssssssssssssssssst 400')
