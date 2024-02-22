@@ -10,13 +10,13 @@
 import { EventEmitter } from "@foxify/events";;
 // Example: Listening for an event
 
-const webhookEmitter=new EventEmitter()
+const webhookEmitter = new EventEmitter()
 
 export default async function handler(req, res) {
 
   try {
     console.log(req.method)
-    if(req.method=='GET'){
+    if (req.method == 'GET') {
 
       res.setHeader('Content-Type', 'text/event-stream');
       res.setHeader('Cache-Control', 'no-cache');
@@ -24,20 +24,14 @@ export default async function handler(req, res) {
       res.setHeader('X-Accel-Buffering', 'no'); // Disable proxy/web server buffering
       res.setHeader('Access-Control-Allow-Origin', '*');
 
-      res.setHeader('Content-Type', 'text/event-stream');
-      res.setHeader('Cache-Control', 'no-cache');
-      res.setHeader('Connection', 'keep-alive');
-      res.setHeader('X-Accel-Buffering', 'no'); // Disable proxy/web server buffering
-      res.setHeader('Access-Control-Allow-Origin', '*');
       // res.writeHead(200, {
       //   'Content-Type': 'text/event-stream',
       //   'Cache-Control': 'no-cache',
       //   'Connection': 'keep-alive',
       //   'Access-Control-Allow-Origin': '*'
-      // });
-      const payload = req.body
+      // })
 
-      
+
 
 
 
@@ -58,9 +52,9 @@ export default async function handler(req, res) {
         res.write(`data: ${JSON.stringify(sseEvent)}\n\n`);
       });
       // Example: Emitting an event
-      webhookEmitter.emit('webhookReceived', payload); // Emit the webhookReceived event with the payload
+      // webhookEmitter.emit('webhookReceived', payload); // Emit the webhookReceived event with the payload
 
-     
+
 
 
       console.log('tet2')
@@ -73,27 +67,22 @@ export default async function handler(req, res) {
     }
     else if (req.method === 'POST') {
 
-    
+
       const payload = req.body
 
-      
+
 
 
       webhookEmitter.on('webhookReceived', (data) => { // Listen for the webhookReceived event
-console.log('webhook data received',data)
+        console.log('webhook data received', data)
       });
       // Example: Emitting an event
       webhookEmitter.emit('webhookReceived', payload); // Emit the webhookReceived event with the payload
 
-     
+
 
 
       console.log('tet2')
-      req.socket.on('close', () => {
-        clearInterval(intervalId);
-        res.end();
-      });
-      console.log('tet3')
 
 
       // Process the webhook payload
@@ -116,7 +105,7 @@ console.log('webhook data received',data)
       console.log('test1')
 
       // Return a success response
-    // res.status(200).json({ message: 'Webhook received test successfully!' });
+      // res.status(200).json({ message: 'Webhook received test successfully!' });
 
     }
 
