@@ -24,8 +24,8 @@ export default async function handler(req, res) {
         // Process the payload data here
         console.log('Received webhook data inside handler:', payload);
       });
-      webhookEmitter.emit('webhookReceived', payload);
-      
+      webhookEmitter.emit('webhookReceived', {id:1,msg:'test'});
+
       // Example: Emitting an event
 
 
@@ -44,18 +44,18 @@ export default async function handler(req, res) {
 
 
 
-        // Set SSE headers
+      // Set SSE headers
 
 
-        // Listen for webhook events
+      // Listen for webhook events
 
-        console.log('test1')
+      console.log('test1')
 
       // Return a success response
-      await res.status(200).json({ message: 'Webhook received test successfully!' });
+     await res.status(200).json({ message: 'Webhook received test successfully!' });
 
     }
-   
+
   } catch (error) {
     console.error('Webhook error:', error);
     res.status(500).json({ error: 'An error occurred while processing the webhook.' });
