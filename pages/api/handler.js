@@ -8,6 +8,7 @@ import { EventEmitter } from '@foxify/events';
 
 
 const webhookEmitter = new EventEmitter();
+let payload;
 
 // Example: Emitting an event
 
@@ -15,18 +16,18 @@ const webhookEmitter = new EventEmitter();
 // Example: Listening for an event
 
 
-export default async function handler(req, res) {
+export default function handler(req, res) {
   try {
     if (req.method === "POST") {
       // Process the webhook payload
       // Assuming the payload is in the request body
 
       // Emit an SSE event with the payload data
-      const processedPayload = await processPayload(req.body);
+      payload = req.body;
 
 
       // Emit an SSE event with the payload data
-      webhookEmitter.emit('webhookReceived', JSON.stringify(processedPayload));
+
 
       console.log(webhookEmitter)
 
@@ -42,16 +43,19 @@ export default async function handler(req, res) {
 }
 
 
-async function processPayload(payload) {
-  // Perform any asynchronous processing of the payload here
-  // For example, you could make database queries or API calls
+// async function processPayload(payload) {
+//   // Perform any asynchronous processing of the payload here
+//   // For example, you could make database queries or API calls
 
-  // This is a placeholder async function, replace it with actual processing
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      console.log('Payload processed:', payload);
+//   // This is a placeholder async function, replace it with actual processing
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       console.log('Payload processed:', payload);
 
-      resolve();
-    }, 3000); // Simulate asynchronous processing with a delay of 1 second
-  });
-}
+//       resolve();
+//     }, 3000); // Simulate asynchronous processing with a delay of 1 second
+//   });
+// }
+console.log(payload)
+webhookEmitter.emit('webhookReceived', payload);
+console.log(webhookEmitter)
