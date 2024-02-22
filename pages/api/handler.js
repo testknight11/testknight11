@@ -10,9 +10,7 @@ import { EventEmitter } from '@foxify/events';
 
 // Example: Listening for an event
 export const webhookEmitter = new EventEmitter();
-webhookEmitter.on('webhookReceived', (payload) => {
-  // Process the payload data here
-});
+
 
 export default async function handler(req, res) {
   try {
@@ -23,6 +21,9 @@ export default async function handler(req, res) {
       const payload = req.body
 
       // Example: Emitting an event
+      webhookEmitter.on('webhookReceived', (payload) => {
+        // Process the payload data here
+      });
 
       webhookEmitter.emit('webhookReceived', payload);
       // Process the webhook payload
@@ -31,13 +32,13 @@ console.log('test payload',payload)
 
       // Emit an SSE event with the payload data
 
-
+      webhookEmitter.on('webhookReceived', (payload) => {
+        // Process the payload data here
+        console.log('receievd or not ', payload)
+      });
       // Emit an SSE event with the payload data
 
-      webhookEmitter.on('webhookReceived', (payload) => {
-        console.log('Received webhook test data:', payload);
-        // Process the payload data here
-      });
+
 
       // Return a success response
       await res.status(200).json({ message: 'Webhook received test successfully!' });
@@ -86,7 +87,6 @@ console.log('test payload',payload)
     res.status(500).json({ error: 'An error occurred while processing the webhook.' });
   }
 
-  webhookEmitter.emit('webhookReceived',{id:1,msg:'test'})
 }
 
 
