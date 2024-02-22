@@ -1,4 +1,4 @@
-import { EventEmitter } from '@foxify/events';
+
 
 // export const webhookEmitter = new EventEmitter();
 // webhookEmitter.on('webhookReceived', (payload) => {
@@ -113,4 +113,3 @@ export default async function handler(req, res) {
 //   });
 // }
 
-console.log(webhookEmitter)
