@@ -9,7 +9,7 @@ import { EventEmitter } from '@foxify/events';
 
 
 // Example: Listening for an event
-export const webhookEmitter = new EventEmitter();
+export let webhookEmitter;
 
 
 export default async function handler(req, res) {
@@ -58,7 +58,7 @@ export default async function handler(req, res) {
     else {
 
 
-
+    webhookEmitter = new EventEmitter();
 
       if (req.headers.accept && req.headers.accept.includes('text/event-stream')) {
         // Set SSE headers
