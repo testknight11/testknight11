@@ -24,10 +24,10 @@ const CategoryProducts = ({ categoryProducts }) => {
         console.log('listenToSSEUpdates func');
 
         console.log(webhookEmitter)
-        if (webhookerEmitter) {
+          
             const eventSource = new EventSource('/api/sse');
             console.log(eventSource)
-            if (eventSource.readyState === 1) {
+            if (eventSource) {
 
 
 
@@ -66,8 +66,8 @@ const CategoryProducts = ({ categoryProducts }) => {
 
             }
 
+  
 
-        }
     }, []);
 
     // useEffect(() => {
