@@ -28,11 +28,11 @@ export default async function handler(req, res) {
 
       // Emit an SSE event with the payload data
       payload = req.body;
-
+      webhookEmitter.emit('webhookReceived', payload);
 
       // Emit an SSE event with the payload data
 
-
+      console.log(webhookEmitter)
 
       // Return a success response
       res.status(200).json({ message: 'Webhook received successfully!' });
@@ -59,6 +59,6 @@ export default async function handler(req, res) {
 //     }, 3000); // Simulate asynchronous processing with a delay of 1 second
 //   });
 // }
-console.log(payload)
-webhookEmitter.emit('webhookReceived', payload);
+
+
 console.log(webhookEmitter)
