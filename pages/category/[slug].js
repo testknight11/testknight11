@@ -21,7 +21,7 @@ const CategoryProducts = ({ categoryProducts }) => {
     const router = useRouter();
     const { slug } = router.query;
 
-    const listenToSSEUpdates = useCallback(() => {
+    useEFfect(() => {
 
 
         const eventSource = new EventSource('/api/handler');
@@ -51,9 +51,9 @@ const CategoryProducts = ({ categoryProducts }) => {
         };
 
         // Clean up the EventSource when the component unmounts
-        return () => {
-            eventSource.close();
-        };
+        // return () => {
+        //     eventSource.close();
+        // };
 
 
 
@@ -70,54 +70,54 @@ const CategoryProducts = ({ categoryProducts }) => {
 
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-       // fetchProductsByCategory(slug)
+    //    // fetchProductsByCategory(slug)
 
-        listenToSSEUpdates();
+    //     listenToSSEUpdates();
 
-        return () => {
+    //     return () => {
 
-            if (sseConnection) {
+    //         if (sseConnection) {
 
-                sseConnection.close();
+    //             sseConnection.close();
 
-            }
+    //         }
 
-        };
+    //     };
 
-    }, [listenToSSEUpdates]);
-
-
+    // }, [listenToSSEUpdates]);
 
 
-    useEffect(() => {
 
-        const handleBeforeUnload = () => {
 
-            console.dir(sseConnection);
+    // useEffect(() => {
 
-            if (sseConnection) {
+    //     const handleBeforeUnload = () => {
 
-                console.info('Closing SSE connection before unloading the page.');
+    //         console.dir(sseConnection);
 
-                sseConnection.close();
+    //         if (sseConnection) {
 
-            }
+    //             console.info('Closing SSE connection before unloading the page.');
 
-        };
+    //             sseConnection.close();
 
-        window.addEventListener('beforeunload', handleBeforeUnload);
+    //         }
 
-        // Clean up the event listener when the component is unmounted
+    //     };
 
-        return () => {
+    //     window.addEventListener('beforeunload', handleBeforeUnload);
 
-            window.removeEventListener('beforeunload', handleBeforeUnload);
+    //     // Clean up the event listener when the component is unmounted
 
-        };
+    //     return () => {
 
-    }, [sseConnection]);
+    //         window.removeEventListener('beforeunload', handleBeforeUnload);
+
+    //     };
+
+    // }, [sseConnection]);
 
     const fetchProductsByCategory = async (categorySlug) => {
         try {
