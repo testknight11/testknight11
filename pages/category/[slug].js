@@ -26,6 +26,7 @@ const CategoryProducts = ({ categoryProducts }) => {
     useEffect(() => {
 
         console.log('listenToSSEUpdates func');
+        console.log(webhookEmitter)
 
         if (webhookEmitter?.listenerCount && webhookEmitter?.listenerCount('webhookReceieved') > 0) {
 
