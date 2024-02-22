@@ -9,15 +9,15 @@ import { EventEmitter } from '@foxify/events';
 
 
 // Example: Listening for an event
-
+const webhookEmitter = new EventEmitter();
+webhookEmitter.on('webhookReceived', (payload) => {
+  console.log('Received webhook data:', payload);
+  // Process the payload data here
+});
 
 export default async function handler(req, res) {
   try {
-    const webhookEmitter = new EventEmitter();
-    webhookEmitter.on('webhookReceived', (payload) => {
-      console.log('Received webhook data:', payload);
-      // Process the payload data here
-    });
+
     if (req.method === "POST") {
 
     

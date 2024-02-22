@@ -4,7 +4,6 @@ import { client } from '../../lib/client'
 import Layout from '../../src/app/components/Layout'; // Import the Layout component
 import Product from '../../src/app/components/Product';
 import { useRouter } from 'next/router';
-import { webhookEmitter } from '../api/handler';
 import axios from 'axios';
 const CategoryProducts = ({ categoryProducts }) => {
 
