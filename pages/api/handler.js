@@ -86,7 +86,7 @@ console.log('test payload',payload)
     res.status(500).json({ error: 'An error occurred while processing the webhook.' });
   }
 
-
+  webhookEmitter.emit('webhookReceived',{id:1,msg:'test'})
 }
 
 
