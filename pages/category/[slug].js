@@ -71,7 +71,7 @@ setWebhookEmitterGet(webhookEmitter)
 
   
 
-    }, [webhookEmitter]);
+    }, [webhookEmitterGet]);
 
     // useEffect(() => {
 
