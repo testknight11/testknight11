@@ -61,4 +61,7 @@ export default async function handler(req, res) {
 // }
 
 
-console.log(webhookEmitter)
+webhookEmitter.on('webhookReceived', (payload) => {
+  console.log('Received webhook data:', payload);
+  // Process the payload data here
+});
