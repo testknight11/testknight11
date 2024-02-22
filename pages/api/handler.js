@@ -84,9 +84,6 @@ console.log('test payload',payload)
   }
 
 
-
-
-  webhookEmitter.emit('webhookReceived',{id:1,msg:'test'})
 }
 
 
