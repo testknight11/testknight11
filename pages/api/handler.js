@@ -17,27 +17,31 @@ export default async function handler(req, res) {
   try {
     console.log(req.method)
     if(req.method=='GET'){
-      res.writeHead(200, {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-        'Access-Control-Allow-Origin': '*'
-      });
+
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+      res.setHeader('X-Accel-Buffering', 'no'); // Disable proxy/web server buffering
+      res.setHeader('Access-Control-Allow-Origin', '*');
+
+      const intervalId = setInterval(() => {
+        res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
+      }, 1000);
 
     }
     else if (req.method === 'POST') {
 
-      // res.setHeader('Content-Type', 'text/event-stream');
-      // res.setHeader('Cache-Control', 'no-cache');
-      // res.setHeader('Connection', 'keep-alive');
-      // res.setHeader('X-Accel-Buffering', 'no'); // Disable proxy/web server buffering
-      // res.setHeader('Access-Control-Allow-Origin', '*');
-      res.writeHead(200, {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-        'Access-Control-Allow-Origin': '*'
-      });
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+      res.setHeader('X-Accel-Buffering', 'no'); // Disable proxy/web server buffering
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      // res.writeHead(200, {
+      //   'Content-Type': 'text/event-stream',
+      //   'Cache-Control': 'no-cache',
+      //   'Connection': 'keep-alive',
+      //   'Access-Control-Allow-Origin': '*'
+      // });
       const payload = req.body
 
       
