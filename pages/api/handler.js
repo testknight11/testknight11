@@ -25,16 +25,7 @@ export default async function handler(req, res) {
         console.log('Received webhook data inside handler:', payload);
       });
       webhookEmitter.emit('webhookReceived', payload);
-      const sendEvent = (data) => {
-        res.write(`data: ${JSON.stringify(data)}\n\n`);
-
-      };
-
-
-
-      webhookEmitter.on('webhookReceived', (data) => {
-        sendEvent(payload);
-      });
+      
       // Example: Emitting an event
 
 
