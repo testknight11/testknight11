@@ -11,7 +11,7 @@ const CategoryProducts = ({ categoryProducts }) => {
     const [products, setProducts] = useState([]);
     const [datasetUpdated, setDatasetUpdated] = useState(false);
     const [sseConnection, setSSEConnection] = useState(null);
-    const [webhookEmit, setwebhookEmit] = useState(null)
+
 
     useEffect(() => {
 
@@ -27,8 +27,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
         console.log('listenToSSEUpdates func');
 
-        console.log(webhookEmit)
-        if (webhookEmit?.listenerCount && webhookEmit?.listenerCount('webhookReceieved') > 0) {
+        if (webhookEmitter?.listenerCount && webhookEmitter?.listenerCount('webhookReceieved') > 0) {
 
             const eventSource = new EventSource('/api/handler');
             console.log(eventSource)
@@ -73,7 +72,7 @@ const CategoryProducts = ({ categoryProducts }) => {
         }
 
 
-    }, [webhookEmit]);
+    }, [webhookEmitter]);
 
 
     // useEffect(() => {
@@ -135,9 +134,6 @@ const CategoryProducts = ({ categoryProducts }) => {
         }
     };
 
-    if (webhookEmitter) {
-        setwebhookEmit(webhookEmitter)
-    }
 
 
     // console.log(categoryProducts)
