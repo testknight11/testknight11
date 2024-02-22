@@ -15,84 +15,86 @@ export const webhookEmitter = new EventEmitter();
 export default async function handler(req, res) {
   try {
 
-    if (req.method === "POST") {
 
 
-      const payload = req.body
 
-      // Example: Emitting an event
-      webhookEmitter.on('webhookReceived', (payload) => {
-        // Process the payload data here
-        console.log('Received webhook data inside handler:', payload);
+    const payload = req.body
+
+    // Example: Emitting an event
+    webhookEmitter.on('webhookReceived', (payload) => {
+      // Process the payload data here
+      console.log('Received webhook data inside handler:', payload);
+    });
+
+    webhookEmitter.emit('webhookReceived', payload);
+    console.log(webhookEmitter)
+    // Process the webhook payload
+    // Assuming the payload is in the request body
+    console.log('test payload', payload)
+
+    // Emit an SSE event with the payload data
+
+
+    // Emit an SSE event with the payload data
+
+
+
+    // Return a success response
+    await res.status(200).json({ message: 'Webhook received test successfully!' });
+
+
+
+    console.log('get', webhookEmitter)
+    if (req.headers.accept && req.headers.accept.includes('text/event-stream')) {
+      // Set SSE headers
+
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+      console.log('tesssssssssssssssssssssst')
+      // Keep the connection alive
+
+
+      // Listen for webhook events
+      let receivedData;
+      webhookEmitter.on('webhookReceived', (data) => {
+        console.log(data);
+        receivedData = data;
       });
-
-      webhookEmitter.emit('webhookReceived', payload);
-      console.log(webhookEmitter)
-      // Process the webhook payload
-      // Assuming the payload is in the request body
-      console.log('test payload', payload)
-
-      // Emit an SSE event with the payload data
+      console.log('test5')
+      if (receivedData?._type.length > 0) {
 
 
-      // Emit an SSE event with the payload data
+        const intervalId = setInterval(() => {
+          res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
+        }, 10000);
+        console.log('test65')
 
+        const sendEvent = (data) => {
+          res.write(`data: ${JSON.stringify(data)}\n\n`);
+          console.log()
+        };
+        console.log('test1')
 
-
-      // Return a success response
-      await res.status(200).json({ message: 'Webhook received test successfully!' });
-    } else {
-
-
-      console.log('get', webhookEmitter)
-      if (req.headers.accept && req.headers.accept.includes('text/event-stream')) {
-        // Set SSE headers
-
-        res.setHeader('Content-Type', 'text/event-stream');
-        res.setHeader('Cache-Control', 'no-cache');
-        res.setHeader('Connection', 'keep-alive');
-        console.log('tesssssssssssssssssssssst')
-        // Keep the connection alive
-        
-
-        // Listen for webhook events
-        let receivedData;
         webhookEmitter.on('webhookReceived', (data) => {
-          console.log(data);
-          receivedData = data;
+          sendEvent(data);
         });
-        if (receivedData?._type.length > 0) {
-
-
-          const intervalId = setInterval(() => {
-            res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
-          }, 10000);
-  
-          const sendEvent = (data) => {
-            res.write(`data: ${JSON.stringify(data)}\n\n`);
-            console.log()
-          };
-          console.log('test1')
-
-          webhookEmitter.on('webhookReceived', (data) => {
-            sendEvent(data);
-          });
-          console.log('tet2')
-          req.socket.on('close', () => {
-            clearInterval(intervalId);
-            webhookEmitter.off('webhookReceived', sendEvent);
-            res.end();
-          });
-          console.log('tet3')
-        }
-
-      } else {
-        // Handle requests that don't accept SSE
-        console.log('tesssssssssssssssssssssst')
-        res.status(400).end();
+        console.log('tet2')
+        req.socket.on('close', () => {
+          clearInterval(intervalId);
+          webhookEmitter.off('webhookReceived', sendEvent);
+          res.end();
+        });
+        console.log('tet3')
       }
 
+    } else {
+      // Handle requests that don't accept SSE
+      console.log('tesssssssssssssssssssssst')
+      res.status(400).end();
     }
+
+
   } catch (error) {
     console.error('Webhook error:', error);
     res.status(500).json({ error: 'An error occurred while processing the webhook.' });
