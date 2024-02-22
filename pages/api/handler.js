@@ -16,7 +16,16 @@ export default async function handler(req, res) {
 
   try {
     console.log(req.method)
-    if (req.method === 'POST') {
+    if(req.method=='GET'){
+      res.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+        'Access-Control-Allow-Origin': '*'
+      });
+
+    }
+    else if (req.method === 'POST') {
 
       // res.setHeader('Content-Type', 'text/event-stream');
       // res.setHeader('Cache-Control', 'no-cache');
