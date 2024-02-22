@@ -26,53 +26,46 @@ const CategoryProducts = ({ categoryProducts }) => {
     const listenToSSEUpdates = useCallback(() => {
         console.log('listenToSSEUpdates func');
 
+        webhookEmitter.on('webhookReceived', (payload) => {
+            console.log('Received webhook data on another page:', payload);
+            // Process the payload data here
+        });
+
+
 
 
         const eventSource = new EventSource('/api/handler');
         console.log(eventSource)
-        if (eventSource) {
-
-            webhookEmitter.on('webhookReceived', (payload) => {
-                console.log('Received webhook data on another page:', payload);
-                // Process the payload data here
-              });
-              
-
-
-            eventSource.onmessage = (event) => {
-                console.log('Received message:', event.data);
-                // Handle the received message here
-            };
-
-            eventSource.onerror = (error) => {
-                console.error('SSE connection error:', error);
-                // Handle the SSE connection error here
-            };
-
-            eventSource.onopen = () => {
-                console.log('SSE connection established.', eventSource);
-                // Optional: Perform actions when the SSE connection is established
-            };
-
-            eventSource.onclose = () => {
-                console.log('SSE connection closed.');
-                // Optional: Perform actions when the SSE connection is closed
-            };
-
-            // Clean up the EventSource when the component unmounts
-            return () => {
-                eventSource.close();
-            };
 
 
 
+        eventSource.onmessage = (event) => {
+            console.log('Received message:', event.data);
+            // Handle the received message here
+        };
+
+        eventSource.onerror = (error) => {
+            console.error('SSE connection error:', error);
+            // Handle the SSE connection error here
+        };
+
+        eventSource.onopen = () => {
+            console.log('SSE connection established.', eventSource);
+            // Optional: Perform actions when the SSE connection is established
+        };
+
+        eventSource.onclose = () => {
+            console.log('SSE connection closed.');
+            // Optional: Perform actions when the SSE connection is closed
+        };
+
+        // Clean up the EventSource when the component unmounts
+        return () => {
+            eventSource.close();
+        };
 
 
 
-
-
-
-        }
 
 
 
