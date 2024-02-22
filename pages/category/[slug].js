@@ -11,7 +11,7 @@ const CategoryProducts = ({ categoryProducts }) => {
     const [products, setProducts] = useState([]);
     const [datasetUpdated, setDatasetUpdated] = useState(false);
     const [sseConnection, setSSEConnection] = useState(null);
-const [webhookEmit, setwebhookEmit] = useState(null)
+    const [webhookEmit, setwebhookEmit] = useState(null)
 
     useEffect(() => {
 
@@ -25,9 +25,10 @@ const [webhookEmit, setwebhookEmit] = useState(null)
 
     useEffect(() => {
 
-            console.log('listenToSSEUpdates func');
+        console.log('listenToSSEUpdates func');
 
-            console.log(webhookEmitter)
+        console.log(webhookEmitter)
+        if (webhookEmit.listenerCount && webhookEmit.listenerCount('webhookReceieved') > 0) {
 
             const eventSource = new EventSource('/api/handler');
             console.log(eventSource)
@@ -46,7 +47,7 @@ const [webhookEmit, setwebhookEmit] = useState(null)
                 };
 
                 eventSource.onopen = () => {
-                    console.log('SSE connection established.');
+                    console.log('SSE connection established.', eventSource);
                     // Optional: Perform actions when the SSE connection is established
                 };
 
@@ -69,7 +70,7 @@ const [webhookEmit, setwebhookEmit] = useState(null)
 
 
             }
-
+        }
 
 
     }, [webhookEmit]);
@@ -134,9 +135,9 @@ const [webhookEmit, setwebhookEmit] = useState(null)
         }
     };
 
-if (webhookEmit){
-setwebhookEmit(webhookEmitter)
-}
+    if (webhookEmit) {
+        setwebhookEmit(webhookEmitter)
+    }
 
 
     // console.log(categoryProducts)
