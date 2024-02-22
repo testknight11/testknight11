@@ -26,45 +26,45 @@ const CategoryProducts = ({ categoryProducts }) => {
         console.log(webhookEmitter)
           
             const eventSource = new EventSource('/api/sse');
-            console.log(eventSource)
-            if (eventSource) {
+            // console.log(eventSource)
+            // if (eventSource) {
 
 
 
-                eventSource.onmessage = (event) => {
-                    console.log('Received message:', event.data);
-                    // Handle the received message here
-                };
+            //     eventSource.onmessage = (event) => {
+            //         console.log('Received message:', event.data);
+            //         // Handle the received message here
+            //     };
 
-                eventSource.onerror = (error) => {
-                    console.error('SSE connection error:', error);
-                    // Handle the SSE connection error here
-                };
+            //     eventSource.onerror = (error) => {
+            //         console.error('SSE connection error:', error);
+            //         // Handle the SSE connection error here
+            //     };
 
-                eventSource.onopen = () => {
-                    console.log('SSE connection established.');
-                    // Optional: Perform actions when the SSE connection is established
-                };
+            //     eventSource.onopen = () => {
+            //         console.log('SSE connection established.');
+            //         // Optional: Perform actions when the SSE connection is established
+            //     };
 
-                eventSource.onclose = () => {
-                    console.log('SSE connection closed.');
-                    // Optional: Perform actions when the SSE connection is closed
-                };
+            //     eventSource.onclose = () => {
+            //         console.log('SSE connection closed.');
+            //         // Optional: Perform actions when the SSE connection is closed
+            //     };
 
-                // Clean up the EventSource when the component unmounts
-                return () => {
-                    eventSource.close();
-                };
-
-
-
-
+            //     // Clean up the EventSource when the component unmounts
+            //     return () => {
+            //         eventSource.close();
+            //     };
 
 
 
 
 
-            }
+
+
+
+
+            // }
 
   
 
