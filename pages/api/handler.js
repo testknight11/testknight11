@@ -37,7 +37,7 @@ console.log('test payload',payload)
 
 
       // Return a success response
-      res.status(200).json({ message: 'Webhook received successfully!' });
+      await res.status(200).json({ message: 'Webhook received test successfully!' });
     } else {
 
       if (webhookEmitter) {
@@ -84,7 +84,7 @@ console.log('test payload',payload)
   }
 
 
-  
+
 
   webhookEmitter.emit('webhookReceived',{id:1,msg:'test'})
 }
