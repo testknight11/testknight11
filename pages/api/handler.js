@@ -15,15 +15,15 @@ export default async function handler(req, res) {
   try {
     if (req.method === "POST") {
 
-     webhookEmitter = new EventEmitter();
-     webhookEmitter.on('webhookReceived', (payload) => {
-      console.log('Received webhook data:', payload);
-      // Process the payload data here
-    });
-     const payload=req.body
-     
+      webhookEmitter = new EventEmitter();
+      webhookEmitter.on('webhookReceived', (payload) => {
+        console.log('Received webhook data:', payload);
+        // Process the payload data here
+      });
+      const payload = req.body
+
       // Example: Emitting an event
-      
+
       webhookEmitter.emit('webhookReceived', payload);
       // Process the webhook payload
       // Assuming the payload is in the request body
@@ -38,7 +38,42 @@ export default async function handler(req, res) {
       // Return a success response
       res.status(200).json({ message: 'Webhook received successfully!' });
     } else {
-      res.status(405).json({ error: "Method Not Allowed" });
+      if (webhookEmitter) {
+        if (req.headers.accept && req.headers.accept.includes('text/event-stream')) {
+          // Set SSE headers
+    
+          res.setHeader('Content-Type', 'text/event-stream');
+          res.setHeader('Cache-Control', 'no-cache');
+          res.setHeader('Connection', 'keep-alive');
+          console.log('tesssssssssssssssssssssst')
+          // Keep the connection alive
+          const intervalId = setInterval(() => {
+            res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
+          }, 10000);
+    
+          const sendEvent = (data) => {
+            res.write(`data: ${JSON.stringify(data)}\n\n`);
+          };
+          console.log('test1')
+    
+          // Listen for webhook events
+          webhookEmitter.on('webhookReceived', (data) => {
+            sendEvent(data);
+          });
+          console.log('tet2')
+          req.socket.on('close', () => {
+            clearInterval(intervalId);
+            webhookEmitter.off('webhookReceived', sendEvent);
+            res.end();
+          });
+          console.log('tet3')
+    
+        } else {
+          // Handle requests that don't accept SSE
+          console.log('tesssssssssssssssssssssst')
+          res.status(400).end();
+        }
+      }
     }
   } catch (error) {
     console.error('Webhook error:', error);

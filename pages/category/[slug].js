@@ -28,7 +28,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
             console.log(webhookEmitter)
 
-            const eventSource = new EventSource('/api/sse');
+            const eventSource = new EventSource('/api/handler');
             console.log(eventSource)
             if (eventSource) {
 
