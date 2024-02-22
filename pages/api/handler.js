@@ -20,14 +20,25 @@ export default async function handler(req, res) {
 
 
       const payload = req.body
-
-      // Example: Emitting an event
       webhookEmitter.on('webhookReceived', (payload) => {
         // Process the payload data here
         console.log('Received webhook data inside handler:', payload);
       });
-
       webhookEmitter.emit('webhookReceived', payload);
+      const sendEvent = (data) => {
+        res.write(`data: ${JSON.stringify(data)}\n\n`);
+
+      };
+
+
+
+      webhookEmitter.on('webhookReceived', (data) => {
+        sendEvent(payload);
+      });
+      // Example: Emitting an event
+
+
+
 
       console.log(webhookEmitter)
       // Process the webhook payload
@@ -47,16 +58,6 @@ export default async function handler(req, res) {
 
         // Listen for webhook events
 
-        const sendEvent = (data) => {
-          res.write(`data: ${JSON.stringify(data)}\n\n`);
-
-        };
-
-
-
-        webhookEmitter.on('webhookReceived', (data) => {
-          sendEvent(data);
-        });
         console.log('test1')
 
       // Return a success response
