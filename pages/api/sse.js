@@ -24,12 +24,7 @@ export default function handler(req, res) {
           }, 1000);
           console.log('test65')
   
-  
-          const sendEvent = (data) => {
-            res.write(`data: ${JSON.stringify(data)}\n\n`);
-  
-          };
-  
+
   
 
           console.log('test1')
@@ -38,7 +33,6 @@ export default function handler(req, res) {
           console.log('tet2')
           req.socket.on('close', () => {
             clearInterval(intervalId);
-            webhookEmitter.off('webhookReceived', sendEvent);
             res.end();
           });
           console.log('tet3')

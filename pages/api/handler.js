@@ -25,7 +25,7 @@ export default async function handler(req, res) {
       res.setHeader('Access-Control-Allow-Origin', '*');
 
       const payload = req.body
-      res.write(`data: ${JSON.stringify(payload)}\n\n`);
+      await res.write(`data: ${JSON.stringify(payload)}\n\n`);
       // Example: Emitting an event
 
 
