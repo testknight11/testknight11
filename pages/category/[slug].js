@@ -23,44 +23,41 @@ const CategoryProducts = ({ categoryProducts }) => {
     const { slug } = router.query;
     console.log(webhookEmitter)
 
-    useEffect(() => {
-
+    const listenToSSEUpdates = useCallback(() => {
         console.log('listenToSSEUpdates func');
-        console.log(webhookEmitter)
-
-        if (webhookEmitter?.listenerCount && webhookEmitter?.listenerCount('webhookReceieved') > 0) {
-
-            const eventSource = new EventSource('/api/handler');
-            console.log(eventSource)
-            if (eventSource) {
 
 
 
-                eventSource.onmessage = (event) => {
-                    console.log('Received message:', event.data);
-                    // Handle the received message here
-                };
+        const eventSource = new EventSource('/api/handler');
+        console.log(eventSource)
+        if (eventSource) {
 
-                eventSource.onerror = (error) => {
-                    console.error('SSE connection error:', error);
-                    // Handle the SSE connection error here
-                };
 
-                eventSource.onopen = () => {
-                    console.log('SSE connection established.', eventSource);
-                    // Optional: Perform actions when the SSE connection is established
-                };
 
-                eventSource.onclose = () => {
-                    console.log('SSE connection closed.');
-                    // Optional: Perform actions when the SSE connection is closed
-                };
+            eventSource.onmessage = (event) => {
+                console.log('Received message:', event.data);
+                // Handle the received message here
+            };
 
-                // Clean up the EventSource when the component unmounts
-                return () => {
-                    eventSource.close();
-                };
+            eventSource.onerror = (error) => {
+                console.error('SSE connection error:', error);
+                // Handle the SSE connection error here
+            };
 
+            eventSource.onopen = () => {
+                console.log('SSE connection established.', eventSource);
+                // Optional: Perform actions when the SSE connection is established
+            };
+
+            eventSource.onclose = () => {
+                console.log('SSE connection closed.');
+                // Optional: Perform actions when the SSE connection is closed
+            };
+
+            // Clean up the EventSource when the component unmounts
+            return () => {
+                eventSource.close();
+            };
 
 
 
@@ -69,61 +66,69 @@ const CategoryProducts = ({ categoryProducts }) => {
 
 
 
-            }
+
         }
 
 
-    }, [webhookEmitter]);
 
-
-    // useEffect(() => {
-
-    //     fetchProductsByCategory(slug)
-
-    //     listenToSSEUpdates();
-
-    //     return () => {
-
-    //         if (sseConnection) {
-
-    //             sseConnection.close();
-
-    //         }
-
-    //     };
-
-    // }, [listenToSSEUpdates]);
+    }, []);
 
 
 
 
-    // useEffect(() => {
 
-    //     const handleBeforeUnload = () => {
 
-    //         console.dir(sseConnection);
 
-    //         if (sseConnection) {
 
-    //             console.info('Closing SSE connection before unloading the page.');
 
-    //             sseConnection.close();
+    useEffect(() => {
 
-    //         }
+        fetchProductsByCategory(slug)
 
-    //     };
+        listenToSSEUpdates();
 
-    //     window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
 
-    //     // Clean up the event listener when the component is unmounted
+            if (sseConnection) {
 
-    //     return () => {
+                sseConnection.close();
 
-    //         window.removeEventListener('beforeunload', handleBeforeUnload);
+            }
 
-    //     };
+        };
 
-    // }, [sseConnection]);
+    }, [listenToSSEUpdates]);
+
+
+
+
+    useEffect(() => {
+
+        const handleBeforeUnload = () => {
+
+            console.dir(sseConnection);
+
+            if (sseConnection) {
+
+                console.info('Closing SSE connection before unloading the page.');
+
+                sseConnection.close();
+
+            }
+
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        // Clean up the event listener when the component is unmounted
+
+        return () => {
+
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+
+        };
+
+    }, [sseConnection]);
 
     const fetchProductsByCategory = async (categorySlug) => {
         try {

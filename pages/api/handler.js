@@ -27,6 +27,7 @@ export default async function handler(req, res) {
       });
 
       webhookEmitter.emit('webhookReceived', payload);
+      console.log(webhookEmitter)
       // Process the webhook payload
       // Assuming the payload is in the request body
 console.log('test payload',payload)
