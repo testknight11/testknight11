@@ -4,6 +4,7 @@ import { client } from '../../lib/client'
 import Layout from '../../src/app/components/Layout'; // Import the Layout component
 import Product from '../../src/app/components/Product';
 import { useRouter } from 'next/router';
+import { webhookEmitter } from '../api/handler';
 import axios from 'axios';
 const CategoryProducts = ({ categoryProducts }) => {
 
@@ -19,12 +20,13 @@ const CategoryProducts = ({ categoryProducts }) => {
     // Inside your functional component
     const router = useRouter();
     const { slug } = router.query;
+    console.log(webhookEmitter)
 
     useEffect(() => {
-
+        if (webhookEmitter) {
             console.log('listenToSSEUpdates func');
 
-
+            console.log(webhookEmitter)
 
             const eventSource = new EventSource('/api/handler');
             console.log(eventSource)
@@ -68,7 +70,7 @@ const CategoryProducts = ({ categoryProducts }) => {
             }
 
 
-
+        }
     }, []);
 
 

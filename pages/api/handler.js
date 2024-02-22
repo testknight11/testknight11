@@ -9,7 +9,7 @@ import { EventEmitter } from '@foxify/events';
 
 
 // Example: Listening for an event
-const webhookEmitter = new EventEmitter();
+export const webhookEmitter = new EventEmitter();
 webhookEmitter.on('webhookReceived', (payload) => {
   console.log('Received webhook data:', payload);
   // Process the payload data here
