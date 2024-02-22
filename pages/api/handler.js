@@ -13,13 +13,14 @@ export let webhookEmitter;
 
 export default async function handler(req, res) {
   try {
+    webhookEmitter = new EventEmitter();
+    webhookEmitter.on('webhookReceived', (payload) => {
+      console.log('Received webhook data:', payload);
+      // Process the payload data here
+    });
     if (req.method === "POST") {
 
-      webhookEmitter = new EventEmitter();
-      webhookEmitter.on('webhookReceived', (payload) => {
-        console.log('Received webhook data:', payload);
-        // Process the payload data here
-      });
+    
       const payload = req.body
 
       // Example: Emitting an event
@@ -38,7 +39,9 @@ export default async function handler(req, res) {
       // Return a success response
       res.status(200).json({ message: 'Webhook received successfully!' });
     } else {
+
       if (webhookEmitter) {
+        console.log('get', webhookemitter)
         if (req.headers.accept && req.headers.accept.includes('text/event-stream')) {
           // Set SSE headers
     
