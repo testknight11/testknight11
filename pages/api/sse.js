@@ -31,10 +31,7 @@ export default function handler(req, res) {
           };
   
   
-  
-          webhookEmitter.on('webhookReceived', (data) => {
-            sendEvent(data);
-          });
+
           console.log('test1')
   
        

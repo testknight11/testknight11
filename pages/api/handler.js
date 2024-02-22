@@ -19,13 +19,9 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
 
 
-      const payload = req.body
-      webhookEmitter.on('webhookReceived', (payload) => {
-        // Process the payload data here
-        console.log('Received webhook data inside handler:', payload);
-      });
-      webhookEmitter.emit('webhookReceived', JSON.stringify(payload));
 
+      const payload = req.body
+      res.write(`data: ${JSON.stringify(payload)}\n\n`);
       // Example: Emitting an event
 
 
@@ -52,7 +48,7 @@ export default async function handler(req, res) {
       console.log('test1')
 
       // Return a success response
-      res.status(200).json({ message: 'Webhook received test successfully!' });
+    await res.status(200).json({ message: 'Webhook received test successfully!' });
 
     }
 
