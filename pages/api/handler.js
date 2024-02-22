@@ -5,8 +5,8 @@ import { EventEmitter } from '@foxify/events';
 //   console.log('Received webhook data:', payload);
 //   // Process the payload data here
 // });
-let webhookEmitter=null;;
 
+export let webhookEmitter;
 
 // Example: Listening for an event
 
