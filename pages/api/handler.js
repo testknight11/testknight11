@@ -25,7 +25,19 @@ export default async function handler(req, res) {
       res.setHeader('Access-Control-Allow-Origin', '*');
 
       const payload = req.body
-      await res.write(`data: ${JSON.stringify(payload)}\n\n`);
+
+      
+
+
+
+
+
+      const sseEvent = {
+        event: 'my-event', // Your desired event name
+        data: JSON.stringify(payload) // Or processed data
+      };
+      
+      res.write(`data: ${JSON.stringify(sseEvent)}\n\n`);
       // Example: Emitting an event
 
 
@@ -52,7 +64,7 @@ export default async function handler(req, res) {
       console.log('test1')
 
       // Return a success response
-    await res.status(200).json({ message: 'Webhook received test successfully!' });
+    res.status(200).json({ message: 'Webhook received test successfully!' });
 
     }
 
