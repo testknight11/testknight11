@@ -19,13 +19,12 @@ const CategoryProducts = ({ categoryProducts }) => {
     // Inside your functional component
     const router = useRouter();
     const { slug } = router.query;
-    console.log(webhookEmitter)
 
     useEffect(() => {
 
             console.log('listenToSSEUpdates func');
 
-            console.log(webhookEmitter)
+
 
             const eventSource = new EventSource('/api/handler');
             console.log(eventSource)
