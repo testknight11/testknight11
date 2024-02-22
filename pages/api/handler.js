@@ -24,13 +24,6 @@ export default async function handler(req, res) {
       res.setHeader('X-Accel-Buffering', 'no'); // Disable proxy/web server buffering
       res.setHeader('Access-Control-Allow-Origin', '*');
 
-      const intervalId = setInterval(() => {
-        res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
-      }, 1000);
-
-    }
-    else if (req.method === 'POST') {
-
       res.setHeader('Content-Type', 'text/event-stream');
       res.setHeader('Cache-Control', 'no-cache');
       res.setHeader('Connection', 'keep-alive');
@@ -63,6 +56,31 @@ export default async function handler(req, res) {
           data: JSON.stringify(data) // Or processed data
         };
         res.write(`data: ${JSON.stringify(sseEvent)}\n\n`);
+      });
+      // Example: Emitting an event
+      webhookEmitter.emit('webhookReceived', payload); // Emit the webhookReceived event with the payload
+
+     
+
+
+      console.log('tet2')
+      req.socket.on('close', () => {
+        clearInterval(intervalId);
+        res.end();
+      });
+      console.log('tet3')
+
+    }
+    else if (req.method === 'POST') {
+
+    
+      const payload = req.body
+
+      
+
+
+      webhookEmitter.on('webhookReceived', (data) => { // Listen for the webhookReceived event
+console.log('webhook data received',data)
       });
       // Example: Emitting an event
       webhookEmitter.emit('webhookReceived', payload); // Emit the webhookReceived event with the payload
