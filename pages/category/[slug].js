@@ -22,7 +22,7 @@ const CategoryProducts = ({ categoryProducts }) => {
     console.log(webhookEmitter)
 
     useEffect(() => {
-        if (webhookEmitter) {
+
             console.log('listenToSSEUpdates func');
 
             console.log(webhookEmitter)
@@ -69,7 +69,7 @@ const CategoryProducts = ({ categoryProducts }) => {
             }
 
 
-        }
+
     }, []);
 
 
