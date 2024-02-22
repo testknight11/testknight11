@@ -12,7 +12,6 @@ webhookEmitter.on('webhookReceived', (payload) => {
   console.log('Received webhook data:', payload);
   // Process the payload data here
 });
-let payload;
 
 // Example: Emitting an event
 
@@ -23,12 +22,13 @@ let payload;
 export default async function handler(req, res) {
   try {
     if (req.method === "POST") {
+      webhookEmitter.emit('webhookReceived', req.body);
+
       // Process the webhook payload
       // Assuming the payload is in the request body
 
       // Emit an SSE event with the payload data
-      payload = req.body;
-      webhookEmitter.emit('webhookReceived', payload);
+
 
       // Emit an SSE event with the payload data
 
