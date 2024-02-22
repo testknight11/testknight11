@@ -12,7 +12,7 @@ const CategoryProducts = ({ categoryProducts }) => {
     const [datasetUpdated, setDatasetUpdated] = useState(false);
     const [sseConnection, setSSEConnection] = useState(null);
 
-     useEffect(() => {
+    useEffect(() => {
 
         setProducts(categoryProducts)
     }, [])
@@ -21,12 +21,13 @@ const CategoryProducts = ({ categoryProducts }) => {
     const router = useRouter();
     const { slug } = router.query;
     console.log(slug)
-    useEffect(() => {
+    if (webhookEmitter) {
+        useEffect(() => {
 
-        console.log('listenToSSEUpdates func');
+            console.log('listenToSSEUpdates func');
 
-        console.log(webhookEmitter)
-          
+            console.log(webhookEmitter)
+
             const eventSource = new EventSource('/api/sse');
             console.log(eventSource)
             if (eventSource) {
@@ -68,9 +69,10 @@ const CategoryProducts = ({ categoryProducts }) => {
 
             }
 
-  
 
-    }, []);
+
+        }, []);
+    }
 
     // useEffect(() => {
 
