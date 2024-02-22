@@ -27,8 +27,8 @@ const CategoryProducts = ({ categoryProducts }) => {
 
         console.log('listenToSSEUpdates func');
 
-        console.log(webhookEmitter)
-        if (webhookEmit.listenerCount && webhookEmit.listenerCount('webhookReceieved') > 0) {
+        console.log(webhookEmit)
+        if (webhookEmit?.listenerCount && webhookEmit?.listenerCount('webhookReceieved') > 0) {
 
             const eventSource = new EventSource('/api/handler');
             console.log(eventSource)
