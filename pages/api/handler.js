@@ -24,17 +24,17 @@ export default async function handler(req, res) {
         // Process the payload data here
         console.log('Received webhook data inside handler:', payload);
       });
-      webhookEmitter.emit('webhookReceived', {id:1,msg:'test'});
+      webhookEmitter.emit('webhookReceived', JSON.stringify(payload));
 
       // Example: Emitting an event
 
 
 
 
-      console.log(webhookEmitter)
+
       // Process the webhook payload
       // Assuming the payload is in the request body
-      console.log('test payload', payload)
+
 
 
       // Emit an SSE event with the payload data
@@ -52,7 +52,7 @@ export default async function handler(req, res) {
       console.log('test1')
 
       // Return a success response
-     await res.status(200).json({ message: 'Webhook received test successfully!' });
+      res.status(200).json({ message: 'Webhook received test successfully!' });
 
     }
 
