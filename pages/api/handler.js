@@ -42,6 +42,23 @@ export default async function handler(req, res) {
 
 
 
+        // Set SSE headers
+
+
+        // Listen for webhook events
+
+        const sendEvent = (data) => {
+          res.write(`data: ${JSON.stringify(data)}\n\n`);
+
+        };
+
+
+
+        webhookEmitter.on('webhookReceived', (data) => {
+          sendEvent(data);
+        });
+        console.log('test1')
+
       // Return a success response
       await res.status(200).json({ message: 'Webhook received test successfully!' });
 
