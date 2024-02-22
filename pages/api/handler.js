@@ -18,7 +18,11 @@ export default async function handler(req, res) {
     console.log(req.method)
     if (req.method === 'POST') {
 
-
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+      res.setHeader('X-Accel-Buffering', 'no'); // Disable proxy/web server buffering
+      res.setHeader('Access-Control-Allow-Origin', '*');
 
       const payload = req.body
       res.write(`data: ${JSON.stringify(payload)}\n\n`);
