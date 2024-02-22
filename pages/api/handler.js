@@ -69,6 +69,7 @@ export default async function handler(req, res) {
       };
       
       res.write(`data: ${JSON.stringify(sseEvent)}\n\n`);
+      console.log(res)
       // Example: Emitting an event
 
 
