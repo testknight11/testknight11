@@ -54,7 +54,7 @@ export default async function handler(req, res) {
           receivedData = data;
         });
         console.log('test1111')
-        console.log('get receieved data',receieveData)
+        console.log('get receieved data',receivedData)
         if (receivedData?._type.length > 0) {
           console.log('test5')
           res.setHeader('Content-Type', 'text/event-stream');
