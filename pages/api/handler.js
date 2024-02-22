@@ -16,6 +16,10 @@ export default async function handler(req, res) {
     if (req.method === "POST") {
 
      webhookEmitter = new EventEmitter();
+     webhookEmitter.on('webhookReceived', (payload) => {
+      console.log('Received webhook data:', payload);
+      // Process the payload data here
+    });
      const payload=req.body
       webhookEmitter.on('webhookReceived', (payload) => {
        
@@ -61,7 +65,3 @@ export default async function handler(req, res) {
 //   });
 // }
 
-webhookEmitter.on('webhookReceived', (payload) => {
-  console.log('Received webhook data:', payload);
-  // Process the payload data here
-});
