@@ -23,6 +23,7 @@ export default async function handler(req, res) {
       // Example: Emitting an event
       webhookEmitter.on('webhookReceived', (payload) => {
         // Process the payload data here
+        console.log('Received webhook data inside handler:', payload);
       });
 
       webhookEmitter.emit('webhookReceived', payload);
@@ -32,10 +33,7 @@ console.log('test payload',payload)
 
       // Emit an SSE event with the payload data
 
-      webhookEmitter.on('webhookReceived', (payload) => {
-        // Process the payload data here
-        console.log('receievd or not ', payload)
-      });
+
       // Emit an SSE event with the payload data
 
 
