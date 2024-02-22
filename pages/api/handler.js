@@ -54,18 +54,19 @@ export default async function handler(req, res) {
           receivedData = data;
         });
         console.log('test1111')
+        console.log('get receieved data',receieveData)
         if (receivedData?._type.length > 0) {
-        console.log('test5')
-        res.setHeader('Content-Type', 'text/event-stream');
-        res.setHeader('Cache-Control', 'no-cache');
-        res.setHeader('Connection', 'keep-alive');
-        console.log('tesssssssssssssssssssssst')
-        // Keep the connection alive
+          console.log('test5')
+          res.setHeader('Content-Type', 'text/event-stream');
+          res.setHeader('Cache-Control', 'no-cache');
+          res.setHeader('Connection', 'keep-alive');
+          console.log('tesssssssssssssssssssssst')
+          // Keep the connection alive
 
 
-        // Listen for webhook events
+          // Listen for webhook events
 
-console.log("222222")
+          console.log("222222")
 
 
           const intervalId = setInterval(() => {
