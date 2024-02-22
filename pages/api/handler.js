@@ -13,8 +13,9 @@ export const webhookEmitter = new EventEmitter();
 
 
 export default async function handler(req, res) {
-  try {
 
+  try {
+    console.log(req.method)
     if (req.method === 'POST') {
 
 
@@ -27,10 +28,12 @@ export default async function handler(req, res) {
       });
 
       webhookEmitter.emit('webhookReceived', payload);
+
       console.log(webhookEmitter)
       // Process the webhook payload
       // Assuming the payload is in the request body
       console.log('test payload', payload)
+
 
       // Emit an SSE event with the payload data
 
@@ -43,22 +46,25 @@ export default async function handler(req, res) {
       await res.status(200).json({ message: 'Webhook received test successfully!' });
 
     }
-
-    console.log('get', webhookEmitter)
-    if (req.headers.accept && req.headers.accept.includes('text/event-stream')) {
-      // Set SSE headers
-
-      res.setHeader('Content-Type', 'text/event-stream');
-      res.setHeader('Cache-Control', 'no-cache');
-      res.setHeader('Connection', 'keep-alive');
-      console.log('tesssssssssssssssssssssst')
-      // Keep the connection alive
+    else {
 
 
-      // Listen for webhook events
+
+
+      if (req.headers.accept && req.headers.accept.includes('text/event-stream')) {
+        // Set SSE headers
+
+        res.setHeader('Content-Type', 'text/event-stream');
+        res.setHeader('Cache-Control', 'no-cache');
+        res.setHeader('Connection', 'keep-alive');
+        console.log('tesssssssssssssssssssssst')
+        // Keep the connection alive
+
+
+        // Listen for webhook events
         const intervalId = setInterval(() => {
           res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
-        }, 10000);
+        }, 1000);
         console.log('test65')
 
         const sendEvent = (data) => {
@@ -77,16 +83,16 @@ export default async function handler(req, res) {
           res.end();
         });
         console.log('tet3')
-      
 
 
-    } else {
-      // Handle requests that don't accept SSE
-      console.log('tesssssssssssssssssssssst')
-      res.status(400).end();
+
+      } else {
+        // Handle requests that don't accept SSE
+        console.log('tesssssssssssssssssssssst 400')
+        res.status(400).end();
+      }
+
     }
-
-
   } catch (error) {
     console.error('Webhook error:', error);
     res.status(500).json({ error: 'An error occurred while processing the webhook.' });
