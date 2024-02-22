@@ -20,10 +20,10 @@ const CategoryProducts = ({ categoryProducts }) => {
     // Inside your functional component
     const router = useRouter();
     const { slug } = router.query;
-    console.log(slug)
-    if (webhookEmitter) {
-        useEffect(() => {
+    console.log(webhookEmitter)
 
+    useEffect(() => {
+        if (webhookEmitter) {
             console.log('listenToSSEUpdates func');
 
             console.log(webhookEmitter)
@@ -70,9 +70,9 @@ const CategoryProducts = ({ categoryProducts }) => {
             }
 
 
+        }
+    }, []);
 
-        }, []);
-    }
 
     // useEffect(() => {
 
