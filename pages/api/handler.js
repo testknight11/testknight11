@@ -41,7 +41,7 @@ export default async function handler(req, res) {
     } else {
 
       if (webhookEmitter) {
-        console.log('get', webhookemitter)
+        console.log('get', webhookEmitter)
         if (req.headers.accept && req.headers.accept.includes('text/event-stream')) {
           // Set SSE headers
     
