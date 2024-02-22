@@ -24,14 +24,6 @@ const CategoryProducts = ({ categoryProducts }) => {
     console.log(webhookEmitter)
 
     const listenToSSEUpdates = useCallback(() => {
-        console.log('listenToSSEUpdates func');
-
-        webhookEmitter.on('webhookReceived', (payload) => {
-            console.log('Received webhook data on another page:', payload);
-            // Process the payload data here
-        });
-
-
 
 
         const eventSource = new EventSource('/api/handler');
@@ -81,7 +73,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
     useEffect(() => {
 
-        fetchProductsByCategory(slug)
+       // fetchProductsByCategory(slug)
 
         listenToSSEUpdates();
 
