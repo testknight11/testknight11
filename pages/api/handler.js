@@ -53,15 +53,7 @@ export default async function handler(req, res) {
         res.setHeader('Connection', 'keep-alive');
         console.log('tesssssssssssssssssssssst')
         // Keep the connection alive
-        const intervalId = setInterval(() => {
-          res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
-        }, 10000);
-
-        const sendEvent = (data) => {
-          res.write(`data: ${JSON.stringify(data)}\n\n`);
-          console.log()
-        };
-        console.log('test1')
+        
 
         // Listen for webhook events
         let receivedData;
@@ -72,7 +64,15 @@ export default async function handler(req, res) {
         if (receivedData?._type.length > 0) {
 
 
-
+          const intervalId = setInterval(() => {
+            res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
+          }, 10000);
+  
+          const sendEvent = (data) => {
+            res.write(`data: ${JSON.stringify(data)}\n\n`);
+            console.log()
+          };
+          console.log('test1')
 
           webhookEmitter.on('webhookReceived', (data) => {
             sendEvent(data);
