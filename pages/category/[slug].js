@@ -32,6 +32,11 @@ const CategoryProducts = ({ categoryProducts }) => {
         console.log(eventSource)
         if (eventSource) {
 
+            webhookEmitter.on('webhookReceived', (payload) => {
+                console.log('Received webhook data on another page:', payload);
+                // Process the payload data here
+              });
+              
 
 
             eventSource.onmessage = (event) => {
