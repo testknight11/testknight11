@@ -1,7 +1,3 @@
-
-
-
-
 import { EventEmitter } from "@foxify/events";
 // Example: Listening for an event
 
