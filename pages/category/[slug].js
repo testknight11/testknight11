@@ -30,7 +30,8 @@ const CategoryProducts = ({ categoryProducts }) => {
 
 
         eventSource.onmessage = (event) => {
-            console.log('Received message:');
+            const eventData = JSON.parse(event);
+            console.log('Received message:', eventData);
             console.log('test test test')
             // Handle the received message here
         };
