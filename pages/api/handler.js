@@ -41,7 +41,7 @@ export default async function handler(req, res) {
 
       const intervalId = setInterval(() => {
         res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
-      }, 1000);
+      }, 10000);
       console.log('test65')
 
 
@@ -53,6 +53,7 @@ export default async function handler(req, res) {
           data: data // Or processed data
         };
         res.write(`${JSON.stringify(sseEvent)}\n\n`);
+        console.log(('sdtat or not data',data)
         console.log('data emited finallyyyyyyy')
       });
       // Example: Emitting an event
