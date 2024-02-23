@@ -1,10 +1,5 @@
 
 
-// export const webhookEmitter = new EventEmitter();
-// webhookEmitter.on('webhookReceived', (payload) => {
-//   console.log('Received webhook data:', payload);
-//   // Process the payload data here
-// });
 
 
 import { EventEmitter } from "@foxify/events";
