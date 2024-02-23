@@ -9,7 +9,7 @@
 
 import { EventEmitter } from "@foxify/events";
 // Example: Listening for an event
-
+let heldRes; // Global or class-level reference to hold the response object
 const webhookEmitter = new EventEmitter()
 
 webhookEmitter.on('webhookReceived', (data) => { // Listen for the webhookReceived event
@@ -38,36 +38,45 @@ export default async function handler(req, res) {
 
 
 
+      try {
+        if (req.method === 'GET') {
+          res.setHeader('Content-Type', 'text/event-stream');
+          // ... other headers
 
-      const intervalId = setInterval(() => {
-        res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
-      }, 10000);
-      console.log('test65')
+          heldRes = res; // Store the response object for later use
 
+          const intervalId = setInterval(() => {
+            if (heldRes) { // Check if the response object is still available
+              heldRes.write(': ping\n\n'); // Send ping events
+            }
+          }, 10000);
 
+          webhookEmitter.on('webhookReceived', (data) => {
+            const sseEvent = { event: 'my-event', data };
 
-      console.log('test1')
-      webhookEmitter.on('webhookReceived', (data) => { // Listen for the webhookReceived event
-        const sseEvent = {
-          event: 'my-event', // Your desired event name
-          data: data // Or processed data
-        };
-        console.log('sdtat or not data', data)
-        res.write(`${JSON.stringify(sseEvent)}\n\n`, (error) => {
-         
-            console.error('Error sending SSE data:', error); // Log any errors that occur during writing
-        });
-    
-        console.log('data emited finallyyyyyyy')
-      });
-      // Example: Emitting an event
-      // webhookEmitter.emit('webhookReceived', payload); // Emit the webhookReceived event with the payload
-      console.log('tet2')
-      req.socket.on('close', () => {
-        clearInterval(intervalId);
-        res.end();
-      });
-      console.log('tet3')
+            if (heldRes) {
+              heldRes.write(`${JSON.stringify(sseEvent)}\n\n`, (error) => {
+                if (error) {
+                  // Handle specific errors or provide more informative messages
+                  console.error('Error sending SSE data:', error);
+                }
+              });
+            }
+          });
+
+          req.socket.on('close', () => {
+            clearInterval(intervalId);
+            if (heldRes) {
+              heldRes.end(); // Close the response when the socket closes
+              heldRes = null; // Clear the reference
+            }
+          });
+        }
+      } catch (error) {
+        // Handle any errors that occur during the request handling
+        console.error('Error in request handler:', error);
+        res.status(500).send('Internal server error');
+      }
 
     }
     else if (req.method === 'POST') {
