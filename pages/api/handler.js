@@ -52,7 +52,7 @@ export default async function handler(req, res) {
           }, 10000);
 
           webhookEmitter.on('webhookReceived', (data) => {
-            const sseEvent = { event: 'my-event', data };
+            const sseEvent = { event: 'my-event', data : data};
 
             if (heldRes) {
               heldRes.write(`${JSON.stringify(sseEvent)}\n\n`, (error) => {
