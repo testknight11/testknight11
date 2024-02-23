@@ -46,7 +46,6 @@ export default async function handler(req, res) {
 
 
 
-
       console.log('test1')
       webhookEmitter.on('webhookReceived', (data) => { // Listen for the webhookReceived event
         const sseEvent = {
