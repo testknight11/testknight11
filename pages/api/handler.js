@@ -53,7 +53,7 @@ export default async function handler(req, res) {
           data: data // Or processed data
         };
         res.write(`${JSON.stringify(sseEvent)}\n\n`);
-        console.log(('sdtat or not data',data)
+        console.log('sdtat or not data',data)
         console.log('data emited finallyyyyyyy')
       });
       // Example: Emitting an event
