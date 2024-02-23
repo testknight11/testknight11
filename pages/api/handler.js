@@ -1,85 +1,321 @@
-import { EventEmitter } from "@foxify/events";
+import { EventEmitter } from "events";
 // Example: Listening for an event
 
 const webhookEmitter = new EventEmitter()
-const clientResponses = new Map();
-// const queuedData = [];
-// webhookEmitter.on('webhookReceived', (data) => {
-//   queuedData.push(data);
-//   console.log('data pushed', data)
-// });
+// webhookEmitter.setMaxListeners(20)
+console.log(webhookEmitter)
+// setInterval(() => {
+//   webhookEmitter.emit('webhookReceived', {id:1,msg:'test'}); // Emit the webhookReceived event with the payload
+
+// }, 5000);
+
+// const mockEvents = [
+//   { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' },
+//   { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' }, { id: 1, message: 'Event 1' },
+//   { id: 2, message: 'Event 2' },
+//   // Add more mock events as needed
+// ];
+
+// let eventIndex = 0;
+
+// function mockEmit(event, payload) {
+//   // Emit the specified event with the provided data
+//   webhookEmitter.emit(event, payload);
+//   // console.log(webhookEmitter)
+// }
+
+// Function to simulate sending events at regular intervals
+// export function sendMockEvents() {
+//   setInterval(() => {
+//     const event = mockEvents[eventIndex];
+//     mockEmit('webhookReceived', event);
+//     eventIndex = (eventIndex + 1) % mockEvents.length;
+
+//   }, 5000); // Send an event every 5 seconds
+// }
+
+
+
+
+
+// sendMockEvents()
+
+
+
 
 // setInterval(() => {
-//   if (queuedData.length > 0) {
-//     const sseEvent = {
-//       event: 'my-event',
-//       data: queuedData.shift() // Take the first element from the queue
-//     };
-//     res.write(`${JSON.stringify(sseEvent)}\n\n`);
-//   }
-// }, 1000); // Check for new data every second
+//   webhookEmitter.emit('webhookReceived', { id: 1, msg: 'test' })
+// }, 10000);
 
-
-export default async function handler(req, res) {
+export default function handler(req, res) {
 
   try {
     console.log(req.method)
     if (req.method === 'GET') {
-
-      res.setHeader('Content-Type', 'text/event-stream');
-      res.setHeader('Cache-Control', 'no-cache');
-      res.setHeader('Connection', 'keep-alive');
-      res.setHeader('X-Accel-Buffering', 'no'); // Disable proxy/web server buffering
-      res.setHeader('Access-Control-Allow-Origin', '*');
-
+      // if (req.headers.accept && req.headers.accept.includes('text/event-stream')) {
+      res.writeHead(200, {
+        'Content-Encoding': 'none',
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache, no-transform',
+        'Connection': 'keep-alive',
+        'X-Accel-Buffering': 'no',
+        'Access-Control-Allow-Origin': '*'
+      });
       // res.writeHead(200, {
       //   'Content-Type': 'text/event-stream',
       //   'Cache-Control': 'no-cache',
-      //   'Connection': 'keep-alive',
+      //   'Connection': 'keep-alive',sending
       //   'Access-Control-Allow-Origin': '*'
       // })
 
 
 
+
+
       const intervalId = setInterval(() => {
         res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
-      }, 10000);
 
-      // const intervalId = setInterval(() => {
-      //   res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
-      // }, 10000);
+      }, 1000);
       console.log('test65')
 
-      clientResponses.set(req, res);
 
-      // Handle client disconnection
-      req.on('close', () => {
-          clientResponses.delete(req);
-      });
 
       console.log('test1')
+
+      // const test = setInterval(() => {
+
+      //   res.write(`${JSON.stringify(sseEvent)}\n\n`, (error) => {
+      //     console.log('testtttttttttttttttt', error)
+      //   })
+      //   res.flush()
+      // }, 5000);
+
+
+
       webhookEmitter.on('webhookReceived', (data) => { // Listen for the webhookReceived event
-        const sseEvent = {
-          event: 'my-event', // Your desired event name
-          data: data // Or processed data
-        };
-        console.log('sdtat or not data', data)
-        clientResponses.forEach((clientRes) => {
-          clientRes.write(`${JSON.stringify(data)}\n\n`);
-      });
+
+
+
+        res.write(`data:${JSON.stringify(data)}\n\n`, (error) => {
+          if (error) {
+
+          } else {
+            console.log(`${JSON.stringify(data)}\n\n`)
+            console.log('tessssssssssssssssssssssssssssst', error)
+
+          }
+
+        })
+
+
+        res.on('error', (error) => {
+          console.error('Error sending SSE data data darta:', error);
+          // Optionally, you can also end the response or take other error handling actions here
+        });
+
+
+
+
 
         console.log('data emited finallyyyyyyy')
       });
+
+
+
       // Example: Emitting an event
-      // webhookEmitter.emit('webhookReceived', data); // Emit the webhookReceived event with the payload
+
       console.log('tet2')
       req.socket.on('close', () => {
+        console.log('cl:osedddddddddd')
         clearInterval(intervalId);
+        webhookEmitter.removeAllListeners('webhookReceived');
         res.end();
       });
       console.log('tet3')
 
+
+      // }
     }
+    // }
     else if (req.method === 'POST') {
 
 
@@ -114,7 +350,7 @@ export default async function handler(req, res) {
       console.log('test1')
 
       // Return a success response
-      await res.status(200).json({ message: 'Webhook received test successfully!' });
+      res.status(200).json({ message: 'Webhook received test successfully!' });
 
     }
 

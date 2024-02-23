@@ -11,7 +11,7 @@ import { urlFor } from '../../../lib/client';
 function Navbar() {
 
   const { showCart, setShowCart, totalQuantities } = useStateContext();
-  console.log(totalQuantities)
+
   const [searchResults, setSearchResults] = useState(false);
   const searchResultsRef = useRef(null);
 
