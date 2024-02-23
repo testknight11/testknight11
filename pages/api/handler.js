@@ -52,14 +52,12 @@ export default async function handler(req, res) {
           event: 'my-event', // Your desired event name
           data: data // Or processed data
         };
-        res.write(`${JSON.stringify(sseEvent)}\n\n`, (error) => {
-          if (error) {
-            console.error('Error sending SSE data:', error); // Log any errors that occur during writing
-          } else {
-            console.log('SSE data sent successfully'); // Log a success message after sending
-          }
-        });
         console.log('sdtat or not data', data)
+        res.write(`${JSON.stringify(sseEvent)}\n\n`, (error) => {
+         
+            console.error('Error sending SSE data:', error); // Log any errors that occur during writing
+        });
+    
         console.log('data emited finallyyyyyyy')
       });
       // Example: Emitting an event
