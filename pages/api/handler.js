@@ -53,6 +53,7 @@ export default async function handler(req, res) {
           data: data // Or processed data
         };
         res.write(`${JSON.stringify(sseEvent)}\n\n`);
+        console.log('data emited finallyyyyyyy')
       });
       // Example: Emitting an event
       // webhookEmitter.emit('webhookReceived', payload); // Emit the webhookReceived event with the payload
