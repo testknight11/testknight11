@@ -2,21 +2,22 @@ import { EventEmitter } from "@foxify/events";
 // Example: Listening for an event
 
 const webhookEmitter = new EventEmitter()
-const queuedData = [];
-webhookEmitter.on('webhookReceived', (data) => {
-  queuedData.push(data);
-  console.log('data pushed', data)
-});
+const clientResponses = new Map();
+// const queuedData = [];
+// webhookEmitter.on('webhookReceived', (data) => {
+//   queuedData.push(data);
+//   console.log('data pushed', data)
+// });
 
-setInterval(() => {
-  if (queuedData.length > 0) {
-    const sseEvent = {
-      event: 'my-event',
-      data: queuedData.shift() // Take the first element from the queue
-    };
-    res.write(`${JSON.stringify(sseEvent)}\n\n`);
-  }
-}, 1000); // Check for new data every second
+// setInterval(() => {
+//   if (queuedData.length > 0) {
+//     const sseEvent = {
+//       event: 'my-event',
+//       data: queuedData.shift() // Take the first element from the queue
+//     };
+//     res.write(`${JSON.stringify(sseEvent)}\n\n`);
+//   }
+// }, 1000); // Check for new data every second
 
 
 export default async function handler(req, res) {
@@ -40,37 +41,43 @@ export default async function handler(req, res) {
 
 
 
-
+      const intervalId = setInterval(() => {
+        res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
+      }, 10000);
 
       // const intervalId = setInterval(() => {
       //   res.write(': ping\n\n'); // Send a "ping" event every few seconds to keep the connection alive
       // }, 10000);
       console.log('test65')
 
+      clientResponses.set(req, res);
 
+      // Handle client disconnection
+      req.on('close', () => {
+          clientResponses.delete(req);
+      });
 
       console.log('test1')
-      // webhookEmitter.on('webhookReceived', (data) => { // Listen for the webhookReceived event
-      //   const sseEvent = {
-      //     event: 'my-event', // Your desired event name
-      //     data: data // Or processed data
-      //   };
-      //   console.log('sdtat or not data', data)
-      //   res.write(`${JSON.stringify(sseEvent)}\n\n`, (error) => {
+      webhookEmitter.on('webhookReceived', (data) => { // Listen for the webhookReceived event
+        const sseEvent = {
+          event: 'my-event', // Your desired event name
+          data: data // Or processed data
+        };
+        console.log('sdtat or not data', data)
+        clientResponses.forEach((clientRes) => {
+          clientRes.write(`${JSON.stringify(data)}\n\n`);
+      });
 
-      //     console.error('Error sending SSE data:', error); // Log any errors that occur during writing
-      //   });
-
-      //   console.log('data emited finallyyyyyyy')
-      // });
+        console.log('data emited finallyyyyyyy')
+      });
       // Example: Emitting an event
-      // webhookEmitter.emit('webhookReceived', payload); // Emit the webhookReceived event with the payload
-      // console.log('tet2')
-      // req.socket.on('close', () => {
-      //   clearInterval(intervalId);
-      //   res.end();
-      // });
-      // console.log('tet3')
+      // webhookEmitter.emit('webhookReceived', data); // Emit the webhookReceived event with the payload
+      console.log('tet2')
+      req.socket.on('close', () => {
+        clearInterval(intervalId);
+        res.end();
+      });
+      console.log('tet3')
 
     }
     else if (req.method === 'POST') {
