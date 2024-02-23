@@ -50,9 +50,9 @@ export default async function handler(req, res) {
       webhookEmitter.on('webhookReceived', (data) => { // Listen for the webhookReceived event
         const sseEvent = {
           event: 'my-event', // Your desired event name
-          data: JSON.stringify(data) // Or processed data
+          data: data // Or processed data
         };
-        res.write(`data: ${JSON.stringify(sseEvent)}\n\n`);
+        res.write(`${JSON.stringify(sseEvent)}\n\n`);
       });
       // Example: Emitting an event
       // webhookEmitter.emit('webhookReceived', payload); // Emit the webhookReceived event with the payload
