@@ -57,10 +57,6 @@ export default async function handler(req, res) {
       });
       // Example: Emitting an event
       // webhookEmitter.emit('webhookReceived', payload); // Emit the webhookReceived event with the payload
-
-
-
-
       console.log('tet2')
       req.socket.on('close', () => {
         clearInterval(intervalId);
