@@ -22,11 +22,6 @@ export default async function handler(req, res) {
     console.log(req.method)
     if (req.method === 'GET') {
 
-      res.setHeader('Content-Type', 'text/event-stream');
-      res.setHeader('Cache-Control', 'no-cache');
-      res.setHeader('Connection', 'keep-alive');
-      res.setHeader('X-Accel-Buffering', 'no'); // Disable proxy/web server buffering
-      res.setHeader('Access-Control-Allow-Origin', '*');
 
       // res.writeHead(200, {
       //   'Content-Type': 'text/event-stream',
@@ -39,39 +34,44 @@ export default async function handler(req, res) {
 
 
       try {
-        if (req.method === 'GET') {
-          res.setHeader('Content-Type', 'text/event-stream');
-          // ... other headers
 
-          heldRes = res; // Store the response object for later use
+        res.setHeader('Content-Type', 'text/event-stream');
+        res.setHeader('Cache-Control', 'no-cache');
+        res.setHeader('Connection', 'keep-alive');
+        res.setHeader('X-Accel-Buffering', 'no'); // Disable proxy/web server buffering
+        res.setHeader('Access-Control-Allow-Origin', '*');
 
-          const intervalId = setInterval(() => {
-            if (heldRes) { // Check if the response object is still available
-              heldRes.write(': ping\n\n'); // Send ping events
-            }
-          }, 10000);
+        // ... other headers
 
-          webhookEmitter.on('webhookReceived', (data) => {
-            const sseEvent = { event: 'my-event', data : data};
+        heldRes = res; // Store the response object for later use
 
-            if (heldRes) {
-              heldRes.write(`${JSON.stringify(sseEvent)}\n\n`, (error) => {
-                if (error) {
-                  // Handle specific errors or provide more informative messages
-                  console.error('Error sending SSE data:', error);
-                }
-              });
-            }
-          });
+        const intervalId = setInterval(() => {
+          if (heldRes) { // Check if the response object is still available
+            heldRes.write(': ping\n\n'); // Send ping events
+          }
+        }, 10000);
 
-          req.socket.on('close', () => {
-            clearInterval(intervalId);
-            if (heldRes) {
-              heldRes.end(); // Close the response when the socket closes
-              heldRes = null; // Clear the reference
-            }
-          });
-        }
+        webhookEmitter.on('webhookReceived', (data) => {
+          const sseEvent = { event: 'my-event', data: data };
+
+          if (heldRes) {
+            heldRes.write(`${JSON.stringify(sseEvent)}\n\n`, (error) => {
+              if (error) {
+                // Handle specific errors or provide more informative messages
+                console.error('Error sending SSE data:', error);
+              }
+            });
+          }
+        });
+
+        req.socket.on('close', () => {
+          clearInterval(intervalId);
+          if (heldRes) {
+            heldRes.end(); // Close the response when the socket closes
+            heldRes = null; // Clear the reference
+          }
+        });
+
       } catch (error) {
         // Handle any errors that occur during the request handling
         console.error('Error in request handler:', error);
