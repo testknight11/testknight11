@@ -28,10 +28,37 @@ const CategoryProducts = ({ categoryProducts }) => {
 
         setSSEConnection(eventSource)
 
-        eventSource.onmessage = () => {
+        eventSource.onmessage = (event) => {
 
-            console.log('eeeeeeeeeeeeeeee')
+            console.log(event.data)
             // Handle the received message here
+            if (slug === event.data._type) {
+                // Find the index of the product in the products array with id equal to _id
+                const index = products.findIndex(product => product.id === event.data._id);
+            
+                // Check if a matching product was found
+                if (index !== -1) {
+                    // If found, remove the product from the array
+                    const updatedProducts = [...products]; // Create a copy of the products array
+                    updatedProducts.splice(index, 1); // Remove the product at the found index
+                    setProducts(updatedProducts); // Update the state with the modified array
+                    console.log("Removed product:", products[index]);
+                } else {
+                    // If not found, push the product into the array
+                    setProducts(prevProducts => [...prevProducts, event.data]); // Add the new product to the array
+                    console.log("Added product:", event.data);
+                }
+            } else {
+                console.log("Slug is not equal to _type");
+            }
+
+
+
+
+
+
+
+
         };
 
         eventSource.onerror = (error) => {
