@@ -4,7 +4,6 @@ import { client } from '../../lib/client'
 import Layout from '../../src/app/components/Layout'; // Import the Layout component
 import Product from '../../src/app/components/Product';
 import { useRouter } from 'next/router';
-import { I } from '../../dist/static/sanity-7a8ae206';
 
 const CategoryProducts = ({ categoryProducts }) => {
 
@@ -34,16 +33,16 @@ const CategoryProducts = ({ categoryProducts }) => {
             console.log(event.data)
             // Handle the received message here
             // Assuming event.data is your object and products and setProducts are your state variable and setter function respectively
-const update=JSON.parse(event.data)
+            let update = JSON.parse(event.data)
             // Check if the slug is equal to the _type
             if (slug === update._type) {
                 // Find the index of the product in the products array with id equal to _id
-                const index = products.findIndex(product => product.id === update._id);
+                const index = products.findIndex(product => product._id === update._id);
 
                 // Check if a matching product was found
                 if (index !== -1) {
                     // If found, check if updatedAt differs
-                    if (products[index].updatedAt !== update.updatedAt) {
+                    if (products[index]._updatedAt !== update._updatedAt) {
                         // If they differ, delete the existing product
                         const updatedProducts = [...products]; // Create a copy of the products array
                         updatedProducts.splice(index, 1); // Remove the existing product at the found index
