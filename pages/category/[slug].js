@@ -42,7 +42,7 @@ const CategoryProducts = ({ categoryProducts }) => {
                 // Check if a matching product was found
                 if (index !== -1) {
                     // If found, check if updatedAt differs
-                    if (products[index]._updatedAt !== update._updatedAt) {
+                    if (products[index]._updatedAt === update._updatedAt) {
                         // If they differ, delete the existing product
                         const updatedProducts = [...products]; // Create a copy of the products array
                         updatedProducts.splice(index, 1); // Remove the existing product at the found index
@@ -51,7 +51,7 @@ const CategoryProducts = ({ categoryProducts }) => {
                     } else {
                         console.log("Product with same updatedAt already exists, deleting existing product.");
                         const updatedProducts = [...products]; // Create a copy of the products array
-                        updatedProducts.splice(index, 1); // Remove the existing product at the found index
+                        updatedProducts[index]=update // Remove the existing product at the found index
                         setProducts(updatedProducts); // Update the state with the modified array
                     }
                 }
@@ -204,7 +204,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
 
         return {
             props: { categoryProducts },
-            revaldiate:true,
+            revalidate:true,
         }
 
 
