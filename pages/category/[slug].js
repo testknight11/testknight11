@@ -10,6 +10,7 @@ const CategoryProducts = ({ categoryProducts }) => {
     const [products, setProducts] = useState([]);
     const [datasetUpdated, setDatasetUpdated] = useState(false);
     const [sseConnection, setSSEConnection] = useState(null);
+    const [listenToSSEUpdates, setListenToSSEUpdates] = useState(false)
     useEffect(() => {
 
         setProducts(categoryProducts)
@@ -19,7 +20,7 @@ const CategoryProducts = ({ categoryProducts }) => {
     const router = useRouter();
     const { slug } = router.query;
 
-    const listenToSSEUpdates = useCallback(() => {
+    useEffect(() => {
 
 
         const eventSource = new EventSource('/api/handler/');
@@ -30,6 +31,7 @@ const CategoryProducts = ({ categoryProducts }) => {
         eventSource.onmessage = (event) => {
             console.log(slug)
             console.log(event.data)
+
             // Handle the received message here
             // Assuming event.data is your object and products and setProducts are your state variable and setter function respectively
             // let jsonString = event.data.trim(); // Remove leading and trailing whitespace, including \n\n
@@ -37,6 +39,7 @@ const CategoryProducts = ({ categoryProducts }) => {
             let update = JSON.parse(event.data);
             // Check if the slug is equal to the _type
             if (update) {
+                setListenToSSEUpdates(!prevValue)
                 if (slug === update._type) {
                     console.log(update._id)
                     // Find the index of the product in the products array with id equal to _id
@@ -107,7 +110,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
 
 
-    }, [products]);
+    }, []);
 
 
 
