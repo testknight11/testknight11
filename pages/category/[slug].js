@@ -66,6 +66,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
                         setProducts(prevProducts => [...prevProducts, update]); // Add the new product to the array
                         console.log("Added product:", update);
+                        console.log(products)
 
                     }
 
