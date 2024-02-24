@@ -502,7 +502,7 @@ export const getStaticPaths = async () => {
         }
        `)
 
-    const paths =producta?.map((product) => ({
+    const paths =products?.map((product) => ({
         params: { slug: product?.slug?.current },
     }));
     return { paths, fallback: false }; // fallback: false means other routes should 404
