@@ -4,7 +4,7 @@ import { client } from '../../lib/client'
 import Layout from '../../src/app/components/Layout'; // Import the Layout component
 import Product from '../../src/app/components/Product';
 import { useRouter } from 'next/router';
-import axios from 'axios';
+
 const CategoryProducts = ({ categoryProducts }) => {
 
     const [products, setProducts] = useState([]);
