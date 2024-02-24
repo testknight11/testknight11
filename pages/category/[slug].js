@@ -32,13 +32,15 @@ const CategoryProducts = ({ categoryProducts }) => {
             console.log(event.data)
             // Handle the received message here
             // Assuming event.data is your object and products and setProducts are your state variable and setter function respectively
-            let update = JSON.parse(event.data)
+            // let jsonString = event.data.trim(); // Remove leading and trailing whitespace, including \n\n
+            // Parse the JSON string
+            let update = JSON.parse(event.data);
             // Check if the slug is equal to the _type
             if (update) {
                 if (slug === update._type) {
-console.log(update)
+                    console.log(update)
                     // Find the index of the product in the products array with id equal to _id
-                    const index = products.findIndex(product => product._id === update._id);
+                    let index = products.findIndex(product => product._id === update._id);
 
                     // Check if a matching product was found
                     if (index !== -1) {
