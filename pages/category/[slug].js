@@ -11,7 +11,6 @@ const CategoryProducts = ({ categoryProducts }) => {
     const [datasetUpdated, setDatasetUpdated] = useState(false);
     const [sseConnection, setSSEConnection] = useState(null);
 
-
     useEffect(() => {
 
         setProducts(categoryProducts)

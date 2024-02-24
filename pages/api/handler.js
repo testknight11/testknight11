@@ -361,7 +361,6 @@ export default function handler(req, res) {
 
 }
 
-
 // async function processPayload(payload) {
 //   // Perform any asynchronous processing of the payload here
 //   // For example, you could make database queries or API calls
@@ -375,4 +374,3 @@ export default function handler(req, res) {
 //     }, 3000); // Simulate asynchronous processing with a delay of 1 second
 //   });
 // }
-
