@@ -34,41 +34,42 @@ const CategoryProducts = ({ categoryProducts }) => {
             // Assuming event.data is your object and products and setProducts are your state variable and setter function respectively
             let update = JSON.parse(event.data)
             // Check if the slug is equal to the _type
-            if (slug === update._type) {
+            if (update) {
+                if (slug === update._type) {
 
-                // Find the index of the product in the products array with id equal to _id
-                const index = products.findIndex(product => product._id === update._id);
+                    // Find the index of the product in the products array with id equal to _id
+                    const index = products.findIndex(product => product._id === update._id);
 
-                // Check if a matching product was found
-                if (index !== -1) {
-                    // If found, check if updatedAt differs
-                    if (products[index]._updatedAt === update._updatedAt) {
-                        // If they differ, delete the existing product
-                        const updatedProducts = [...products]; // Create a copy of the products array
-                        updatedProducts.splice(index, 1); // Remove the existing product at the found index
-                        setProducts(updatedProducts); // Update the state with the modified array
-                        console.log("Deleted existing product with same updatedAt:", products[index]);
-                    } else {
-                        console.log("Product with same updatedAt already exists, deleting existing product.");
-                        const updatedProducts = [...products]; // Create a copy of the products array
-                        updatedProducts[index]=update // Remove the existing product at the found index
-                        setProducts(updatedProducts); // Update the state with the modified array
+                    // Check if a matching product was found
+                    if (index !== -1) {
+                        // If found, check if updatedAt differs
+                        if (products[index]._updatedAt === update._updatedAt) {
+                            // If they differ, delete the existing product
+                            const updatedProducts = [...products]; // Create a copy of the products array
+                            updatedProducts.splice(index, 1); // Remove the existing product at the found index
+                            setProducts(updatedProducts); // Update the state with the modified array
+                            console.log("Deleted existing product with same updatedAt:", products[index]);
+                        } else {
+                            console.log("Product with same updatedAt already exists, deleting existing product.");
+                            const updatedProducts = [...products]; // Create a copy of the products array
+                            updatedProducts[index] = update // Remove the existing product at the found index
+                            setProducts(updatedProducts); // Update the state with the modified array
+                        }
                     }
+
+                    // Add the new product into the array
+                    else if (index === -1) {
+
+
+                        setProducts(prevProducts => [...prevProducts, update]); // Add the new product to the array
+                        console.log("Added product:", update);
+
+                    }
+
+                } else {
+                    console.log("Slug is not equal to _type");
                 }
-
-                // Add the new product into the array
-                else if (index === -1) {
-
-
-                    setProducts(prevProducts => [...prevProducts, update]); // Add the new product to the array
-                    console.log("Added product:", update);
-
-                }
-
-            } else {
-                console.log("Slug is not equal to _type");
             }
-
 
 
 
@@ -198,14 +199,14 @@ const CategoryProducts = ({ categoryProducts }) => {
 
 export const getStaticProps = async ({ params: { slug } }) => {
     // console.log(slug)
-   
-        const productsQuery = `*[_type =="${slug}"]`
-        const categoryProducts = await client.fetch(productsQuery)
 
-        return {
-            props: { categoryProducts },
-            revalidate:true,
-        }
+    const productsQuery = `*[_type =="${slug}"]`
+    const categoryProducts = await client.fetch(productsQuery)
+
+    return {
+        props: { categoryProducts },
+        revalidate: true,
+    }
 
 
 
