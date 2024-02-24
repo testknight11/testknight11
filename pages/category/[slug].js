@@ -4,6 +4,7 @@ import { client } from '../../lib/client'
 import Layout from '../../src/app/components/Layout'; // Import the Layout component
 import Product from '../../src/app/components/Product';
 import { useRouter } from 'next/router';
+import { I } from '../../dist/static/sanity-7a8ae206';
 
 const CategoryProducts = ({ categoryProducts }) => {
 
@@ -20,7 +21,7 @@ const CategoryProducts = ({ categoryProducts }) => {
     const router = useRouter();
     const { slug } = router.query;
 
-    const listenToSSEUpdates=useCallback(() => {
+    const listenToSSEUpdates = useCallback(() => {
 
 
         const eventSource = new EventSource('/api/handler/');
@@ -29,29 +30,45 @@ const CategoryProducts = ({ categoryProducts }) => {
         setSSEConnection(eventSource)
 
         eventSource.onmessage = (event) => {
-console.log(slug)
+            console.log(slug)
             console.log(event.data)
             // Handle the received message here
-            if (slug === JSON.parse(event.data)._type) {
+            // Assuming event.data is your object and products and setProducts are your state variable and setter function respectively
+const update=JSON.parse(event.data)
+            // Check if the slug is equal to the _type
+            if (slug === update._type) {
                 // Find the index of the product in the products array with id equal to _id
-                const index = products.findIndex(product => product.id === event.data._id);
-            
+                const index = products.findIndex(product => product.id === update._id);
+
                 // Check if a matching product was found
                 if (index !== -1) {
-                    // If found, remove the product from the array
-                    const updatedProducts = [...products]; // Create a copy of the products array
-                    updatedProducts.splice(index, 1); // Remove the product at the found index
-                    setProducts(updatedProducts); // Update the state with the modified array
-                    console.log("Removed product:", products[index]);
-                } else {
-                    // If not found, push the product into the array
-                    setProducts(prevProducts => [...prevProducts, event.data]); // Add the new product to the array
-                    console.log("Added product:", event.data);
+                    // If found, check if updatedAt differs
+                    if (products[index].updatedAt !== update.updatedAt) {
+                        // If they differ, delete the existing product
+                        const updatedProducts = [...products]; // Create a copy of the products array
+                        updatedProducts.splice(index, 1); // Remove the existing product at the found index
+                        setProducts(updatedProducts); // Update the state with the modified array
+                        console.log("Deleted existing product with same updatedAt:", products[index]);
+                    } else {
+                        console.log("Product with same updatedAt already exists, deleting existing product.");
+                        const updatedProducts = [...products]; // Create a copy of the products array
+                        updatedProducts.splice(index, 1); // Remove the existing product at the found index
+                        setProducts(updatedProducts); // Update the state with the modified array
+                    }
                 }
+
+                // Add the new product into the array
+                else if (index === -1) {
+
+
+                    setProducts(prevProducts => [...prevProducts, update]); // Add the new product to the array
+                    console.log("Added product:", update);
+
+                }
+
             } else {
                 console.log("Slug is not equal to _type");
             }
-
 
 
 
