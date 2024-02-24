@@ -6,7 +6,7 @@ import Product from '../../src/app/components/Product';
 import { useRouter } from 'next/router';
 
 const CategoryProducts = ({ categoryProducts }) => {
-
+    const [setshouldRevalidate, setShouldRevalidate] = useState(false)
     const [products, setProducts] = useState([]);
     const [datasetUpdated, setDatasetUpdated] = useState(false);
     const [sseConnection, setSSEConnection] = useState(null);
@@ -36,6 +36,7 @@ const CategoryProducts = ({ categoryProducts }) => {
             let update = JSON.parse(event.data)
             // Check if the slug is equal to the _type
             if (slug === update._type) {
+                setshouldRevalidate(true)
                 // Find the index of the product in the products array with id equal to _id
                 const index = products.findIndex(product => product._id === update._id);
 
@@ -198,12 +199,31 @@ const CategoryProducts = ({ categoryProducts }) => {
 
 export const getStaticProps = async ({ params: { slug } }) => {
     // console.log(slug)
-    const productsQuery = `*[_type =="${slug}"]`
-    const categoryProducts = await client.fetch(productsQuery)
+    if (shouldRevalidate) {
+        const productsQuery = `*[_type =="${slug}"]`
+        const categoryProducts = await client.fetch(productsQuery)
 
-    return {
-        props: { categoryProducts }
+        return {
+            props: { categoryProducts },
+            revaldiate: true,
+        }
     }
+
+
+
+    else {
+        const productsQuery = `*[_type =="${slug}"]`
+        const categoryProducts = await client.fetch(productsQuery)
+
+        return {
+            props: { categoryProducts }
+        }
+
+
+    }
+
+
+
 }
 
 
