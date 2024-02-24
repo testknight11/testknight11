@@ -472,7 +472,6 @@ const ProductDetails = ({ product, products }) => {
 
     )
 }
-let globalProductsData = []
 
 export const getStaticProps = async ({ params: { slug } }) => {
 
@@ -481,7 +480,6 @@ export const getStaticProps = async ({ params: { slug } }) => {
     const product = await client.fetch(query)
     const productsQuery = `*[_type in ["${product._type}"]]`
     const products = await client.fetch(productsQuery)
-    globalProductsData = products; // Store products data in global variable
 
     return {
         props: { products, product },
@@ -504,7 +502,7 @@ export const getStaticPaths = async () => {
         }
        `)
 
-    const paths =products?.map((product) => ({
+    const paths =producta?.map((product) => ({
         params: { slug: product?.slug?.current },
     }));
     return { paths, fallback: false }; // fallback: false means other routes should 404
