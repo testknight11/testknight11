@@ -36,7 +36,7 @@ const CategoryProducts = ({ categoryProducts }) => {
             // Check if the slug is equal to the _type
             if (update) {
                 if (slug === update._type) {
-
+console.log(update)
                     // Find the index of the product in the products array with id equal to _id
                     const index = products.findIndex(product => product._id === update._id);
 
