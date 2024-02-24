@@ -107,7 +107,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 
 
 
-    }, []);
+    }, [products]);
 
 
 
