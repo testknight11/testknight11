@@ -4,13 +4,12 @@ import { client } from '../../lib/client'
 import Layout from '../../src/app/components/Layout'; // Import the Layout component
 import Product from '../../src/app/components/Product';
 import { useRouter } from 'next/router';
+let shouldRevalidate=false;
 
 const CategoryProducts = ({ categoryProducts }) => {
-    const [shouldRevalidate, setShouldRevalidate] = useState(false)
     const [products, setProducts] = useState([]);
     const [datasetUpdated, setDatasetUpdated] = useState(false);
     const [sseConnection, setSSEConnection] = useState(null);
-
     useEffect(() => {
 
         setProducts(categoryProducts)
@@ -36,7 +35,7 @@ const CategoryProducts = ({ categoryProducts }) => {
             let update = JSON.parse(event.data)
             // Check if the slug is equal to the _type
             if (slug === update._type) {
-                setShouldRevalidate(true)
+                shouldRevalidate=true;
                 // Find the index of the product in the products array with id equal to _id
                 const index = products.findIndex(product => product._id === update._id);
 
