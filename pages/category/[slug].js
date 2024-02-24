@@ -10,7 +10,6 @@ const CategoryProducts = ({ categoryProducts }) => {
     const [products, setProducts] = useState([]);
     const [datasetUpdated, setDatasetUpdated] = useState(false);
     const [sseConnection, setSSEConnection] = useState(null);
-    const [listenToSSEUpdates, setListenToSSEUpdates] = useState(false)
     useEffect(() => {
 
         setProducts(categoryProducts)
@@ -20,7 +19,7 @@ const CategoryProducts = ({ categoryProducts }) => {
     const router = useRouter();
     const { slug } = router.query;
 
-    useEffect(() => {
+    const listenToSSEUpdates = useCallback(() => {
 
 
         const eventSource = new EventSource('/api/handler/');
@@ -31,7 +30,6 @@ const CategoryProducts = ({ categoryProducts }) => {
         eventSource.onmessage = (event) => {
             console.log(slug)
             console.log(event.data)
-
             // Handle the received message here
             // Assuming event.data is your object and products and setProducts are your state variable and setter function respectively
             // let jsonString = event.data.trim(); // Remove leading and trailing whitespace, including \n\n
@@ -39,27 +37,26 @@ const CategoryProducts = ({ categoryProducts }) => {
             let update = JSON.parse(event.data);
             // Check if the slug is equal to the _type
             if (update) {
-                setListenToSSEUpdates(!prevValue)
                 if (slug === update._type) {
                     console.log(update._id)
                     // Find the index of the product in the products array with id equal to _id
-                    let index = products.findIndex((product) => product._id === update._id);
+                    let index = categoryProducts.findIndex((product) => product._id === update._id);
 
                     // Check if a matching product was found
                     console.log(index)
                     if (index !== -1) {
                         // If found, check if updatedAt differs
-                        if (products[index]._updatedAt === update._updatedAt) {
+                        if (categoryProducts[index]._updatedAt === update._updatedAt) {
                             // If they differ, delete the existing product
-                            const updatedProducts = [...products]; // Create a copy of the products array
+                            const updatedProducts = [...categoryProducts]; // Create a copy of the products array
                             updatedProducts.splice(index, 1); // Remove the existing product at the found index
-                            setProducts(updatedProducts); // Update the state with the modified array
-                            console.log("Deleted existing product with same updatedAt:", products[index]);
+                            categoryProducts=updatedProducts; // Update the state with the modified array
+                            console.log("Deleted existing product with same updatedAt:", categoryProducts[index]);
                         } else {
                             console.log("Product with same updatedAt already exists, deleting existing product.");
-                            const updatedProducts = [...products]; // Create a copy of the products array
+                            const updatedProducts = [...categoryProducts]; // Create a copy of the products array
                             updatedProducts[index] = update // Remove the existing product at the found index
-                            setProducts(updatedProducts); // Update the state with the modified array
+                            categoryProducts=updatedProducts; // Update the state with the modified array
                         }
                     }
 
@@ -67,9 +64,9 @@ const CategoryProducts = ({ categoryProducts }) => {
                     else if (index === -1) {
 
 
-                        setProducts(prevProducts => [...prevProducts, update]); // Add the new product to the array
+                      categoryProducts.push(update); // Add the new product to the array
                         console.log("Added product:", update);
-                        console.log(products)
+                        console.log(categoryProducts)
 
                     }
 
