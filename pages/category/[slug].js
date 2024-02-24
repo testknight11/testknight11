@@ -32,7 +32,7 @@ const CategoryProducts = ({ categoryProducts }) => {
 console.log(slug)
             console.log(event.data)
             // Handle the received message here
-            if (slug === event.data._type) {
+            if (slug === JSON.parse(event.data)._type) {
                 // Find the index of the product in the products array with id equal to _id
                 const index = products.findIndex(product => product.id === event.data._id);
             
