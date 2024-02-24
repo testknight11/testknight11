@@ -10,6 +10,7 @@ import Product from '../../src/app/components/Product';
 // import ComfortIndicator from '../../src/app/components/ComfortIndicator';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useSwipeable } from 'react-swipeable';
+
 const ProductDetails = ({ product, products }) => {
 
     // if (!product) {
@@ -471,7 +472,7 @@ const ProductDetails = ({ product, products }) => {
 
     )
 }
-
+let globalProductsData=[]
 export const getStaticProps = async ({ params: { slug } }) => {
 
     const query = `*[_type in ["product", "mattress", "chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"] && slug.current == '${slug}'][0]`;
@@ -479,6 +480,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
     const product = await client.fetch(query)
     const productsQuery = `*[_type in ["${product._type}"]]`
     const products = await client.fetch(productsQuery)
+    globalProductsData = products; // Store products data in global variable
     return {
         props: { products, product },
         revalidate:true,
@@ -491,16 +493,16 @@ export const getStaticProps = async ({ params: { slug } }) => {
 
 export const getStaticPaths = async () => {
 
-    const products = await client.fetch(`*[_type in ["product", "mattress","chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"]]{
+//     const products = await client.fetch(`*[_type in ["product", "mattress","chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"]]{
         
-        slug{
-            current
-        }
+//         slug{
+//             current
+//         }
 
-    }
-   `)
-    console.log(products)
-    const paths = products?.map((product) => ({
+//     }
+//    `)
+    // console.log(products)
+    const paths = globalProductsData?.map((product) => ({
         params: { slug: product?.slug?.current },
     }));
     return { paths, fallback: false }; // fallback: false means other routes should 404
