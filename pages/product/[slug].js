@@ -25,8 +25,8 @@ const ProductDetails = ({ product, products }) => {
     const [selectedSizePrice, setSelectedSizePrice] = useState(0); // Medium by deselectmycolorfault
     const [enlargedImage, setEnlargedImage] = useState(null);
     const { selectedColor, setSelectedColor, onAdd, decQty, incQty, qty, setShowCart, selectedSize, setSelectedSize, setSelectedSizes, setTotalPrice, selectedSizes } = useStateContext();
-    
-    
+
+
 
     // Dynamically import Hammer.js only on the client-side
 
@@ -472,7 +472,8 @@ const ProductDetails = ({ product, products }) => {
 
     )
 }
-let globalProductsData=[]
+let globalProductsData = []
+
 export const getStaticProps = async ({ params: { slug } }) => {
 
     const query = `*[_type in ["product", "mattress", "chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"] && slug.current == '${slug}'][0]`;
@@ -481,9 +482,10 @@ export const getStaticProps = async ({ params: { slug } }) => {
     const productsQuery = `*[_type in ["${product._type}"]]`
     const products = await client.fetch(productsQuery)
     globalProductsData = products; // Store products data in global variable
+
     return {
         props: { products, product },
-        revalidate:true,
+        revalidate: true,
     }
 }
 
@@ -493,16 +495,16 @@ export const getStaticProps = async ({ params: { slug } }) => {
 
 export const getStaticPaths = async () => {
 
-//     const products = await client.fetch(`*[_type in ["product", "mattress","chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"]]{
-        
-//         slug{
-//             current
-//         }
+        const products = await client.fetch(`*[_type in ["product", "mattress","chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"]]{
 
-//     }
-//    `)
-    // console.log(products)
-    const paths = globalProductsData?.map((product) => ({
+            slug{
+                current
+            }
+
+        }
+       `)
+
+    const paths =products?.map((product) => ({
         params: { slug: product?.slug?.current },
     }));
     return { paths, fallback: false }; // fallback: false means other routes should 404

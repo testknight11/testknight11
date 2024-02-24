@@ -40,7 +40,7 @@ const CategoryProducts = ({ categoryProducts }) => {
                 if (slug === update._type) {
                     console.log(update)
                     // Find the index of the product in the products array with id equal to _id
-                    let index = products.findIndex(product => product._id === update._id);
+                    let index = categoryProducts.findIndex(product => product._id === update._id);
 
                     // Check if a matching product was found
                     if (index !== -1) {
