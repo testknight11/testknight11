@@ -29,7 +29,7 @@ const CategoryProducts = ({ categoryProducts }) => {
         setSSEConnection(eventSource)
 
         eventSource.onmessage = (event) => {
-
+console.log(slug)
             console.log(event.data)
             // Handle the received message here
             if (slug === event.data._type) {
