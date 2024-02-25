@@ -28,7 +28,7 @@ const ProductDetails = ({ product, products }) => {
 
     const [savedProduct, setSavedProduct] = useState({})
     const [sseConnection, setSSEConnection] = useState(null);
-    const [reloadImgs, setReloadImgs] = useState(true)
+    const [reloadImgs, setReloadImgs] = useState(false)
     // Dynamically import Hammer.js only on the client-side
 
     const router = useRouter();
@@ -39,6 +39,9 @@ const ProductDetails = ({ product, products }) => {
         setSavedProduct(product)
         console.log(savedProduct)
     }, [product])
+    useEffect(() => {
+        setReloadImgs(true)
+    }, [savedProduct])
     console.log(savedProduct);
     const listenToSSEUpdates = useCallback(() => {
 
@@ -65,7 +68,7 @@ const ProductDetails = ({ product, products }) => {
                     // If found, check if updatedAt differs
 
                     setReloadImgs(prev => !prev)
-                    setReloadImgs(prev => !prev)
+
 
 
                     // If they differ, delete the existing product
@@ -366,6 +369,8 @@ const ProductDetails = ({ product, products }) => {
         document.querySelector('.product-detail-container .image-container').style.display = "block"
     };
     console.log(savedProduct)
+
+
     const { image, name, details, price, prices, _type, colors, _id } = savedProduct ? product : "";
 
 
