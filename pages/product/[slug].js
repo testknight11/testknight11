@@ -40,15 +40,15 @@ const ProductDetails = ({ product, products }) => {
     const router = useRouter();
     const { slug } = router.query;
     const { image, name, details, price, prices, _type, colors, _id } = savedProduct ? product : "";
-useEffect(() => {
+    // useEffect(() => {
 
-    setTestImage([...image])
-    setTestName(name)
-    setTestDetails(details)
+    //     setTestImage([...image])
+    //     setTestName(name)
+    //     setTestDetails(details)
 
 
 
-}, [image,name,details])
+    // }, [image, name, details])
     useEffect(() => {
         console.log(product)
         setSavedProduct(product)
@@ -80,11 +80,13 @@ useEffect(() => {
                     // Find the index of the product in the products array with id equal to _id
 
                     // If found, check if updatedAt differs
-                        setTestImage([])
-                        setTestImage(prevTestImage => {
-                            // Clear the previous state and replace it with the new image array
-                            return [...update.image];
-                          });
+                    setTestImage(update.name)
+                    setTestName(update.details)
+                    setTestImage([])
+                    setTestImage(prevTestImage => {
+                        // Clear the previous state and replace it with the new image array
+                        return [...update.image];
+                    });
                     console.log("Deleted existing product with same updatedAt:");
 
 
