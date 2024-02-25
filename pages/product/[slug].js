@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useStateContext } from '../../context/StateContext';
 // import {Toaster} from 'react-hot-toast';
 import { client, urlFor } from '../../lib/client'
@@ -10,9 +10,9 @@ import Product from '../../src/app/components/Product';
 // import ComfortIndicator from '../../src/app/components/ComfortIndicator';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useSwipeable } from 'react-swipeable';
+import { useRouter } from 'next/router';
 
 const ProductDetails = ({ product, products }) => {
-
     // if (!product) {
     //     return <div>Product not found</div>;
     // }
@@ -26,16 +26,165 @@ const ProductDetails = ({ product, products }) => {
     const [enlargedImage, setEnlargedImage] = useState(null);
     const { selectedColor, setSelectedColor, onAdd, decQty, incQty, qty, setShowCart, selectedSize, setSelectedSize, setSelectedSizes, setTotalPrice, selectedSizes } = useStateContext();
 
-
+    const [savedProduct, setSavedProduct] = useState({})
+    const [sseConnection, setSSEConnection] = useState(null);
 
     // Dynamically import Hammer.js only on the client-side
+
+    const router = useRouter();
+    const { slug } = router.query;
+
+    useEffect(() => {
+        console.log(product)
+        setSavedProduct(product)
+        console.log(savedProduct)
+    }, [product])
+    console.log(savedProduct);
+    const listenToSSEUpdates = useCallback(() => {
+
+
+        const eventSource = new EventSource('/api/productHandler/');
+        console.log(eventSource)
+
+        setSSEConnection(eventSource)
+
+        eventSource.onmessage = (event) => {
+            console.log(slug)
+            console.log(event.data)
+            // Handle the received message here
+            // Assuming event.data is your object and products and setProducts are your state variable and setter function respectively
+            // let jsonString = event.data.trim(); // Remove leading and trailing whitespace, including \n\n
+            // Parse the JSON string
+            let update = JSON.parse(event.data);
+            // Check if the slug is equal to the _type
+            if (update) {
+                if (slug === update._type) {
+                    console.log(update._id)
+                    // Find the index of the product in the products array with id equal to _id
+
+                    // If found, check if updatedAt differs
+
+                    // If they differ, delete the existing product
+                    const updatedProduct = savedProduct; // Create a copy of the products array
+                    // Update the state with the modified array
+                    setSavedProduct(update)
+                    console.log("Deleted existing product with same updatedAt:");
+
+
+                    // Add the new product into the array
+
+
+                } else {
+                    console.log("Slug is not equal to _type");
+                }
+            }
+
+
+
+
+
+
+        };
+
+        eventSource.onerror = (error) => {
+            console.error('SSE connection error:', error);
+            // Handle the SSE connection error here
+        };
+
+        eventSource.onopen = () => {
+            console.log('SSE connection established.', eventSource);
+            // Optional: Perform actions when the SSE connection is established
+        };
+
+        eventSource.onclose = () => {
+            console.log('SSE connection closed.');
+            // Optional: Perform actions when the SSE connection is closed
+        };
+
+        // Clean up the EventSource when the component unmounts
+        return () => {
+            eventSource.close();
+        };
+
+
+
+
+
+
+    }, []);
+
+
+
+
+
+
 
 
 
     useEffect(() => {
 
+        // fetchProductsByCategory(slug)
+
+        listenToSSEUpdates();
+
+        return () => {
+
+            if (sseConnection) {
+
+                sseConnection.close();
+
+            }
+
+        };
+
+    }, [listenToSSEUpdates]);
 
 
+
+
+    useEffect(() => {
+
+        const handleBeforeUnload = () => {
+
+            console.dir(sseConnection);
+
+            if (sseConnection) {
+
+                console.info('Closing SSE connection before unloading the page.');
+
+                sseConnection.close();
+
+            }
+
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        // Clean up the event listener when the component is unmounted
+
+        return () => {
+
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+
+        };
+
+    }, [sseConnection]);
+
+    // const fetchProductsByCategory = async (categorySlug) => {
+    //     try {
+    //         const productsQuery = `*[_type == "${categorySlug}"]`;
+    //         const products = await client.fetch(productsQuery);
+    //         setProducts(products);
+    //     } catch (error) {
+    //         console.error('Error fetching products:', error);
+    //     }
+    // };
+
+
+    useEffect(() => {
+
+
+        setSavedProduct(product)
 
 
 
@@ -212,8 +361,8 @@ const ProductDetails = ({ product, products }) => {
         setEnlargedImage(null);
         document.querySelector('.product-detail-container .image-container').style.display = "block"
     };
-
-    const { image, name, details, price, prices, _type, colors, _id } = product;
+    console.log(savedProduct)
+    const { image, name, details, price, prices, _type, colors, _id } = savedProduct ? product : "";
 
 
 
