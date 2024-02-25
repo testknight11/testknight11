@@ -58,7 +58,7 @@ const ProductDetails = ({ product, products }) => {
             let update = JSON.parse(event.data);
             // Check if the slug is equal to the _type
             if (update) {
-                if (slug === update._type) {
+                if (slug === update.slug.current) {
                     console.log(update._id)
                     // Find the index of the product in the products array with id equal to _id
 
