@@ -63,8 +63,10 @@ const ProductDetails = ({ product, products }) => {
                     // Find the index of the product in the products array with id equal to _id
 
                     // If found, check if updatedAt differs
-                    document.querySelector('.small-images-container.without-colors').innerHTML = ""
-                    setReloadImgs(true)
+
+                    setReloadImgs(prev => !prev)
+                    setReloadImgs(prev => !prev)
+
 
                     // If they differ, delete the existing product
                     const updatedProduct = savedProduct; // Create a copy of the products array
@@ -439,9 +441,11 @@ const ProductDetails = ({ product, products }) => {
                             }
                         </div>
                         <div className="small-images-container without-colors">
-                            {reloadImgs&&
+                            {reloadImgs &&
+
                                 image?.map((item, i) => {
-                                    setReloadImgs(false)
+
+                                    console.log(reloadImgs)
                                     return (
                                         <img
                                             alt="item"
