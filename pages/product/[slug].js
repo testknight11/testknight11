@@ -76,6 +76,7 @@ const ProductDetails = ({ product, products }) => {
             // Check if the slug is equal to the _type
             if (update) {
                 if (slug === update.slug.current) {
+                  
                     if (savedProduct._updatedAt === update._updatedAt) {
                         router.push('/category/');
                     }
@@ -83,7 +84,7 @@ const ProductDetails = ({ product, products }) => {
 
 
 
-
+                        setSavedProduct(update)
                         console.log(update._id)
                         // Find the index of the product in the products array with id equal to _id
 
@@ -96,7 +97,6 @@ const ProductDetails = ({ product, products }) => {
                             return [...update.image];
                         });
                         console.log("Deleted existing product with same updatedAt:");
-
 
                         // Add the new product into the array
 
@@ -211,7 +211,7 @@ const ProductDetails = ({ product, products }) => {
     useEffect(() => {
 
 
-        setSavedProduct(product)
+
 
 
 
