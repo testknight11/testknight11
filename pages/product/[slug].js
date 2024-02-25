@@ -72,7 +72,7 @@ useEffect(() => {
 
                     // If found, check if updatedAt differs
 
-              
+                    document.querySelector('.small-images-container.without-colors').innerHTML = ""
                     setTestImage([...update.image])
                     console.log("Deleted existing product with same updatedAt:");
 
