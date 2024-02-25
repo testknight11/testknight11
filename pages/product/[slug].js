@@ -28,7 +28,7 @@ const ProductDetails = ({ product, products }) => {
 
     const [savedProduct, setSavedProduct] = useState({})
     const [sseConnection, setSSEConnection] = useState(null);
-
+    const [reloadImgs, setReloadImgs] = useState(true)
     // Dynamically import Hammer.js only on the client-side
 
     const router = useRouter();
@@ -63,7 +63,8 @@ const ProductDetails = ({ product, products }) => {
                     // Find the index of the product in the products array with id equal to _id
 
                     // If found, check if updatedAt differs
-                    document.querySelector('.small-images-container.without-colors').innerHTML=""
+                    document.querySelector('.small-images-container.without-colors').innerHTML = ""
+                    setReloadImgs(true)
 
                     // If they differ, delete the existing product
                     const updatedProduct = savedProduct; // Create a copy of the products array
@@ -438,18 +439,21 @@ const ProductDetails = ({ product, products }) => {
                             }
                         </div>
                         <div className="small-images-container without-colors">
-                            {
-                                image?.map((item, i) => (
-                                    <img
-                                        alt="item"
-                                        key={i}
-                                        src={urlFor(item)}
-                                        className={i === index ? 'small-image selected-image' : 'small-image'}
-                                        onMouseEnter={() => {
-                                            setIndex(i)
-                                            setImageOfIndex(false)
-                                        }} />
-                                ))
+                            {reloadImgs&&
+                                image?.map((item, i) => {
+                                    setReloadImgs(false)
+                                    return (
+                                        <img
+                                            alt="item"
+                                            key={i}
+                                            src={urlFor(item)}
+                                            className={i === index ? 'small-image selected-image' : 'small-image'}
+                                            onMouseEnter={() => {
+                                                setIndex(i)
+                                                setImageOfIndex(false)
+                                            }} />
+                                    )
+                                })
                             }
                         </div>
                     </div>
