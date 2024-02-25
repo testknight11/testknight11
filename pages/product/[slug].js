@@ -63,7 +63,7 @@ const ProductDetails = ({ product, products }) => {
                     // Find the index of the product in the products array with id equal to _id
 
                     // If found, check if updatedAt differs
-                    document.querySelector('.small-images-container.without-colors').innerHtml=""
+                    document.querySelector('.small-images-container.without-colors').innerHTML=""
 
                     // If they differ, delete the existing product
                     const updatedProduct = savedProduct; // Create a copy of the products array
