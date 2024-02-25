@@ -473,8 +473,11 @@ const ProductDetails = ({ product, products }) => {
     )
 }
 
-export const getStaticProps = async ({ params: { slug } }) => {
 
+
+
+export const getServerSideProps = async (context) => {
+    const { slug } = context.params;
     const query = `*[_type in ["product", "mattress", "chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"] && slug.current == '${slug}'][0]`;
 
     const product = await client.fetch(query)
@@ -482,31 +485,47 @@ export const getStaticProps = async ({ params: { slug } }) => {
     const products = await client.fetch(productsQuery)
 
     return {
-        props: { products, product },
-        revalidate: true,
+        props: { products, product }
+
     }
 }
 
 
 
+// export const getStaticProps = async ({ params: { slug } }) => {
+
+//     const query = `*[_type in ["product", "mattress", "chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"] && slug.current == '${slug}'][0]`;
+
+//     const product = await client.fetch(query)
+//     const productsQuery = `*[_type in ["${product._type}"]]`
+//     const products = await client.fetch(productsQuery)
+
+//     return {
+//         props: { products, product },
+//         revalidate: true,
+//     }
+// }
 
 
-export const getStaticPaths = async () => {
 
-        const products = await client.fetch(`*[_type in ["product", "mattress","chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"]]{
 
-            slug{
-                current
-            }
 
-        }
-       `)
+// export const getStaticPaths = async () => {
 
-    const paths =products?.map((product) => ({
-        params: { slug: product?.slug?.current },
-    }));
-    return { paths, fallback: false }; // fallback: false means other routes should 404
-};
+//         const products = await client.fetch(`*[_type in ["product", "mattress","chair", "bed", "bedroomset", "diningset", "jatifurniture", "multiplepurposes", "officetable", "sofa", "sofabed", "tvcabinet"]]{
+
+//             slug{
+//                 current
+//             }
+
+//         }
+//        `)
+
+//     const paths =products?.map((product) => ({
+//         params: { slug: product?.slug?.current },
+//     }));
+//     return { paths, fallback: false }; // fallback: false means other routes should 404
+// };
 
 export default ProductDetails;
 

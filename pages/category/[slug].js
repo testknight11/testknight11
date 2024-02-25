@@ -202,45 +202,57 @@ const CategoryProducts = ({ categoryProducts }) => {
 
 
 
-
-
-
-
-export const getStaticProps = async ({ params: { slug } }) => {
-    // console.log(slug)
-
-    const productsQuery = `*[_type =="${slug}"]`
-    const categoryProducts = await client.fetch(productsQuery)
-
+export const getServerSideProps = async (context) => {
+    const { slug } = context.params; // Access the slug from the context
+  
+    // Your query remains the same, fetching products based on the slug
+    const productsQuery = `*[_type =="${slug}"]`;
+    const categoryProducts = await client.fetch(productsQuery);
+  
+    // Return the fetched products as props
     return {
-        props: { categoryProducts },
-        revalidate: true,
-    }
+      props: { categoryProducts },
+    };
+  };
+  
+
+
+
+// export const getStaticProps = async ({ params: { slug } }) => {
+//     // console.log(slug)
+
+//     const productsQuery = `*[_type =="${slug}"]`
+//     const categoryProducts = await client.fetch(productsQuery)
+
+//     return {
+//         props: { categoryProducts },
+//         revalidate: true,
+//     }
 
 
 
 
 
 
-}
+// }
 
 
 
 
-export const getStaticPaths = async () => {
+// export const getStaticPaths = async () => {
 
-    const categories = await client.fetch(`*[_type == "category"]{
+//     const categories = await client.fetch(`*[_type == "category"]{
         
-        slug{
-            current
-        }
+//         slug{
+//             current
+//         }
 
-    }
-   `)
+//     }
+//    `)
 
-    const paths = categories?.map((category) => ({
-        params: { slug: category?.slug?.current },
-    }));
-    return { paths, fallback: false }; // fallback: false means other routes should 404
-};
+//     const paths = categories?.map((category) => ({
+//         params: { slug: category?.slug?.current },
+//     }));
+//     return { paths, fallback: false }; // fallback: false means other routes should 404
+// };
 export default CategoryProducts
