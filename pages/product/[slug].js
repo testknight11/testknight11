@@ -48,7 +48,7 @@ useEffect(() => {
 
 
 
-}, [image])
+}, [image,name,details])
     useEffect(() => {
         console.log(product)
         setSavedProduct(product)
