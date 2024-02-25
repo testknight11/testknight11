@@ -54,7 +54,7 @@ const CategoryProducts = ({ categoryProducts }) => {
                             setProducts(categoryProducts)
                             console.log("Deleted existing product with same updatedAt:");
                         } else {
-                            console.log("Product with same updatedAt already exists, deleting existing product.");
+                            console.log("Product with same updatedAt already exists, updating existing product.");
                             const updatedProducts = [...categoryProducts]; // Create a copy of the products array
                             updatedProducts[index] = update // Remove the existing product at the found index
                             categoryProducts=updatedProducts; // Update the state with the modified array
@@ -66,11 +66,11 @@ const CategoryProducts = ({ categoryProducts }) => {
                     // Add the new product into the array
                     else if (index === -1) {
 
-
-                      categoryProducts.push(update); // Add the new product to the array
+                        const updatedProducts = [...categoryProducts];
+                      updatedProducts.push(update); // Add the new product to the array
                         console.log("Added product:", update);
                         console.log(categoryProducts)
-                        setProducts(categoryProducts)
+                        setProducts([...updatedProducts])
 
 
                     }
