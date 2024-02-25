@@ -71,7 +71,7 @@ const ProductDetails = ({ product, products }) => {
                     setSavedProduct(update)
                     console.log("Deleted existing product with same updatedAt:");
 
-document.querySelector('.small-images-container.without-colors').innerHtml=""
+
                     // Add the new product into the array
 
 
