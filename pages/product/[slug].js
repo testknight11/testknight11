@@ -30,8 +30,8 @@ const ProductDetails = ({ product, products }) => {
     const [sseConnection, setSSEConnection] = useState(null);
     const [reloadImgs, setReloadImgs] = useState(false)
     const [testImage, setTestImage] = useState([])
-    const [testName, setTestName] = useState([])
-    const [testDetails, setTestDetails] = useState([])
+    const [testName, setTestName] = useState("")
+    const [testDetails, setTestDetails] = useState("")
     // const [testColors, setTestColors] = useState([])
 
 
