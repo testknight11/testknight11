@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react'
+import React, { useState, useEffect, useCallback, } from 'react'
 import { useStateContext } from '../../context/StateContext';
 // import {Toaster} from 'react-hot-toast';
 import { client, urlFor } from '../../lib/client'
@@ -76,23 +76,31 @@ const ProductDetails = ({ product, products }) => {
             // Check if the slug is equal to the _type
             if (update) {
                 if (slug === update.slug.current) {
-                    console.log(update._id)
-                    // Find the index of the product in the products array with id equal to _id
-
-                    // If found, check if updatedAt differs
-                    setTestImage(update.name)
-                    setTestName(update.details)
-                    setTestImage([])
-                    setTestImage(prevTestImage => {
-                        // Clear the previous state and replace it with the new image array
-                        return [...update.image];
-                    });
-                    console.log("Deleted existing product with same updatedAt:");
+                    if (savedProduct._updatedAt === update._updatedAt) {
+                        router.push('/category/');
+                    }
+                    else {
 
 
-                    // Add the new product into the array
 
 
+                        console.log(update._id)
+                        // Find the index of the product in the products array with id equal to _id
+
+                        // If found, check if updatedAt differs
+                        setTestImage(update.name)
+                        setTestName(update.details)
+                        setTestImage([])
+                        setTestImage(prevTestImage => {
+                            // Clear the previous state and replace it with the new image array
+                            return [...update.image];
+                        });
+                        console.log("Deleted existing product with same updatedAt:");
+
+
+                        // Add the new product into the array
+
+                    }
                 } else {
                     console.log("Slug is not equal to _type");
                 }
