@@ -30,6 +30,11 @@ const ProductDetails = ({ product, products }) => {
     const [sseConnection, setSSEConnection] = useState(null);
     const [reloadImgs, setReloadImgs] = useState(false)
     const [testImage, setTestImage] = useState([])
+    const [testName, setTestName] = useState([])
+    const [testDetails, setTestDetails] = useState([])
+    // const [testColors, setTestColors] = useState([])
+
+
     // Dynamically import Hammer.js only on the client-side
 
     const router = useRouter();
@@ -38,6 +43,10 @@ const ProductDetails = ({ product, products }) => {
 useEffect(() => {
 
     setTestImage([...image])
+    setTestName(name)
+    setTestDetails(details)
+
+
 
 }, [image])
     useEffect(() => {
@@ -71,8 +80,11 @@ useEffect(() => {
                     // Find the index of the product in the products array with id equal to _id
 
                     // If found, check if updatedAt differs
-                    setTestImage([])
-                    setTestImage([...update.image])
+                        setTestImage([])
+                        setTestImage(prevTestImage => {
+                            // Clear the previous state and replace it with the new image array
+                            return [...update.image];
+                          });
                     console.log("Deleted existing product with same updatedAt:");
 
 
@@ -463,7 +475,7 @@ useEffect(() => {
                     </div>
                     <div className="product-detail-desc">
                         <h1>
-                            {name}
+                            {testName}
                         </h1>
                         <div className="reviews">
                             <div>
@@ -484,7 +496,7 @@ useEffect(() => {
                             Details:
                         </h4>
                         <p>
-                            {details}
+                            {testDetails}
                         </p>
                         <p className="price">
                         </p>
