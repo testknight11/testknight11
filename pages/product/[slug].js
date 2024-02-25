@@ -88,8 +88,8 @@ const ProductDetails = ({ product, products }) => {
                         // Find the index of the product in the products array with id equal to _id
 
                         // If found, check if updatedAt differs
-                        setTestImage(update.name)
-                        setTestName(update.details)
+                        setTestName(update.name)
+                        setTestDetails(update.details)
                         setTestImage([])
                         setTestImage(prevTestImage => {
                             // Clear the previous state and replace it with the new image array
