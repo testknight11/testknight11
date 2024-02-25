@@ -71,8 +71,7 @@ useEffect(() => {
                     // Find the index of the product in the products array with id equal to _id
 
                     // If found, check if updatedAt differs
-
-                    document.querySelector('.small-images-container.without-colors').innerHTML = ""
+                    setImages([])
                     setTestImage([...update.image])
                     console.log("Deleted existing product with same updatedAt:");
 
