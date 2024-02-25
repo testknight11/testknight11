@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react'
 import { useStateContext } from '../../context/StateContext';
 // import {Toaster} from 'react-hot-toast';
 import { client, urlFor } from '../../lib/client'
@@ -29,19 +29,24 @@ const ProductDetails = ({ product, products }) => {
     const [savedProduct, setSavedProduct] = useState({})
     const [sseConnection, setSSEConnection] = useState(null);
     const [reloadImgs, setReloadImgs] = useState(false)
+    const [testImage, setTestImage] = useState([])
     // Dynamically import Hammer.js only on the client-side
 
     const router = useRouter();
     const { slug } = router.query;
+    const { image, name, details, price, prices, _type, colors, _id } = savedProduct ? product : "";
+useEffect(() => {
 
+    setTestImage([...image])
+
+}, [image])
     useEffect(() => {
         console.log(product)
         setSavedProduct(product)
         console.log(savedProduct)
+
     }, [product])
-    useEffect(() => {
-        setReloadImgs(true)
-    }, [savedProduct])
+
     console.log(savedProduct);
     const listenToSSEUpdates = useCallback(() => {
 
@@ -67,14 +72,8 @@ const ProductDetails = ({ product, products }) => {
 
                     // If found, check if updatedAt differs
 
-                    setReloadImgs(prev => !prev)
-
-
-
-                    // If they differ, delete the existing product
-                    const updatedProduct = savedProduct; // Create a copy of the products array
-                    // Update the state with the modified array
-                    setSavedProduct(update)
+              
+                    setTestImage([...update.image])
                     console.log("Deleted existing product with same updatedAt:");
 
 
@@ -371,8 +370,6 @@ const ProductDetails = ({ product, products }) => {
     console.log(savedProduct)
 
 
-    const { image, name, details, price, prices, _type, colors, _id } = savedProduct ? product : "";
-
 
 
 
@@ -446,11 +443,10 @@ const ProductDetails = ({ product, products }) => {
                             }
                         </div>
                         <div className="small-images-container without-colors">
-                            {reloadImgs &&
+                            {
 
-                                image?.map((item, i) => {
+                                testImage?.map((item, i) => {
 
-                                    console.log(reloadImgs)
                                     return (
                                         <img
                                             alt="item"
