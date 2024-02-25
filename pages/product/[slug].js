@@ -63,6 +63,7 @@ const ProductDetails = ({ product, products }) => {
                     // Find the index of the product in the products array with id equal to _id
 
                     // If found, check if updatedAt differs
+                    document.querySelector('.small-images-container.without-colors').innerHtml=""
 
                     // If they differ, delete the existing product
                     const updatedProduct = savedProduct; // Create a copy of the products array
@@ -70,7 +71,7 @@ const ProductDetails = ({ product, products }) => {
                     setSavedProduct(update)
                     console.log("Deleted existing product with same updatedAt:");
 
-
+document.querySelector('.small-images-container.without-colors').innerHtml=""
                     // Add the new product into the array
 
 
@@ -436,7 +437,7 @@ const ProductDetails = ({ product, products }) => {
                                 ))
                             }
                         </div>
-                        <div className="small-images-container">
+                        <div className="small-images-container without-colors">
                             {
                                 image?.map((item, i) => (
                                     <img
